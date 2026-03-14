@@ -255,7 +255,7 @@ export default function ProductsPage() {
                         className="flex items-center justify-center gap-6"
                     >
                         <Link
-                            href="/auth/signup"
+                            href="https://auth.hestialabs.in/signup"
                             className="group inline-flex items-center gap-2 border border-foreground bg-foreground text-background px-7 py-3.5 text-sm uppercase font-bold tracking-wide hover:bg-background hover:text-foreground transition-all duration-300"
                         >
                             Join the Waitlist

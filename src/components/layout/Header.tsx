@@ -8,10 +8,10 @@ import { cn } from '@/lib/utils'
 import { useAuth } from '@/lib/auth-context'
 
 const navItems = [
-    { name: 'About', href: '/about' },
-    { name: 'Products', href: '/products' },
-    { name: 'Technology', href: '/technology' },
-    { name: 'Developers', href: '/developers' },
+    { name: 'About', href: 'https://hestialabs.in/about' },
+    { name: 'Products', href: 'https://hestialabs.in/products' },
+    { name: 'Technology', href: 'https://hestialabs.in/technology' },
+    { name: 'Developers', href: 'https://hestialabs.in/developers' },
 ]
 
 export function Header() {
@@ -147,7 +147,7 @@ export function Header() {
                                 </div>
                             </Link>
                         ) : (
-                            <Link href={typeof window !== 'undefined' && window.location.hostname.includes('auth') ? '/signin' : "https://auth.hestialabs.in"}>
+                            <Link href={typeof window !== 'undefined' && window.location.hostname.includes('auth') ? '/signin' : "https://auth.hestialabs.in/signin"}>
                                 <div className="flex items-center justify-center bg-foreground text-background px-4 py-2 text-sm font-bold uppercase tracking-widest cursor-pointer hover:shadow-lg transition-all duration-300">
                                     Login
                                 </div>
@@ -252,7 +252,7 @@ export function Header() {
                             </Link>
                         ) : (
                             <Link
-                                href={typeof window !== 'undefined' && window.location.hostname.includes('auth') ? '/signin' : "https://auth.hestialabs.in"}
+                                href={typeof window !== 'undefined' && window.location.hostname.includes('auth') ? '/signin' : "https://auth.hestialabs.in/signin"}
                                 className="flex h-14 items-center justify-center bg-foreground text-background rounded-none cursor-pointer hover:shadow-lg transition-all duration-300 text-sm font-bold uppercase tracking-widest"
                                 onClick={() => setIsOpen(false)}
                                 style={{

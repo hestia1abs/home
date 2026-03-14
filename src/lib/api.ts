@@ -5,7 +5,7 @@
  * Never duplicates backend logic. Never signs anything client-side.
  */
 
-const BASE = "/api/v1";
+const BASE = process.env.NEXT_PUBLIC_API_BASE_URL ? `${process.env.NEXT_PUBLIC_API_BASE_URL.trim().replace(/\/$/, '')}/v1` : "/api/v1";
 
 let _csrfToken: string | null = null;
 

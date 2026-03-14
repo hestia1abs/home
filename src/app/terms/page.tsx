@@ -16,7 +16,7 @@ export default function TermsPage() {
 
             <div className="w-full max-w-3xl relative z-10 space-y-6">
                 <Button asChild variant="ghost" className="gap-2 mb-4 hover:bg-primary/10">
-                    <Link href="/auth/signup">
+                    <Link href="https://auth.hestialabs.in/signup">
                         <HugeiconsIcon icon={ArrowLeft01Icon} size={16} /> Back to Signup
                     </Link>
                 </Button>
