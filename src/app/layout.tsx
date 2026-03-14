@@ -32,10 +32,14 @@ export default function RootLayout({
         <SoftwareApplicationSchema />
         <WebSiteSchema />
       </head>
-      <body className={`${geist.variable} ${geistMono.variable} font-sans min-h-screen antialiased`}>
+      <body className={`${geist.variable} ${geistMono.variable} font-sans min-h-screen antialiased flex flex-col`}>
         <GoogleAnalytics />
         <AuthProvider>
-          {children}
+          <Header />
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
           <Toaster />
         </AuthProvider>
       </body>

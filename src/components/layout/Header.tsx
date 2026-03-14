@@ -19,21 +19,33 @@ export function Header() {
     const { user } = useAuth()
     const [isOpen, setIsOpen] = useState(false)
     const [mounted, setMounted] = useState(false)
+    const [visible, setVisible] = useState(true)
+    const [lastScrollY, setLastScrollY] = useState(0)
     const [scrolled, setScrolled] = useState(false)
 
     useEffect(() => {
         setMounted(true)
     }, [])
 
-    // Track scroll position for transparent header
+    // Track scroll position for hide on scroll and transparent state
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50)
+            const currentScrollY = window.scrollY
+
+            // Hide on scroll down, show on scroll up
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                setVisible(false)
+            } else {
+                setVisible(true)
+            }
+
+            setLastScrollY(currentScrollY)
+            setScrolled(currentScrollY > 50)
         }
-        handleScroll()
+
         window.addEventListener('scroll', handleScroll, { passive: true })
         return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
+    }, [lastScrollY])
 
     // Disable scroll when mobile menu is open
     useEffect(() => {
@@ -76,6 +88,7 @@ export function Header() {
     return (
         <header className={cn(
             "sticky top-0 z-40 w-full transition-all duration-500",
+            visible ? "translate-y-0" : "-translate-y-full",
             scrolled
                 ? "border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
                 : "border-b border-transparent bg-transparent"
