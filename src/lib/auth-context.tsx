@@ -265,7 +265,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // 2. Establish a session immediately after creation
         await account.createEmailPasswordSession({ email, password });
         // 3. Dispatch verification email
-        await account.createVerification({ url: "https://auth.hestialabs.in/auth/callback" });
+        await account.createVerification({ url: "https://auth.hestialabs.in/callback" });
 
         // 4. Sync HXTP profile (will have no tenant yet)
         await refreshProfile();
@@ -306,8 +306,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // loading intentionally remains true — browser navigates away.
         account.createOAuth2Session({
           provider: mapOAuthProvider(provider),
-          success: "https://auth.hestialabs.in/auth/callback",
-          failure: "https://auth.hestialabs.in/auth/signin?error=oauth_failed",
+          success: "https://auth.hestialabs.in/callback",
+          failure: "https://auth.hestialabs.in/signin?error=oauth_failed",
         });
       } catch (err) {
         const msg = extractErrorMessage(err);
@@ -343,7 +343,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await account.updateRecovery({ userId, secret, password: newPassword });
         setState((s) => ({ ...s, loading: false }));
         toast.success("Password updated. You can now sign in.");
-        window.location.href = "https://auth.hestialabs.in/auth/signin";
+        window.location.href = "https://auth.hestialabs.in/signin";
       } catch (err) {
         const msg = extractErrorMessage(err);
         setState((s) => ({ ...s, loading: false, error: msg }));
@@ -373,7 +373,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       hasTenant: false,
       tenantSlug: null,
     }));
-    window.location.href = "https://auth.hestialabs.in/auth/signin";
+    window.location.href = "https://auth.hestialabs.in/signin";
   }, []);
 
   const requestPasswordReset = useCallback(async (email: string) => {
@@ -381,7 +381,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await account.createRecovery({
         email,
-        url: "https://auth.hestialabs.in/auth/reset-password",
+        url: "https://auth.hestialabs.in/reset-password",
       });
       setState((s) => ({ ...s, loading: false }));
       toast.success("Password reset link sent to your email.");
@@ -411,7 +411,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const resendVerification = useCallback(async () => {
     try {
-      await account.createVerification({ url: "https://auth.hestialabs.in/auth/callback" });
+      await account.createVerification({ url: "https://auth.hestialabs.in/callback" });
       toast.success("Verification email sent. Please check your inbox.");
     } catch (err) {
       const msg = extractErrorMessage(err);

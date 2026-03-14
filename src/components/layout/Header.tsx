@@ -134,7 +134,7 @@ export function Header() {
                                 </div>
                             </Link>
                         ) : (
-                            <Link href={typeof window !== 'undefined' && window.location.hostname.includes('auth') ? '/auth/signin' : "https://auth.hestialabs.in"}>
+                            <Link href={typeof window !== 'undefined' && window.location.hostname.includes('auth') ? '/signin' : "https://auth.hestialabs.in"}>
                                 <div className="flex items-center justify-center bg-foreground text-background px-4 py-2 text-sm font-bold uppercase tracking-widest cursor-pointer hover:shadow-lg transition-all duration-300">
                                     Login
                                 </div>
@@ -239,7 +239,7 @@ export function Header() {
                             </Link>
                         ) : (
                             <Link
-                                href={typeof window !== 'undefined' && window.location.hostname.includes('auth') ? '/auth/signin' : "https://auth.hestialabs.in"}
+                                href={typeof window !== 'undefined' && window.location.hostname.includes('auth') ? '/signin' : "https://auth.hestialabs.in"}
                                 className="flex h-14 items-center justify-center bg-foreground text-background rounded-none cursor-pointer hover:shadow-lg transition-all duration-300 text-sm font-bold uppercase tracking-widest"
                                 onClick={() => setIsOpen(false)}
                                 style={{
