@@ -1,3 +1,20 @@
+# Hestia Labs - Search Engine Crawling Rules
 User-agent: *
 Allow: /
+Allow: /platform
+Allow: /technology
+Allow: /architecture
+Allow: /products
+Allow: /developers
+Allow: /about
+Allow: /privacy
+Disallow: /api/
+Disallow: /admin/
+Disallow: /.env
+Disallow: /next/
+
+# Specify sitemap
 Sitemap: https://hestialabs.in/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
