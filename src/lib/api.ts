@@ -22,15 +22,19 @@ interface ApiResponse<T = unknown> {
 interface ApiErrorBody {
   error: string;
   reason?: string;
+  dry_run_token?: string;
 }
 
 class ApiError extends Error {
+  public readonly dryRunToken?: string;
+
   constructor(
     public readonly status: number,
     public readonly body: ApiErrorBody,
   ) {
     super(body.error);
     this.name = "ApiError";
+    this.dryRunToken = body.dry_run_token;
   }
 }
 
@@ -509,8 +513,6 @@ export async function uploadFirmware(
 
   return { ok: true, status: res.status, data };
 }
-
-// ── Manifests ────────────────────────────────────────
 
 // ── Manifests ────────────────────────────────────────
 
