@@ -99,9 +99,9 @@ export default function CareersPage() {
                         className="mt-24 p-12 glass-card text-center relative overflow-hidden"
                     >
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-                        <h2 className="text-2xl font-bold uppercase tracking-widest mb-4">Don't see a fit?</h2>
+                        <h2 className="text-2xl font-bold uppercase tracking-widest mb-4">Don&apos;t see a fit?</h2>
                         <p className="text-sm text-muted-foreground mb-8 max-w-md mx-auto">
-                            We're always looking for brilliant minds who are passionate about hardware and AI.
+                            We&apos;re always looking for brilliant minds who are passionate about hardware and AI.
                         </p>
                         <Link href="mailto:careers@hestialabs.in">
                             <Button variant="outline" className="text-[10px] uppercase tracking-widest h-12 px-8">

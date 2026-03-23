@@ -11,8 +11,10 @@ export function GlobalLoader() {
 
     useEffect(() => {
         // When the route changes, start the loader
-        setIsLoading(true);
-        setProgress(0);
+        const initTimeout = setTimeout(() => {
+            setIsLoading(true);
+            setProgress(10); // Start with a small progress
+        }, 0);
 
         // Fast start
         const startTimeout = setTimeout(() => setProgress(20), 50);
@@ -33,6 +35,7 @@ export function GlobalLoader() {
         }, 1200);
 
         return () => {
+            clearTimeout(initTimeout);
             clearTimeout(startTimeout);
             clearTimeout(midTimeout);
             clearTimeout(slowTimeout);

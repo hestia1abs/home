@@ -15,7 +15,7 @@ export default function PrivacyPage() {
           <div className="space-y-4">
             <h1 className="text-4xl font-bold uppercase tracking-tighter">Privacy & Data Handling</h1>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              We believe in transparency. Here's exactly what we collect, what we don't, and why.
+              We believe in transparency. Here&apos;s exactly what we collect, what we don&apos;t, and why.
             </p>
           </div>
         </div>
@@ -35,12 +35,12 @@ export default function PrivacyPage() {
             <div className="border border-border p-6 space-y-3">
               <HugeiconsIcon icon={CpuIcon} size={20} className="text-cyan-500 mb-4" />
               <h3 className="font-bold uppercase tracking-tight">Sovereign Hardware</h3>
-              <p className="text-muted-foreground text-sm">We don't just process data on your device; we run the entire intelligence model there. You own the execution layer. We never have direct access to the raw data they collect.</p>
+              <p className="text-muted-foreground text-sm">We don&apos;t just process data on your device; we run the entire intelligence model there. You own the execution layer. We never have direct access to the raw data they collect.</p>
             </div>
             <div className="border border-border p-6 space-y-3">
               <h3 className="font-bold uppercase tracking-tight">Managed Cloud</h3>
               <p className="text-sm text-muted-foreground">
-                We operate Hestia Cloud and manage all cloud services. You don't run servers. We handle the infrastructure.
+                We operate Hestia Cloud and manage all cloud services. You don&apos;t run servers. We handle the infrastructure.
               </p>
             </div>
             <div className="border border-border p-6 space-y-3">
@@ -166,7 +166,7 @@ export default function PrivacyPage() {
           <div className="space-y-4">
             <h2 className="text-3xl font-bold uppercase tracking-tighter">AI Features & Data</h2>
             <p className="text-muted-foreground">
-              If you use voice features, here's what happens to your voice data.
+              If you use voice features, here&apos;s what happens to your voice data.
             </p>
           </div>
 
@@ -301,7 +301,7 @@ export default function PrivacyPage() {
           <div className="space-y-4">
             <h2 className="text-3xl font-bold uppercase tracking-tighter">Have Questions?</h2>
             <p className="text-muted-foreground">
-              We're committed to transparency. If something isn't clear, ask us.
+              We&apos;re committed to transparency. If something isn&apos;t clear, ask us.
             </p>
           </div>
 

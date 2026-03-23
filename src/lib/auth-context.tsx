@@ -30,7 +30,6 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import { useRouter } from "next/navigation";
 import { ID, OAuthProvider, AppwriteException, type Models } from "appwrite";
 import { account, pingAppwrite } from "@/lib/appwrite";
 import * as api from "@/lib/api";
@@ -137,7 +136,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
 
-  const router = useRouter();
+
 
   // ── CSRF Token ──────────────────────────────────────
 
@@ -183,6 +182,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           res = await api.getMe(jwt); // Re-fetch to get new profile with tenant attached
         } catch (e) {
           console.error("Failed to automatically provision tenant:", e);
+          toast.error('Something went wrong. Please try again.');
         }
       }
 
@@ -350,7 +350,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw err;
       }
     },
-    [router],
+    [],
   );
 
   const signOut = useCallback(async () => {
@@ -406,7 +406,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw err;
       }
     },
-    [router],
+    [],
   );
 
   const resendVerification = useCallback(async () => {

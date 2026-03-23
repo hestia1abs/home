@@ -46,7 +46,7 @@ export function Onboarding({ token, orgname, onComplete, initialHomeId }: Onboar
             } else {
                 onComplete();
             }
-        } catch (err) {
+        } catch {
             toast.error('Something went wrong. Please try again.');
         } finally {
             setLoading(false);

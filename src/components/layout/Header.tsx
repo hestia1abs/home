@@ -24,7 +24,8 @@ export function Header() {
     const [scrolled, setScrolled] = useState(false)
 
     useEffect(() => {
-        setMounted(true)
+        const timer = setTimeout(() => setMounted(true), 0)
+        return () => clearTimeout(timer)
     }, [])
 
     // Track scroll position for hide on scroll and transparent state
@@ -193,7 +194,7 @@ export function Header() {
                     backdropFilter: 'blur(12px)',
                     transformStyle: 'preserve-3d',
                 }}
-                role="navigation"
+                role="dialog"
                 aria-modal="true"
                 aria-hidden={!isOpen}
             >

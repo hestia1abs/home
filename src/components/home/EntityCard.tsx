@@ -55,8 +55,7 @@ export function EntityCard({ name, traits, description, modelUrl, reversed = fal
                         <Stage
                             intensity={0.4}
                             environment="city"
-                            // @ts-ignore
-                            shadows={{ type: 'contact', opacity: 0.15, blur: 3 } as any}
+                            shadows={{ type: 'contact', opacity: 0.15, blur: 3 }}
                             adjustCamera={false}
                         >
                             <Float speed={1.3} rotationIntensity={0.3} floatIntensity={0.4} floatingRange={[-0.15, 0.15]}>
