@@ -3,69 +3,69 @@ import Image from 'next/image'
 
 export function Footer() {
     return (
-        <footer className="bg-card py-12 border-t border-border mt-auto">
-            <div className="mx-auto max-w-7xl px-6">
-                <div className="grid grid-cols-1 gap-12 md:grid-cols-4 mb-12">
+        <footer className="py-32 relative overflow-hidden mt-auto border-t border-white/5 bg-black/20">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#020204]/80 pointer-events-none" />
+            <div className="mx-auto max-w-[1800px] px-6 relative z-10">
+                <div className="grid grid-cols-1 gap-20 md:grid-cols-4 mb-24">
                     {/* Column 1: Logo + Statement */}
-                    <div className="space-y-4">
-                        <Link href="https://hestialabs.in" className="flex items-baseline gap-1">
+                    <div className="space-y-8">
+                        <Link href="/" className="flex items-baseline gap-1 group">
                             <Image
                                 src="/logo_h.png"
                                 alt="Hestia Labs"
-                                width={100}
-                                height={100}
-                                className="h-32 w-auto object-contain"
+                                width={120}
+                                height={120}
+                                className="h-40 w-auto object-contain brightness-125 group-hover:scale-105 transition-transform duration-500"
                             />
                         </Link>
-                        <p className="text-sm text-muted-foreground max-w-xs">
+                        <p className="text-ui text-white/50 max-w-sm leading-relaxed uppercase tracking-wider font-bold">
                             Something is being built. For homes. For presence.
                             For intelligence that feels alive.
                         </p>
                     </div>
 
-                    {/* Column 2: Platform/Tech */}
-                    <div className="space-y-4">
-                        <h4 className="text-xs font-bold uppercase tracking-wider">Platform</h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li><Link href="https://hestialabs.in/platform" className="hover:text-foreground transition-colors">Overview</Link></li>
-                            <li><Link href="https://hestialabs.in/technology" className="hover:text-foreground transition-colors">Technology</Link></li>
-                            <li><Link href="https://hestialabs.in/products" className="hover:text-foreground transition-colors">Products</Link></li>
+                    {/* Column 2: Platform */}
+                    <div className="space-y-8">
+                        <h4 className="text-ui font-black uppercase tracking-[0.4em] text-primary">Platform</h4>
+                        <ul className="space-y-4 text-ui text-white/40 uppercase tracking-widest font-bold">
+                            <li><a href="#platform" className="hover:text-primary transition-colors">Overview</a></li>
+                            <li><a href="#technology" className="hover:text-primary transition-colors">Technology</a></li>
+                            <li><a href="#products" className="hover:text-primary transition-colors">Products</a></li>
                         </ul>
                     </div>
 
-                    {/* Column 3: Docs/Devs */}
-                    <div className="space-y-4">
-                        <h4 className="text-xs font-bold uppercase tracking-wider">Developers</h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li><Link href="https://hestialabs.in/developers" className="hover:text-foreground transition-colors">Get Started</Link></li>
-                            <li><Link href="https://hestialabs.in/developers" className="hover:text-foreground transition-colors">Documentation</Link></li>
-                            <li><Link href="https://hestialabs.in/developers" className="hover:text-foreground transition-colors">SDKs</Link></li>
+                    {/* Column 3: Developers */}
+                    <div className="space-y-8">
+                        <h4 className="text-ui font-black uppercase tracking-[0.4em] text-primary">Developers</h4>
+                        <ul className="space-y-4 text-ui text-white/40 uppercase tracking-widest font-bold">
+                            <li><a href="#technology" className="hover:text-primary transition-colors">Get Started</a></li>
+                            <li><a href="#technology" className="hover:text-primary transition-colors">Documentation</a></li>
+                            <li><a href="#applications" className="hover:text-primary transition-colors">Use Cases</a></li>
                         </ul>
                     </div>
 
-                    {/* Column 4: Company/Support */}
-                    <div className="space-y-4">
-                        <h4 className="text-xs font-bold uppercase tracking-wider">Company</h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li><Link href="https://hestialabs.in/about" className="hover:text-foreground transition-colors">About</Link></li>
-                            <li><Link href="https://hestialabs.in/careers" className="hover:text-foreground transition-colors">Careers</Link></li>
-                            <li><a href="mailto:contact@hestialabs.in" className="hover:text-foreground transition-colors">Contact</a></li>
-                            <li><a href="https://hestialabs.in/support" className="hover:text-foreground transition-colors">Support</a></li>
+                    {/* Column 4: Company */}
+                    <div className="space-y-8">
+                        <h4 className="text-ui font-black uppercase tracking-[0.4em] text-primary">Company</h4>
+                        <ul className="space-y-4 text-ui text-white/40 uppercase tracking-widest font-bold">
+                            <li><a href="#vision" className="hover:text-primary transition-colors">About</a></li>
+                            <li><a href="#careers" className="hover:text-primary transition-colors">Careers</a></li>
+                            <li><a href="mailto:contact@hestialabs.in" className="hover:text-primary transition-colors">Contact</a></li>
                         </ul>
                     </div>
                 </div>
 
-                <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between">
-                    <p className="text-xs text-muted-foreground">© 2026 Hestia Labs. All rights reserved.</p>
-                    <div className="flex gap-6 text-xs text-muted-foreground mt-4 md:mt-0">
-                        <Link href="https://hestialabs.in/privacy" className="hover:text-foreground transition-colors">Privacy & Data</Link>
-                        <a href="#" className="hover:text-foreground transition-colors">Terms</a>
-                        <Link href="https://hestialabs.in/privacy" className="hover:text-foreground transition-colors">Privacy & Data</Link>
-                        <Link href="https://hestialabs.in/privacy/terms" className="hover:text-foreground transition-colors">Terms</Link>
-                        <a href="#" className="hover:text-foreground transition-colors">Status</a>
+                <div className="border-t border-white/10 pt-12 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <p className="text-ui text-white/30 uppercase tracking-[0.2em]">© 2026 Hestia Labs. Sovereign Intelligence Protocol.</p>
+                    <div className="flex gap-12 text-ui text-white/30 uppercase tracking-[0.2em]">
+                        <Link href="/privacy" className="hover:text-white transition-colors">Privacy & Data</Link>
+                        <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
                     </div>
                 </div>
             </div>
+            
+            {/* Ambient Red Glow */}
+            <div className="absolute -bottom-40 left-1/2 -translate-x-1/2 w-full max-w-4xl h-80 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
         </footer>
     )
 }

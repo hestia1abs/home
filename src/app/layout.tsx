@@ -1,15 +1,20 @@
 import type { Metadata, Viewport } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Alex_Brush } from 'next/font/google';
+
 import './globals.css';
 import { AuthProvider } from '@/lib/auth-context';
 import { Toaster } from '@/components/ui/sonner';
-import { OrganizationSchema, SoftwareApplicationSchema, WebSiteSchema } from '@/components/StructuredData';
+import { OrganizationSchema, SoftwareApplicationSchema, WebSiteSchema, ProductSchema, FAQSchema } from '@/components/StructuredData';
 import { GoogleAnalytics } from '@/components/Analytics';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { Hyperspeed } from '@/components/animations/Hyperspeed';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist' });
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' });
+const alexBrush = Alex_Brush({ weight: '400', subsets: ['latin'], variable: '--font-alex-brush' });
+
+
 
 export const viewport: Viewport = {
   themeColor: '#050505',
@@ -20,11 +25,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Hestia Labs — The Future of Intelligent Homes',
-  description: 'Premium hardware intelligence at the edge. Building the next generation of smart home protocols and devices.',
+  metadataBase: new URL('https://hestialabs.in'),
+  title: 'Hestia Labs — Intelligence That Acts',
+  description: 'Custom hardware, software, and AI designed from scratch for presence, control, and embodied intelligence. Meet Kara and Mark — cloud intelligences that interact with the physical world.',
+  keywords: ['intelligent infrastructure', 'ambient intelligence', 'AI hardware', 'smart home', 'HX47', 'HxTP protocol', 'edge computing', 'embodied AI', 'Kara', 'Mark', 'Hestia Labs'],
   openGraph: {
-    title: 'Hestia Labs — The Future of Intelligent Homes',
-    description: 'Hardware intelligence at the edge. Smart home systems that feel alive.',
+    title: 'Hestia Labs — Intelligence That Acts',
+    description: 'The moment intelligence learned to act. Custom hardware, cloud AI, and a sovereign protocol — built from scratch for the physical world.',
     url: 'https://hestialabs.in',
     siteName: 'Hestia Labs',
     locale: 'en_US',
@@ -32,8 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hestia Labs — The Future of Intelligent Homes',
-    description: 'Hardware intelligence at the edge.',
+    title: 'Hestia Labs — Intelligence That Acts',
+    description: 'Cloud intelligence that interacts with the physical world. Custom hardware. Sovereign protocol. Built from nothing.',
     creator: '@hestialabs',
   },
 };
@@ -47,12 +54,16 @@ export default function RootLayout({
         <OrganizationSchema />
         <SoftwareApplicationSchema />
         <WebSiteSchema />
+        <ProductSchema />
+        <FAQSchema />
       </head>
-      <body className={`${geist.variable} ${geistMono.variable} font-sans min-h-screen antialiased flex flex-col`}>
+      <body className={`${geist.variable} ${geistMono.variable} ${alexBrush.variable} font-mono bg-black min-h-screen antialiased flex flex-col`}>
+
+        <Hyperspeed />
         <GoogleAnalytics />
         <AuthProvider>
           <Header />
-          <main className="flex-1">
+          <main className="flex-1 relative z-10">
             {children}
           </main>
           <Footer />

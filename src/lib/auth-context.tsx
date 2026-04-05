@@ -265,7 +265,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // 2. Establish a session immediately after creation
         await account.createEmailPasswordSession({ email, password });
         // 3. Dispatch verification email
-        await account.createVerification({ url: "https://auth.hestialabs.in/callback" });
+        await account.createEmailVerification({ url: "https://auth.hestialabs.in/callback" });
 
         // 4. Sync HXTP profile (will have no tenant yet)
         await refreshProfile();
@@ -323,7 +323,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async (userId: string, secret: string) => {
       setState((s) => ({ ...s, loading: true, error: null }));
       try {
-        await account.updateVerification({ userId, secret });
+        await account.updateEmailVerification({ userId, secret });
         await refreshProfile();
         setState((s) => ({ ...s, loading: false }));
         toast.success("Email verified successfully!");
@@ -411,7 +411,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const resendVerification = useCallback(async () => {
     try {
-      await account.createVerification({ url: "https://auth.hestialabs.in/callback" });
+      await account.createEmailVerification({ url: "https://auth.hestialabs.in/callback" });
       toast.success("Verification email sent. Please check your inbox.");
     } catch (err) {
       const msg = extractErrorMessage(err);

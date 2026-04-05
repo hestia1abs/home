@@ -91,3 +91,70 @@ export function WebSiteSchema() {
     />
   )
 }
+
+export function ProductSchema() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'HX47',
+    description: 'Full AI execution on a custom PCB. Voice processing, environmental sensing, device orchestration — all in a unit smaller than your palm.',
+    brand: {
+      '@type': 'Organization',
+      name: 'Hestia Labs',
+    },
+    offers: {
+      '@type': 'Offer',
+      availability: 'https://schema.org/PreOrder',
+      price: '0',
+      priceCurrency: 'USD',
+      description: 'Pre-order available — limited first batch for early builders.',
+    },
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}
+
+export function FAQSchema() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is the HX47?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The HX47 is a custom-designed hardware unit that runs AI execution locally. It features an ESP32-S3 SoC, multi-sensor array, voice + NLP pipeline, and encrypted hardware communications with sub-50ms response time.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Who are Kara and Mark?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Kara and Mark are cloud intelligences designed to interact with the physical world. Kara is strategic — she optimizes, predicts, and maintains. Mark is explorative — he navigates, learns, and discovers.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Does it work without internet?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. The system is designed with an offline-first architecture. When the internet is unavailable, all authenticated devices, local commands, and physical schedules continue executing. The cloud enhances — it never controls.',
+        },
+      },
+    ],
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  )
+}

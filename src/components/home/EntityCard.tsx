@@ -37,19 +37,22 @@ interface EntityCardProps {
     description: string
     modelUrl: string
     reversed?: boolean
+    className?: string
 }
 
-export function EntityCard({ name, traits, description, modelUrl, reversed = false }: EntityCardProps) {
+export function EntityCard({ name, traits, description, modelUrl, reversed = false, className }: EntityCardProps) {
+    const isStandalone = !name
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-            className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center ${reversed ? 'lg:direction-rtl' : ''}`}
+            className={className || `grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center ${reversed ? 'lg:direction-rtl' : ''}`}
         >
             {/* 3D Model Viewer */}
-            <div className={`w-full h-[350px] md:h-[450px] relative ${reversed ? 'lg:order-2' : 'lg:order-1'}`}>
+            <div className={`w-full h-full relative ${isStandalone ? '' : reversed ? 'lg:order-2 h-[350px] md:h-[450px]' : 'lg:order-1 h-[350px] md:h-[450px]'}`}>
                 <Canvas shadows camera={{ position: [0, 0, 10], fov: 45 }} dpr={[1, 2]}>
                     <Suspense fallback={null}>
                         <Stage
@@ -72,20 +75,22 @@ export function EntityCard({ name, traits, description, modelUrl, reversed = fal
             </div>
 
             {/* Info */}
-            <div className={`space-y-6 ${reversed ? 'lg:order-1 lg:text-right' : 'lg:order-2'}`}>
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/50">
-                    Entity
+            {!isStandalone && (
+                <div className={`space-y-6 ${reversed ? 'lg:order-1 lg:text-right' : 'lg:order-2'}`}>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-muted-foreground/50">
+                        Entity
+                    </div>
+                    <h3 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter">
+                        {name}
+                    </h3>
+                    <div className="text-sm font-bold uppercase tracking-widest text-primary">
+                        {traits}
+                    </div>
+                    <p className="text-lg text-muted-foreground leading-relaxed max-w-md">
+                        {description}
+                    </p>
                 </div>
-                <h3 className="text-5xl md:text-6xl font-bold uppercase tracking-tighter">
-                    {name}
-                </h3>
-                <div className="text-sm font-bold uppercase tracking-widest text-primary">
-                    {traits}
-                </div>
-                <p className="text-lg text-muted-foreground leading-relaxed max-w-md">
-                    {description}
-                </p>
-            </div>
+            )}
         </motion.div>
     )
 }

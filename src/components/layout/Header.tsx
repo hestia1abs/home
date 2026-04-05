@@ -1,52 +1,71 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/lib/auth-context'
+import { MagneticLink } from '@/components/layout/MagneticLink'
 
 const navItems = [
-    { name: 'About', href: 'https://hestialabs.in/about' },
-    { name: 'Products', href: 'https://hestialabs.in/products' },
-    { name: 'Technology', href: 'https://hestialabs.in/technology' },
-    { name: 'Developers', href: 'https://hestialabs.in/developers' },
+    { name: 'Architecture', href: '#platform' },
+    { name: 'Protocol', href: '#technology' },
+    { name: 'Hardware', href: '#entities' },
+    { name: 'Security', href: '#security' },
 ]
 
+
 export function Header() {
-    const pathname = usePathname()
     const { user } = useAuth()
     const [isOpen, setIsOpen] = useState(false)
     const [mounted, setMounted] = useState(false)
     const [visible, setVisible] = useState(true)
     const [lastScrollY, setLastScrollY] = useState(0)
     const [scrolled, setScrolled] = useState(false)
+    const [activeSection, setActiveSection] = useState('')
 
     useEffect(() => {
         const timer = setTimeout(() => setMounted(true), 0)
         return () => clearTimeout(timer)
     }, [])
 
-    // Track scroll position for hide on scroll and transparent state
+    // Track scroll position
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY
-
-            // Hide on scroll down, show on scroll up
             if (currentScrollY > lastScrollY && currentScrollY > 100) {
                 setVisible(false)
             } else {
                 setVisible(true)
             }
-
             setLastScrollY(currentScrollY)
             setScrolled(currentScrollY > 50)
         }
-
         window.addEventListener('scroll', handleScroll, { passive: true })
         return () => window.removeEventListener('scroll', handleScroll)
     }, [lastScrollY])
+
+    // Active section tracking
+    useEffect(() => {
+        const sectionIds = navItems.map(item => item.href.replace('#', ''))
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id)
+                    }
+                })
+            },
+            { rootMargin: '-30% 0px -60% 0px' }
+        )
+
+        sectionIds.forEach(id => {
+            const el = document.getElementById(id)
+            if (el) observer.observe(el)
+        })
+
+        return () => observer.disconnect()
+    }, [])
 
     // Disable scroll when mobile menu is open
     useEffect(() => {
@@ -63,95 +82,90 @@ export function Header() {
         }
     }, [isOpen])
 
-    // Close menu on ESC key
+    // Close menu on ESC
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                setIsOpen(false)
-            }
+            if (e.key === 'Escape') setIsOpen(false)
         }
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
     }, [])
 
-    // Close menu when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            const target = e.target as HTMLElement
-            if (isOpen && !target.closest('header')) {
-                setIsOpen(false)
-            }
+    // Smooth scroll to section
+    const scrollToSection = useCallback((href: string) => {
+        setIsOpen(false)
+        const id = href.replace('#', '')
+        const el = document.getElementById(id)
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => document.removeEventListener('mousedown', handleClickOutside)
-    }, [isOpen])
+    }, [])
 
     return (
         <header className={cn(
             "sticky top-0 z-40 w-full transition-all duration-500",
             visible ? "translate-y-0" : "-translate-y-full",
             scrolled
-                ? "border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+                ? "border-b border-border bg-background/95 backdrop-blur-xl"
                 : "border-b border-transparent bg-transparent"
         )}>
-            <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 w-full">
-                <Link href="https://hestialabs.in" className="flex items-center gap-3 flex-shrink-0">
+            <nav className="mx-auto flex max-w-[1800px] items-center justify-between px-6 py-6 w-full">
+                <Link
+                    href="/"
+                    className="flex items-center gap-4 flex-shrink-0 group"
+                    onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+                >
                     <Image
-                        src="/logo_black.png"
+                        src="/logo.png"
                         alt="Hestia Labs"
-                        width={128}
-                        height={128}
-                        className="h-16 w-auto object-contain"
+                        width={160}
+                        height={160}
+                        className="h-12 w-auto object-contain brightness-110 group-hover:scale-110 transition-transform duration-500"
                         priority
                     />
-                    <div className="flex items-baseline gap-1">
-                        <span className="text-sm font-bold uppercase tracking-widest text-foreground">Hestia</span>
-                        <span className="text-xs font-bold uppercase tracking-widest bg-gradient-to-b from-white to-blue-500 bg-clip-text text-transparent">Labs</span>
+                    <div className="flex flex-col">
+                        <span className="text-ui text-foreground font-black tracking-[0.2em] -mb-1">Hestia</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Research Division</span>
                     </div>
                 </Link>
 
                 <div className="flex items-center gap-4 ml-auto">
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center gap-8">
+                    <div className="hidden lg:flex items-center gap-4">
                         {navItems.map((item) => (
-                            <Link
+                            <MagneticLink
                                 key={item.href}
                                 href={item.href}
-                                className={cn(
-                                    "text-sm uppercase tracking-wide transition-colors",
-                                    pathname === item.href
-                                        ? "text-foreground font-bold"
-                                        : "text-muted-foreground hover:text-foreground"
-                                )}
+                                onClick={() => scrollToSection(item.href)}
+                                active={activeSection === item.href.replace('#', '')}
+                                className="text-ui"
                             >
                                 {item.name}
-                            </Link>
+                            </MagneticLink>
                         ))}
-                        <a
+                        
+                        <div className="w-px h-6 bg-border/50 mx-4" />
+
+                        <MagneticLink
                             href="mailto:contact@hestialabs.in"
-                            className="rounded-none border border-foreground px-4 py-2 text-sm uppercase tracking-wide hover:bg-foreground hover:text-background transition-colors"
+                            className="text-ui"
                         >
                             Contact
-                        </a>
+                        </MagneticLink>
+                        
                         {!mounted ? (
-                            <div className="w-[100px] h-[36px] bg-muted animate-pulse"></div>
+                            <div className="w-[120px] h-[44px] bg-muted animate-pulse rounded-full"></div>
                         ) : user ? (
-                            <Link href={
-                                typeof window !== 'undefined' && window.location.hostname.includes('admin')
-                                    ? '/admin'
-                                    : typeof window !== 'undefined' && window.location.hostname.includes('cloud')
-                                        ? '/dashboard'
-                                        : "https://cloud.hestialabs.in/dashboard"
-                            }>
-                                <div className="flex items-center justify-center bg-foreground text-background px-4 py-2 text-sm font-bold uppercase tracking-widest cursor-pointer hover:shadow-lg transition-all duration-300">
-                                    {typeof window !== 'undefined' && window.location.hostname.includes('admin') ? 'Control Panel' : 'Dashboard'}
-                                </div>
+                            <Link href="https://cloud.hestialabs.in/dashboard">
+                                <MagneticLink href="/dashboard" active={false} className="text-ui">
+                                    Dashboard
+                                </MagneticLink>
                             </Link>
                         ) : (
-                            <Link href={typeof window !== 'undefined' && window.location.hostname.includes('auth') ? '/signin' : "https://auth.hestialabs.in/signin"}>
-                                <div className="flex items-center justify-center bg-foreground text-background px-4 py-2 text-sm font-bold uppercase tracking-widest cursor-pointer hover:shadow-lg transition-all duration-300">
-                                    Login
-                                </div>
+                            <Link href="https://auth.hestialabs.in/signin">
+                                <button className="px-8 py-3 bg-white text-black text-ui font-black rounded-full hover:scale-105 active:scale-95 transition-all">
+                                    INITIALIZE
+                                </button>
                             </Link>
                         )}
                     </div>
@@ -181,7 +195,7 @@ export function Header() {
                 </div>
             </nav>
 
-            {/* Mobile Drawer - Full viewport overlay */}
+            {/* Mobile Drawer */}
             <div
                 className={cn(
                     "fixed inset-0 top-[73px] z-50 w-screen max-w-full transition-all duration-500 ease-in-out md:hidden",
@@ -192,7 +206,6 @@ export function Header() {
                 style={{
                     background: 'rgba(0, 0, 0, 0.95)',
                     backdropFilter: 'blur(12px)',
-                    transformStyle: 'preserve-3d',
                 }}
                 role="dialog"
                 aria-modal="true"
@@ -200,34 +213,23 @@ export function Header() {
             >
                 <div className="flex flex-col p-6 gap-8 min-h-full">
                     {navItems.map((item) => (
-                        <Link
+                        <button
                             key={item.href}
-                            href={item.href}
-                            onClick={() => setIsOpen(false)}
+                            onClick={() => scrollToSection(item.href)}
                             className={cn(
-                                "text-3xl font-bold uppercase tracking-tighter transition-all duration-300 relative group text-foreground",
-                                pathname === item.href
-                                    ? "font-bold"
-                                    : "opacity-90 hover:opacity-100"
+                                "text-3xl font-bold uppercase tracking-tighter transition-all duration-300 text-left relative group text-foreground",
+                                activeSection === item.href.replace('#', '') ? "font-bold" : "opacity-90 hover:opacity-100"
                             )}
-                            style={{
-                                transform: isOpen ? 'translateZ(0px)' : 'translateZ(-20px)',
-                                transition: 'color 0.3s ease, transform 0.3s ease',
-                            }}
                         >
                             {item.name}
                             <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-blue-400 transition-all duration-300 group-hover:w-full" />
-                        </Link>
+                        </button>
                     ))}
                     <div className="mt-auto flex flex-col gap-6 pb-12 space-y-4">
                         <a
                             href="mailto:contact@hestialabs.in"
                             className="flex h-14 items-center justify-center border border-foreground text-sm uppercase tracking-widest font-bold rounded-none hover:bg-foreground hover:text-background transition-all duration-300"
                             onClick={() => setIsOpen(false)}
-                            style={{
-                                transform: isOpen ? 'translateZ(10px)' : 'translateZ(-20px)',
-                                transition: 'background-color 0.3s ease, color 0.3s ease, transform 0.3s ease',
-                            }}
                         >
                             Contact Us
                         </a>
@@ -235,31 +237,17 @@ export function Header() {
                             <div className="h-14 w-full bg-muted animate-pulse"></div>
                         ) : user ? (
                             <Link
-                                href={
-                                    typeof window !== 'undefined' && window.location.hostname.includes('admin')
-                                        ? '/admin'
-                                        : typeof window !== 'undefined' && window.location.hostname.includes('cloud')
-                                            ? '/dashboard'
-                                            : "https://cloud.hestialabs.in/dashboard"
-                                }
+                                href="https://cloud.hestialabs.in/dashboard"
                                 className="flex h-14 items-center justify-center bg-foreground text-background rounded-none cursor-pointer hover:shadow-lg transition-all duration-300 text-sm font-bold uppercase tracking-widest"
                                 onClick={() => setIsOpen(false)}
-                                style={{
-                                    transform: isOpen ? 'translateZ(10px)' : 'translateZ(-20px)',
-                                    transition: 'box-shadow 0.3s ease, transform 0.3s ease',
-                                }}
                             >
-                                {typeof window !== 'undefined' && window.location.hostname.includes('admin') ? 'Control Panel' : 'Dashboard'}
+                                Dashboard
                             </Link>
                         ) : (
                             <Link
-                                href={typeof window !== 'undefined' && window.location.hostname.includes('auth') ? '/signin' : "https://auth.hestialabs.in/signin"}
+                                href="https://auth.hestialabs.in/signin"
                                 className="flex h-14 items-center justify-center bg-foreground text-background rounded-none cursor-pointer hover:shadow-lg transition-all duration-300 text-sm font-bold uppercase tracking-widest"
                                 onClick={() => setIsOpen(false)}
-                                style={{
-                                    transform: isOpen ? 'translateZ(10px)' : 'translateZ(-20px)',
-                                    transition: 'box-shadow 0.3s ease, transform 0.3s ease',
-                                }}
                             >
                                 Login
                             </Link>

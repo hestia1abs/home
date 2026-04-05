@@ -6,6 +6,10 @@ const config: Config = {
     content: ["./src/app/**/*.{ts,tsx}", "./src/components/**/*.{ts,tsx}", "./src/lib/**/*.{ts,tsx}"],
     theme: {
         extend: {
+            screens: {
+                '3xl': '1900px',
+                '4xl': '2450px',
+            },
             colors: {
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",

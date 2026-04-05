@@ -1,8 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { HugeiconsIcon } from '@hugeicons/react'
 import { Shield01Icon, ArrowLeft01Icon } from '@hugeicons/core-free-icons';
 import Link from 'next/link';
@@ -21,18 +19,19 @@ export default function TermsPage() {
                     </Link>
                 </Button>
 
-                <Card className="border-primary/20 bg-card/50 backdrop-blur-md">
-                    <CardHeader className="text-center pb-2">
-                        <div className="flex justify-center mb-4">
-                            <div className="p-3 bg-primary/10 rounded-2xl border border-primary/20">
-                                <HugeiconsIcon icon={Shield01Icon} size={32} className="text-primary" />
-                            </div>
+                <div className="glass-panel border border-white/10 rounded-3xl overflow-hidden shadow-2xl bg-card/50 backdrop-blur-md">
+                    <div className="p-8 border-b border-white/5 flex items-center gap-4 bg-white/5">
+                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 text-primary">
+                            <HugeiconsIcon icon={Shield01Icon} size={24} />
                         </div>
-                        <CardTitle className="text-3xl font-bold tracking-tight">Terms of Service</CardTitle>
-                        <p className="text-sm text-muted-foreground pt-1">Last Updated: March 2026</p>
-                    </CardHeader>
-                    <CardContent>
-                        <ScrollArea className="h-[50vh] pr-4">
+                        <div>
+                            <h1 className="text-2xl font-bold uppercase tracking-widest text-primary">Terms of Service</h1>
+                            <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40">System Protocol: TOS.001A</p>
+                        </div>
+                    </div>
+                    
+                    <div className="p-8">
+                        <div className="h-[50vh] pr-4 overflow-y-auto custom-scrollbar-slim">
                             <div className="space-y-6 text-muted-foreground leading-relaxed">
                                 <section className="space-y-3">
                                     <h2 className="text-xl font-semibold text-foreground">1. Acceptance of Terms</h2>
@@ -76,9 +75,9 @@ export default function TermsPage() {
                                     </p>
                                 </section>
                             </div>
-                        </ScrollArea>
-                    </CardContent>
-                </Card>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
