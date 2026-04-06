@@ -3,7 +3,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText as GSAPSplitText } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
-import { JSX } from 'react';
 
 // Note: GSAP SplitText is a Club GSAP plugin. 
 // If it's not present in the standard 'gsap' package, this import might fail.
@@ -63,7 +62,10 @@ const Shuffle: React.FC<ShuffleProps> = ({
   triggerOnHover = true
 }) => {
   const ref = useRef<HTMLElement>(null);
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(() => {
+    if (typeof document === 'undefined') return false;
+    return !('fonts' in document) || document.fonts.status === 'loaded';
+  });
   const [ready, setReady] = useState(false);
 
   const splitRef = useRef<GSAPSplitText | null>(null);
@@ -73,11 +75,9 @@ const Shuffle: React.FC<ShuffleProps> = ({
   const hoverHandlerRef = useRef<((e: Event) => void) | null>(null);
 
   useEffect(() => {
-    if ('fonts' in document) {
-      if (document.fonts.status === 'loaded') setFontsLoaded(true);
-      else document.fonts.ready.then(() => setFontsLoaded(true));
-    } else setFontsLoaded(true);
-  }, []);
+    if (fontsLoaded || !('fonts' in document)) return;
+    document.fonts.ready.then(() => setFontsLoaded(true));
+  }, [fontsLoaded]);
 
   const scrollTriggerStart = useMemo(() => {
     const startPct = (1 - threshold) * 100;

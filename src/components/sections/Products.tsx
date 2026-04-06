@@ -1,5 +1,7 @@
 'use client'
 
+import { PhysicalControlPlane } from '@/components/animations/PhysicalControlPlane'
+
 export function ProductsSection() {
     return (
         <section id="products" className="py-16 md:py-24 relative overflow-hidden">
@@ -20,9 +22,9 @@ export function ProductsSection() {
                         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent z-0" />
                         <div className="relative z-10 lg:w-1/2 space-y-8 md:space-y-10">
                             <div className="space-y-4">
-                                <span className="text-ui text-cyan-400 tracking-widest">Unit 01 // HX47 Core Node</span>
+                                <span className="text-ui text-cyan-400 tracking-widest">Helix hardware // local execution node</span>
                                 <h3 className="text-h1 text-white select-none drop-shadow-none tracking-tighter">HX47</h3>
-                                <p className="text-h3 text-white/60 font-bold">Local intelligence, device orchestration, and private compute in one node.</p>
+                                <p className="text-h3 text-white/60 font-bold">Secure local execution for devices, spaces, and AI-driven control.</p>
                             </div>
                             <p className="max-w-xl text-body leading-relaxed text-white/75">
                                 A high-performance localized compute platform designed to host Hestia services inside your environment, without relying on constant cloud round-trips.
@@ -39,13 +41,9 @@ export function ProductsSection() {
                             </div>
                         </div>
 
-                        <div className="relative flex min-h-[260px] items-center justify-center lg:h-full lg:w-1/2">
-                             {/* Abstract hardware visual */}
-                             <div className="flex h-64 w-64 items-center justify-center rounded-3xl border-2 border-white/10 bg-white/[0.03] shadow-[0_0_150px_rgba(34,211,238,0.15)] transition-all duration-1000 rotate-45 group-hover:scale-105 group-hover:rotate-[60deg] md:h-80 md:w-80">
-                                 <div className="relative flex h-40 w-40 items-center justify-center rounded-2xl border-2 border-white/20 md:h-56 md:w-56">
-                                     <div className="w-32 h-32 bg-cyan-500/30 blur-[50px] rounded-full absolute" />
-                                     <div className="w-24 h-24 border border-[#0ff]/40 rounded-full animate-ping" />
-                                 </div>
+                        <div className="relative flex min-h-[320px] items-center justify-center lg:h-full lg:w-1/2">
+                             <div className="h-[360px] w-full max-w-[560px]">
+                                 <PhysicalControlPlane />
                              </div>
                         </div>
                     </div>

@@ -13,7 +13,6 @@ type PricingItem = {
     accent: string
     color?: string
     featured?: boolean
-    subtitle?: string
     period?: string
     type?: string
 }
@@ -27,7 +26,6 @@ const CheckIcon = ({ size = 12, className, style }: { size?: number, className?:
 const SUBSCRIPTION_TIERS: PricingItem[] = [
     { 
         title: 'Essential', 
-        subtitle: 'Entry plan',
         price: '₹49', 
         period: '/ month',
         desc: 'Local-first control for single-space deployments and entry-level automation.', 
@@ -37,7 +35,6 @@ const SUBSCRIPTION_TIERS: PricingItem[] = [
     },
     { 
         title: 'Smart Saver', 
-        subtitle: 'Value plan',
         price: '₹199', 
         period: '/ month',
         desc: 'A practical plan for homes that want unified control, automation, and measurable value.', 
@@ -48,7 +45,6 @@ const SUBSCRIPTION_TIERS: PricingItem[] = [
     },
     { 
         title: 'Professional', 
-        subtitle: 'Orchestration plan',
         price: '₹499', 
         period: '/ month',
         desc: 'For higher-intent households that need predictive automation, insights, and multi-device coordination.', 
@@ -58,7 +54,6 @@ const SUBSCRIPTION_TIERS: PricingItem[] = [
     },
     { 
         title: 'Premium', 
-        subtitle: 'Signature plan',
         price: '₹1499', 
         period: '/ month', 
         desc: 'A high-comfort experience built around personalization, orchestration, and premium support.', 
@@ -156,7 +151,7 @@ export function PricingSection() {
                                 className={`group relative flex min-h-[560px] flex-col justify-between border-white/5 bg-black/40 p-8 transition-all duration-500 hover:border-white/20 md:min-h-[620px] xl:min-h-[700px] xl:p-12 ${item.featured ? 'ring-4 ring-primary/30 ring-offset-4 ring-offset-background md:ring-offset-8' : ''}`}
                             >
                                 {item.featured && (
-                                    <div className="absolute left-1/2 top-4 z-20 -translate-x-1/2 rounded-full bg-primary px-5 py-2 text-ui text-background shadow-[0_0_20px_rgba(34,211,238,0.5)] md:-top-4 md:top-auto md:px-6">
+                                    <div className="absolute left-1/2 top-4 z-20 -translate-x-1/2 rounded-full bg-primary px-5 py-2 text-ui text-background shadow-[0_0_20px_rgba(34,211,238,0.5)] md:-top-4 md:px-6">
                                         Value Leader
                                     </div>
                                 )}
@@ -167,11 +162,7 @@ export function PricingSection() {
                                             <span className="text-ui opacity-40 group-hover:opacity-100 transition-opacity" style={{ color: item.accent }}>
                                                 {item.type || 'Software'}
                                             </span>
-                                            {item.subtitle && (
-                                                <span className="block text-script text-xl leading-none text-white/40 md:text-2xl">
-                                                    {item.subtitle}
-                                                </span>
-                                            )}
+            
                                         </div>
                                         <h3 className="text-h3 font-black group-hover:text-glow transition-all" style={{ color: item.accent }}>
                                             {item.title}
