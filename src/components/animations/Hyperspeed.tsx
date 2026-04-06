@@ -22,7 +22,7 @@ function WarpField() {
     }))
   }, [])
 
-  useFrame((state, delta) => {
+  useFrame((_state, delta) => {
     if (!groupRef.current) return
     groupRef.current.children.forEach((child, i) => {
       const line = lines[i]

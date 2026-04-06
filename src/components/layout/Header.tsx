@@ -1,11 +1,11 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/lib/auth-context'
-import { MagneticLink } from '@/components/layout/MagneticLink'
+import { MagneticLink } from '@/components/layout/Magnetic'
 
 const navItems = [
     { name: 'Overview', href: '#vision' },
@@ -21,9 +21,9 @@ export function Header() {
     const [isOpen, setIsOpen] = useState(false)
     const [mounted, setMounted] = useState(false)
     const [visible, setVisible] = useState(true)
-    const [lastScrollY, setLastScrollY] = useState(0)
     const [scrolled, setScrolled] = useState(false)
     const [activeSection, setActiveSection] = useState('')
+    const lastScrollYRef = useRef(0)
 
     useEffect(() => {
         const timer = setTimeout(() => setMounted(true), 0)
@@ -34,17 +34,18 @@ export function Header() {
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY
-            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            if (currentScrollY > lastScrollYRef.current && currentScrollY > 100) {
                 setVisible(false)
             } else {
                 setVisible(true)
             }
-            setLastScrollY(currentScrollY)
+            lastScrollYRef.current = currentScrollY
             setScrolled(currentScrollY > 50)
         }
+        handleScroll()
         window.addEventListener('scroll', handleScroll, { passive: true })
         return () => window.removeEventListener('scroll', handleScroll)
-    }, [lastScrollY])
+    }, [])
 
     // Active section tracking
     useEffect(() => {
@@ -107,8 +108,8 @@ export function Header() {
             "sticky top-0 z-40 w-full transition-all duration-500",
             visible ? "translate-y-0" : "-translate-y-full",
             scrolled
-                ? "border-b border-border bg-background/95 backdrop-blur-xl"
-                : "border-b border-transparent bg-transparent"
+                ? "border-b border-white/10 bg-background/90 backdrop-blur-xl"
+                : "border-b border-white/6 bg-black/35 backdrop-blur-md"
         )}>
             <nav className="mx-auto flex w-full max-w-[1800px] items-center justify-between px-6 py-4 md:py-5">
                 <Link
@@ -163,10 +164,8 @@ export function Header() {
                                 </MagneticLink>
                             </Link>
                         ) : (
-                            <Link href="https://auth.hestialabs.in/signin">
-                                <button className="rounded-full bg-white px-6 py-3 text-ui font-black text-black transition-all hover:scale-105 active:scale-95">
-                                    Sign In
-                                </button>
+                            <Link href="https://auth.hestialabs.in/signin" className="rounded-full bg-white px-6 py-3 text-ui font-black text-black transition-all hover:scale-105 active:scale-95">
+                                Sign In
                             </Link>
                         )}
                     </div>

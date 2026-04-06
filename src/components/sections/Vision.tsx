@@ -27,7 +27,9 @@ export function VisionSection() {
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
                         <div className="glass-panel rounded-[36px] border-[#ff003c]/10 bg-black/40 p-8 md:p-10 lg:col-span-5">
                             <span className="text-ui text-[#ff003c]">Execution Layer</span>
-                            <h3 className="mt-5 text-h3 whitespace-nowrap text-[#ff003c]">Execution Manifest Located</h3>
+                            <h3 className="mt-5 max-w-[10ch] text-[clamp(2.6rem,5vw,5rem)] font-black uppercase leading-[0.88] tracking-[-0.05em] text-[#ff003c]">
+                                Execution Manifest Located
+                            </h3>
                             <p className="mt-6 max-w-2xl text-base leading-8 text-white/70 md:text-lg">
                                 HxTP is not generic automation glue. It is a signed control plane that ensures every instruction is authenticated, validated, and delivered with predictable system behavior.
                             </p>

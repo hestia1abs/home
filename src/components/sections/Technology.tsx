@@ -1,13 +1,63 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { Player } from '@remotion/player'
-import { Hashchain } from '@/components/animations/Hashchain'
 import { GlitchText } from '@/components/animations/GlitchText'
 import Shuffle from '@/components/animations/Shuffle'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { hexString, unitNoise } from '@/lib/deterministic'
+
+function HashchainPreview() {
+    const rows = useMemo(
+        () =>
+            Array.from({ length: 16 }, (_, index) => ({
+                id: `row-${index}`,
+                block: (1047238 - index).toLocaleString(),
+                content: Array.from({ length: 6 }, (_, blockIndex) => hexString(index * 100 + blockIndex * 13, 4)).join(':'),
+                status: unitNoise(index + 20) > 0.75 ? 'VERIFIED' : 'SYNCING'
+            })),
+        []
+    )
+
+    const loopedRows = [...rows, ...rows]
+
+    return (
+        <div className="relative h-full overflow-hidden bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.08),transparent_28%),linear-gradient(180deg,rgba(1,4,10,0.94),rgba(2,6,16,0.92))] p-8 font-mono md:p-10">
+            <div className="relative z-10 mb-8 flex items-end justify-between border-b border-primary/20 pb-4">
+                <div className="space-y-1">
+                    <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Cryptographic_Hashchain</div>
+                    <div className="text-lg font-black uppercase text-white md:text-2xl">Immutable_Ledger_of_Truth</div>
+                </div>
+                <div className="text-right text-[10px] uppercase text-primary/60">
+                    Status: [LOCKED] <br />
+                    Blocks: 1,047,238
+                </div>
+            </div>
+
+            <motion.div
+                animate={{ y: ['0%', '-50%'] }}
+                transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+                className="space-y-3"
+            >
+                {loopedRows.map((row, index) => (
+                    <div key={`${row.id}-${index}`} className="flex items-center gap-4 md:gap-6">
+                        <div className="w-14 text-[10px] text-primary/35 md:w-20">{row.block}</div>
+                        <div className="flex-1 border-l-2 border-primary/20 bg-white/5 px-3 py-2 text-[11px] font-bold tracking-[0.22em] text-white/55 transition-colors hover:border-primary hover:bg-white/10 md:text-xs">
+                            {row.content.toUpperCase()}
+                        </div>
+                        <div className={`rounded border px-2 py-1 text-[8px] font-black uppercase ${row.status === 'VERIFIED' ? 'border-green-500/20 bg-green-500/5 text-green-400' : 'border-cyan-500/20 bg-cyan-500/5 text-cyan-400'}`}>
+                            {row.status}
+                        </div>
+                    </div>
+                ))}
+            </motion.div>
+
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent" />
+        </div>
+    )
+}
 
 export function TechnologySection() {
     const sectionRef = useRef<HTMLElement>(null)
@@ -102,7 +152,7 @@ export function TechnologySection() {
                         </div>
                     </div>
 
-                    {/* Hashchain Block — Remotion Player */}
+                    {/* Hashchain Block */}
                     <div className="col-span-12 glass-panel relative overflow-hidden rounded-3xl border-white/5 min-h-[420px] md:min-h-[500px]">
                         {/* Corner brackets */}
                         <div className="absolute top-8 left-8 w-12 h-12 border-l-2 border-t-2 border-primary/30 z-20" />
@@ -110,16 +160,7 @@ export function TechnologySection() {
                         <div className="absolute bottom-8 left-8 w-12 h-12 border-l-2 border-b-2 border-primary/30 z-20" />
                         <div className="absolute bottom-8 right-8 w-12 h-12 border-r-2 border-b-2 border-primary/30 z-20" />
 
-                        <Player
-                            component={Hashchain}
-                            durationInFrames={600}
-                            compositionWidth={1800}
-                            compositionHeight={500}
-                            fps={30}
-                            loop
-                            autoPlay
-                            style={{ width: '100%', height: '100%' }}
-                        />
+                        <HashchainPreview />
                     </div>
                 </div>
             </div>

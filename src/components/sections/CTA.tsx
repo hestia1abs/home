@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 
 const ArrowIcon = ({ size = 20, className }: { size?: number, className?: string }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
@@ -8,6 +9,18 @@ const ArrowIcon = ({ size = 20, className }: { size?: number, className?: string
 )
 
 export function CTASection() {
+    const [email, setEmail] = useState('')
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        if (!email || !email.includes('@')) {
+            return
+        }
+        // TODO: Implement actual submission (e.g., API call or redirect)
+        console.log('Request access for:', email)
+    }
+
+    const isValid = email && email.includes('@')
     return (
         <section id="cta" className="py-20 md:py-32 relative overflow-hidden px-6">
             <div className="max-w-[1800px] mx-auto relative z-10">
@@ -29,17 +42,21 @@ export function CTASection() {
                         </div>
 
                         <div className="w-full max-w-2xl xl:ml-auto">
-                            <div className="flex flex-col gap-4">
+                            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                                 <input 
                                     type="email" 
+                                    id="work-email"
+                                    aria-label="Work email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Enter your work email" 
                                     className="w-full rounded-2xl border-2 border-white/10 bg-white/5 px-6 py-5 text-left text-ui font-black tracking-[0.3em] placeholder:opacity-35 focus:border-primary/50 focus:outline-none transition-all"
                                 />
-                                <button className="group flex items-center justify-center gap-4 rounded-2xl bg-primary px-8 py-5 text-ui font-black uppercase tracking-widest text-background transition-all hover:scale-[1.01] active:scale-95">
+                                <button type="submit" disabled={!isValid} className="group flex items-center justify-center gap-4 rounded-2xl bg-primary px-8 py-5 text-ui font-black uppercase tracking-widest text-background transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
                                      Request Access
                                      <ArrowIcon size={20} className="transition-transform group-hover:translate-x-2" />
                                 </button>
-                            </div>
+                            </form>
                             <p className="mt-4 text-sm leading-7 text-white/45">
                                 For product pilots, hardware partnerships, and early deployments, write to us directly at contact@hestialabs.in.
                             </p>

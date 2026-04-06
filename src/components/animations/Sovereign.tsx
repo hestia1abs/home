@@ -2,7 +2,7 @@
 
 import { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Points, PointMaterial, Line, Float } from '@react-three/drei'
+import { Points, PointMaterial, Line } from '@react-three/drei'
 import * as THREE from 'three'
 import { rangeNoise, intNoise } from '@/lib/deterministic'
 
@@ -15,10 +15,9 @@ type ConnectionPair = [number, number]
 
 function NodeGraph() {
     const pointsRef = useRef<THREE.Points>(null)
-    const lineGroupRef = useRef<THREE.Group>(null)
     
     // Generate initial nodes
-    const nodeCount = 40
+    const nodeCount = 28
     const nodes = useMemo(() => {
         const positions = new Float32Array(nodeCount * 3)
         const nodeData: NodeData[] = []
@@ -42,7 +41,7 @@ function NodeGraph() {
     }, [])
 
     useFrame(() => {
-        if (!pointsRef.current || !lineGroupRef.current) return
+        if (!pointsRef.current) return
         
         const positions = pointsRef.current.geometry.attributes.position.array as Float32Array
         
@@ -56,16 +55,14 @@ function NodeGraph() {
             positions[i * 3 + 2] += data.velocity.z
             
             // Limit distance from origin
-            const currentPos = new THREE.Vector3(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2])
-            if (currentPos.distanceTo(data.originalPos) > 1) {
+            const dx = positions[i * 3] - data.originalPos.x
+            const dy = positions[i * 3 + 1] - data.originalPos.y
+            const dz = positions[i * 3 + 2] - data.originalPos.z
+            if (dx * dx + dy * dy + dz * dz > 1) {
                 data.velocity.multiplyScalar(-1)
             }
         }
         pointsRef.current.geometry.attributes.position.needsUpdate = true
-
-        // Update lines (simplified: connect nodes if they are close)
-        // For performance in a React-Three-Fiber context, we'll just have a few static-ish lines 
-        // that pulse rather than calculating all pairs every frame.
     })
 
     // Pre-calculate some connections
@@ -97,7 +94,7 @@ function NodeGraph() {
                 />
             </Points>
             
-            <group ref={lineGroupRef}>
+            <group>
                 {connections.map(([start, end], i) => (
                     <Connection 
                         key={i} 
@@ -126,12 +123,14 @@ function Connection({ startPos, endPos }: { startPos: [number, number, number], 
 export function SovereignProtocol() {
     return (
         <div className="w-full h-full min-h-[200px] relative overflow-hidden bg-black/20 rounded-xl border border-white/5">
-            <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
+            <Canvas
+                camera={{ position: [0, 0, 10], fov: 50 }}
+                dpr={[0.7, 1]}
+                gl={{ antialias: false, alpha: true, powerPreference: 'low-power' }}
+            >
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={1} color="#22d3ee" />
-                <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-                    <NodeGraph />
-                </Float>
+                <NodeGraph />
                 <fog attach="fog" args={['#000', 5, 20]} />
             </Canvas>
             

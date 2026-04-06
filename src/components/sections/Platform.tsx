@@ -33,10 +33,16 @@ export function PlatformSection() {
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-2 pt-4 text-ui text-primary/50 transition-colors cursor-pointer group-hover:translate-x-2 group-hover:text-primary">
+                        <button
+                            type="button"
+                            aria-label="HxTP documentation coming soon"
+                            aria-disabled="true"
+                            disabled
+                            className="flex items-center gap-2 pt-4 text-ui text-primary/50 transition-colors group-hover:translate-x-2 group-hover:text-primary disabled:cursor-not-allowed"
+                        >
                             <span>READ DOCUMENTATION</span>
                             <span>→</span>
-                        </div>
+                        </button>
                     </SpotlightCard>
 
                     {/* Edge-First Block */}

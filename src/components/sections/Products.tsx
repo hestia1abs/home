@@ -1,6 +1,6 @@
 'use client'
 
-import { PhysicalControlPlane } from '@/components/animations/PhysicalControlPlane'
+import { PhysicalControlPlane } from '@/components/animations/ControlPlane'
 
 export function ProductsSection() {
     return (
@@ -49,7 +49,7 @@ export function ProductsSection() {
                     </div>
 
                     {/* Sensor Array block */}
-                    <div className="col-span-12 lg:col-span-6 glass-panel flex min-h-[340px] flex-col justify-between overflow-hidden rounded-[32px] border-white/5 p-8 md:p-12">
+                    <div className="col-span-12 lg:col-span-6 glass-panel group flex min-h-[340px] flex-col justify-between overflow-hidden rounded-[32px] border-white/5 p-8 md:p-12">
                         <div className="space-y-6">
                              <h3 className="text-h3 text-white">Sovereign Sensors</h3>
                              <p className="max-w-md text-body leading-relaxed text-white/65">

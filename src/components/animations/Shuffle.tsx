@@ -1,12 +1,8 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText as GSAPSplitText } from 'gsap/SplitText';
 import { useGSAP } from '@gsap/react';
-
-// Note: GSAP SplitText is a Club GSAP plugin. 
-// If it's not present in the standard 'gsap' package, this import might fail.
-// Proceeding as requested by user.
 
 gsap.registerPlugin(ScrollTrigger, GSAPSplitText);
 
@@ -75,8 +71,17 @@ const Shuffle: React.FC<ShuffleProps> = ({
   const hoverHandlerRef = useRef<((e: Event) => void) | null>(null);
 
   useEffect(() => {
-    if (fontsLoaded || !('fonts' in document)) return;
-    document.fonts.ready.then(() => setFontsLoaded(true));
+    if (fontsLoaded || typeof document === 'undefined' || !('fonts' in document)) return;
+
+    let mounted = true;
+
+    document.fonts.ready.then(() => {
+      if (mounted) setFontsLoaded(true);
+    });
+
+    return () => {
+      mounted = false;
+    };
   }, [fontsLoaded]);
 
   const scrollTriggerStart = useMemo(() => {
@@ -274,9 +279,9 @@ const Shuffle: React.FC<ShuffleProps> = ({
           onRepeat: () => {
             if (scrambleCharset) randomizeScrambles();
             if (isVertical) {
-              gsap.set(strips, { y: (i, t: HTMLElement) => parseFloat(t.getAttribute('data-start-y') || '0') });
+              gsap.set(strips, { y: (_i, t: HTMLElement) => parseFloat(t.getAttribute('data-start-y') || '0') });
             } else {
-              gsap.set(strips, { x: (i, t: HTMLElement) => parseFloat(t.getAttribute('data-start-x') || '0') });
+              gsap.set(strips, { x: (_i, t: HTMLElement) => parseFloat(t.getAttribute('data-start-x') || '0') });
             }
             onShuffleComplete?.();
           },
@@ -299,9 +304,9 @@ const Shuffle: React.FC<ShuffleProps> = ({
             stagger: animationMode === 'evenodd' ? stagger : 0
           };
           if (isVertical) {
-            vars.y = (i: number, t: HTMLElement) => parseFloat(t.getAttribute('data-final-y') || '0');
+            vars.y = (_i: number, t: HTMLElement) => parseFloat(t.getAttribute('data-final-y') || '0');
           } else {
-            vars.x = (i: number, t: HTMLElement) => parseFloat(t.getAttribute('data-final-x') || '0');
+            vars.x = (_i: number, t: HTMLElement) => parseFloat(t.getAttribute('data-final-x') || '0');
           }
 
           tl.to(targets, vars, at);
@@ -419,9 +424,9 @@ const Shuffle: React.FC<ShuffleProps> = ({
     () => `${baseTw} ${ready ? 'visible' : 'invisible'} ${className}`.trim(),
     [baseTw, ready, className]
   );
-  const setElementRef: React.RefCallback<HTMLElement> = element => {
+  const setElementRef = useCallback<React.RefCallback<HTMLElement>>(element => {
     ref.current = element;
-  };
+  }, []);
 
   if (tag === 'h1') return <h1 ref={setElementRef} className={classes} style={commonStyle}>{text}</h1>;
   if (tag === 'h2') return <h2 ref={setElementRef} className={classes} style={commonStyle}>{text}</h2>;

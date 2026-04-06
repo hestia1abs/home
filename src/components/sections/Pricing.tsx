@@ -142,16 +142,16 @@ export function PricingSection() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -40 }}
                         transition={{ duration: 0.6, ease: "circOut" }}
-                        className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4 xl:gap-8"
+                        className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 xl:gap-8"
                     >
                         {(view === 'subs' ? SUBSCRIPTION_TIERS : HARDWARE_NUCLEUS).map((item: PricingItem) => (
                             <SpotlightCard 
                                 key={item.title}
                                 spotlightColor={item.color || 'rgba(255, 255, 255, 0.05)'}
-                                className={`group relative flex min-h-[560px] flex-col justify-between border-white/5 bg-black/40 p-8 transition-all duration-500 hover:border-white/20 md:min-h-[620px] xl:min-h-[700px] xl:p-12 ${item.featured ? 'ring-4 ring-primary/30 ring-offset-4 ring-offset-background md:ring-offset-8' : ''}`}
+                                className={`group relative flex min-h-[520px] flex-col justify-between overflow-hidden border-white/5 bg-black/40 p-8 transition-all duration-500 hover:border-white/20 md:min-h-[580px] xl:min-h-[620px] xl:p-12 ${item.featured ? 'ring-4 ring-primary/30 ring-offset-4 ring-offset-background md:ring-offset-8' : ''}`}
                             >
                                 {item.featured && (
-                                    <div className="absolute left-1/2 top-4 z-20 -translate-x-1/2 rounded-full bg-primary px-5 py-2 text-ui text-background shadow-[0_0_20px_rgba(34,211,238,0.5)] md:-top-4 md:px-6">
+                                    <div className="absolute left-1/2 top-5 z-20 -translate-x-1/2 rounded-full bg-primary px-5 py-2 text-ui text-background shadow-[0_0_20px_rgba(34,211,238,0.5)] md:top-6 md:px-6">
                                         Value Leader
                                     </div>
                                 )}
@@ -164,10 +164,13 @@ export function PricingSection() {
                                             </span>
             
                                         </div>
-                                        <h3 className="text-h3 font-black group-hover:text-glow transition-all" style={{ color: item.accent }}>
+                                        <h3
+                                            className="max-w-[9ch] text-[clamp(2.6rem,5vw,4.9rem)] font-black uppercase leading-[0.88] tracking-[-0.06em] transition-all group-hover:text-glow"
+                                            style={{ color: item.accent }}
+                                        >
                                             {item.title}
                                         </h3>
-                                        <p className="pt-2 text-sm leading-7 text-white/55 md:text-base">
+                                        <p className="max-w-[24ch] pt-2 text-sm leading-7 text-white/55 md:text-base">
                                             {item.desc}
                                         </p>
                                     </div>
