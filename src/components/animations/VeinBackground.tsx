@@ -2,7 +2,11 @@
 
 import { useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { rangeNoise } from '@/lib/deterministic'
+
+function rangeNoise(seed: number, min: number, max: number) {
+    const x = Math.sin(seed) * 10000
+    return Math.floor((x - Math.floor(x)) * (max - min) + min)
+}
 
 export function VeinBackground() {
     const tendrils = useMemo(

@@ -1,6 +1,6 @@
 'use client'
 
-import { PhysicalControlPlane } from '@/components/animations/ControlPlane'
+import { ControlPlane } from '@/components/animations/ControlPlane'
 
 export function ProductsSection() {
     return (
@@ -43,7 +43,7 @@ export function ProductsSection() {
 
                         <div className="relative flex min-h-[320px] items-center justify-center lg:h-full lg:w-1/2">
                              <div className="h-[360px] w-full max-w-[560px]">
-                                 <PhysicalControlPlane />
+                                 <ControlPlane />
                              </div>
                         </div>
                     </div>

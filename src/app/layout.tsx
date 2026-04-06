@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono, Alex_Brush } from 'next/font/google';
 
-import './globals.css';
-import { AuthProvider } from '@/lib/auth-context';
+import './global.css';
+
 import { Toaster } from '@/components/ui/sonner';
 import { OrganizationSchema, SoftwareApplicationSchema, WebSiteSchema, ProductSchema, FAQSchema } from '@/components/StructuredData';
 import { GoogleAnalytics } from '@/components/Analytics';
@@ -61,14 +61,12 @@ export default function RootLayout({
 
         <Hyperspeed />
         <GoogleAnalytics />
-        <AuthProvider>
           <Header />
           <main className="flex-1 relative z-10">
             {children}
           </main>
           <Footer />
           <Toaster />
-        </AuthProvider>
       </body>
     </html>
   );

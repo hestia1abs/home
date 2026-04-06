@@ -17,7 +17,7 @@ const flows = devices.map((device, index) => ({
     duration: 3.8 + index * 0.3,
 }))
 
-export function PhysicalControlPlane() {
+export function ControlPlane() {
     return (
         <div className="relative h-full min-h-[320px] w-full overflow-hidden rounded-[32px] border border-white/8 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.12),transparent_45%),linear-gradient(180deg,rgba(9,15,24,0.95),rgba(4,8,15,0.92))]">
             <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.06)_1px,transparent_1px)] bg-[size:72px_72px] opacity-35" />
