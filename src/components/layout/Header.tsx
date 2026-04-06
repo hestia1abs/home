@@ -127,7 +127,7 @@ export function Header() {
                     />
                     <div className="flex flex-col">
                         <span className="text-ui text-foreground font-black tracking-[0.2em] -mb-1">Hestia</span>
-                        <span className="text-[10px] font-black uppercase tracking-[0.35em] bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Embodied Systems Lab</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.35em] bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Labs</span>
                     </div>
                 </Link>
 
