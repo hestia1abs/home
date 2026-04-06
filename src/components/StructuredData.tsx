@@ -5,7 +5,7 @@ export function OrganizationSchema() {
     name: 'Hestia Labs',
     url: 'https://hestialabs.in',
     logo: 'https://hestialabs.in/logo.png',
-    description: 'Building the future of intelligent environments. Custom hardware, software, and AI — designed from scratch for presence, control, and embodied intelligence.',
+    description: 'Hestia Labs is building a sovereign, local-first execution platform that connects AI, software, and hardware through a controlled, auditable control plane.',
     foundingDate: '2026',
     contactPoint: {
       '@type': 'ContactPoint',
@@ -43,7 +43,7 @@ export function SoftwareApplicationSchema() {
     '@type': 'SoftwareApplication',
     name: 'Hestia',
     applicationCategory: 'IntelligentEnvironmentSystem',
-    description: 'An intelligent physical system built from scratch — custom hardware, software, and AI designed for presence, control, and embodied intelligence.',
+    description: 'A local-first execution platform that brings together hardware, protocol, and orchestration for dependable real-world automation.',
     url: 'https://hestialabs.in',
     operatingSystem: 'Embedded Linux, ARM-based',
     offers: {
@@ -73,7 +73,7 @@ export function WebSiteSchema() {
     '@type': 'WebSite',
     url: 'https://hestialabs.in',
     name: 'Hestia Labs',
-    description: 'The future of intelligent infrastructure. Built from scratch. Hardware, software, and AI — for presence, control, and something that feels alive.',
+    description: 'A sovereign, local-first platform for real-world execution across homes, spaces, and connected hardware.',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
@@ -97,7 +97,7 @@ export function ProductSchema() {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: 'HX47',
-    description: 'Full AI execution on a custom PCB. Voice processing, environmental sensing, device orchestration — all in a unit smaller than your palm.',
+    description: 'Helix hardware is the local execution surface for HxTP, designed to keep control close to the environment where it acts.',
     brand: {
       '@type': 'Organization',
       name: 'Hestia Labs',
@@ -129,7 +129,7 @@ export function FAQSchema() {
         name: 'What is the HX47?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'The HX47 is a custom-designed hardware unit that runs AI execution locally. It features an ESP32-S3 SoC, multi-sensor array, voice + NLP pipeline, and encrypted hardware communications with sub-50ms response time.',
+          text: 'The HX47 is a local execution node for Hestia. It runs policy-bound automation, coordinates devices through HxTP, and keeps core control pathways available on the local network.',
         },
       },
       {
@@ -137,7 +137,7 @@ export function FAQSchema() {
         name: 'Who are Kara and Mark?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Kara and Mark are cloud intelligences designed to interact with the physical world. Kara is strategic — she optimizes, predicts, and maintains. Mark is explorative — he navigates, learns, and discovers.',
+          text: 'Kara and Mark represent orchestration and interface layers around the Hestia system. They help translate user intent into HxTP-managed execution paths.',
         },
       },
       {

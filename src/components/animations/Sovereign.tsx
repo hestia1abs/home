@@ -4,6 +4,14 @@ import { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { Points, PointMaterial, Line, Float } from '@react-three/drei'
 import * as THREE from 'three'
+import { rangeNoise, intNoise } from '@/lib/deterministic'
+
+type NodeData = {
+    velocity: THREE.Vector3
+    originalPos: THREE.Vector3
+}
+
+type ConnectionPair = [number, number]
 
 function NodeGraph() {
     const pointsRef = useRef<THREE.Points>(null)
@@ -13,19 +21,19 @@ function NodeGraph() {
     const nodeCount = 40
     const nodes = useMemo(() => {
         const positions = new Float32Array(nodeCount * 3)
-        const nodeData = []
+        const nodeData: NodeData[] = []
         for (let i = 0; i < nodeCount; i++) {
-            const x = (Math.random() - 0.5) * 10
-            const y = (Math.random() - 0.5) * 10
-            const z = (Math.random() - 0.5) * 5
+            const x = rangeNoise(i * 10 + 1, -5, 5)
+            const y = rangeNoise(i * 10 + 2, -5, 5)
+            const z = rangeNoise(i * 10 + 3, -2.5, 2.5)
             positions[i * 3] = x
             positions[i * 3 + 1] = y
             positions[i * 3 + 2] = z
             nodeData.push({
                 velocity: new THREE.Vector3(
-                    (Math.random() - 0.5) * 0.01,
-                    (Math.random() - 0.5) * 0.01,
-                    (Math.random() - 0.5) * 0.01
+                    rangeNoise(i * 10 + 4, -0.005, 0.005),
+                    rangeNoise(i * 10 + 5, -0.005, 0.005),
+                    rangeNoise(i * 10 + 6, -0.005, 0.005)
                 ),
                 originalPos: new THREE.Vector3(x, y, z)
             })
@@ -33,7 +41,7 @@ function NodeGraph() {
         return { positions, nodeData }
     }, [])
 
-    useFrame((state, delta) => {
+    useFrame(() => {
         if (!pointsRef.current || !lineGroupRef.current) return
         
         const positions = pointsRef.current.geometry.attributes.position.array as Float32Array
@@ -62,12 +70,12 @@ function NodeGraph() {
 
     // Pre-calculate some connections
     const connections = useMemo(() => {
-        const lines = []
+        const lines: ConnectionPair[] = []
         for (let i = 0; i < nodeCount; i++) {
             // Each node connects to 1-2 neighbors
             const neighbors = 2
             for (let j = 0; j < neighbors; j++) {
-                const targetIdx = Math.floor(Math.random() * nodeCount)
+                const targetIdx = intNoise(i * 10 + j + 100, 0, nodeCount)
                 if (targetIdx !== i) {
                     lines.push([i, targetIdx])
                 }
@@ -103,18 +111,8 @@ function NodeGraph() {
 }
 
 function Connection({ startPos, endPos }: { startPos: [number, number, number], endPos: [number, number, number] }) {
-    const lineRef = useRef<any>(null)
-    
-    useFrame((state) => {
-        if (lineRef.current) {
-            // Pulse opacity
-            lineRef.current.material.opacity = 0.1 + Math.sin(state.clock.elapsedTime * 2 + Math.random()) * 0.1
-        }
-    })
-
     return (
         <Line
-            ref={lineRef}
             points={[new THREE.Vector3(...startPos), new THREE.Vector3(...endPos)]}
             color="#22d3ee"
             lineWidth={0.5}

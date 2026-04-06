@@ -229,7 +229,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
             inner.setAttribute('data-final-y', String(finalY));
           }
 
-          if (colorFrom) (inner.style as any).color = colorFrom;
+          if (colorFrom) inner.style.color = colorFrom;
           wrappersRef.current.push(wrap);
         });
       };
@@ -292,7 +292,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
         });
 
         const addTween = (targets: HTMLElement[], at: number) => {
-          const vars: any = {
+          const vars: gsap.TweenVars = {
             duration,
             ease,
             force3D: true,
@@ -319,7 +319,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
         } else {
           strips.forEach(strip => {
             const d = Math.random() * maxDelay;
-            const vars: any = {
+            const vars: gsap.TweenVars = {
               duration,
               ease,
               force3D: true
@@ -419,9 +419,19 @@ const Shuffle: React.FC<ShuffleProps> = ({
     () => `${baseTw} ${ready ? 'visible' : 'invisible'} ${className}`.trim(),
     [baseTw, ready, className]
   );
-  const Tag = (tag || 'p') as keyof JSX.IntrinsicElements;
+  const setElementRef: React.RefCallback<HTMLElement> = element => {
+    ref.current = element;
+  };
 
-  return React.createElement(Tag, { ref: ref as any, className: classes, style: commonStyle }, text);
+  if (tag === 'h1') return <h1 ref={setElementRef} className={classes} style={commonStyle}>{text}</h1>;
+  if (tag === 'h2') return <h2 ref={setElementRef} className={classes} style={commonStyle}>{text}</h2>;
+  if (tag === 'h3') return <h3 ref={setElementRef} className={classes} style={commonStyle}>{text}</h3>;
+  if (tag === 'h4') return <h4 ref={setElementRef} className={classes} style={commonStyle}>{text}</h4>;
+  if (tag === 'h5') return <h5 ref={setElementRef} className={classes} style={commonStyle}>{text}</h5>;
+  if (tag === 'h6') return <h6 ref={setElementRef} className={classes} style={commonStyle}>{text}</h6>;
+  if (tag === 'span') return <span ref={setElementRef} className={classes} style={commonStyle}>{text}</span>;
+
+  return <p ref={setElementRef} className={classes} style={commonStyle}>{text}</p>;
 };
 
 export default Shuffle;

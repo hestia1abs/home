@@ -7,7 +7,7 @@ import ASCIIText from '@/components/animations/ASCIIText'
 
 export function HeroSection() {
     return (
-        <section id="hero" className="relative h-screen min-h-[900px] overflow-hidden flex flex-col items-center justify-center">
+        <section id="hero" className="relative flex min-h-[780px] md:min-h-[900px] overflow-hidden flex-col items-center justify-center pt-28 md:pt-24">
             {/* The beautiful background from layout.tsx is completely visible beneath this section */}
             
             <div className="relative z-10 w-full max-w-[1800px] px-6 flex flex-col items-center text-center pointer-events-none">
@@ -15,11 +15,11 @@ export function HeroSection() {
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1.2, ease: "circOut" }}
-                    className="flex items-center gap-6 mb-12"
+                    className="mb-8 flex flex-wrap items-center justify-center gap-4 md:mb-12 md:gap-6"
                 >
                     <div className="w-12 h-px bg-[#ff003c]" />
                     <span className="text-ui text-[#ff003c] tracking-[0.8em]">
-                        <DecryptedText text="> SYS.HXTP.OVERRIDE_ACTIVE" speed={50} />
+                        <DecryptedText text="> HXTP.LOCAL_EXECUTION_LAYER" speed={50} />
                     </span>
                 </motion.div>
 
@@ -27,18 +27,18 @@ export function HeroSection() {
                     initial={{ opacity: 0, y: 60 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1.5, delay: 0.1, ease: "circOut" }}
-                    className="mb-4"
+                    className="mb-3 md:mb-4"
                 >
-                    <h1 className="text-h1 mb-6 text-glow leading-tight">
+                    <h1 className="text-h1 mb-4 text-glow leading-none md:mb-6">
                         Sovereign
                     </h1>
                 </motion.div>
                 
-                <div className="relative h-[120px] md:h-[180px] lg:h-[220px] w-full flex justify-center items-center">
+                <div className="relative flex h-[88px] w-full items-center justify-center sm:h-[110px] md:h-[150px] lg:h-[190px] xl:h-[220px]">
                      <ASCIIText 
                         text="Intelligence"
-                        asciiFontSize={8}
-                        textFontSize={200}
+                        asciiFontSize={6}
+                        textFontSize={130}
                         textColor="#22d3ee"
                         enableWaves={true}
                      />
@@ -48,36 +48,39 @@ export function HeroSection() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 2, delay: 0.8, ease: "circOut" }}
-                    className="mt-12"
+                    className="mt-8 md:mt-12"
                 >
                     <Shuffle 
-                        text="SUBJUGATED BY DETERMINISTIC LOCAL EXECUTION." 
-                        className="text-h3 text-white/50 mt-6 max-w-4xl text-center leading-relaxed"
+                        text="Deterministic local execution for the physical world." 
+                        className="text-h3 mt-4 max-w-5xl text-center leading-relaxed text-white/70 md:mt-6"
                         shuffleDirection="up"
                         duration={0.8}
                         stagger={0.05}
                     />
+                    <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-white/55 md:text-lg">
+                        Hestia combines private infrastructure, dependable orchestration, and edge-native intelligence into a system designed to act with precision across homes, devices, and spaces.
+                    </p>
                 </motion.div>
             </div>
 
             {/* Tech Stack Marquee Footer */}
-            <div className="absolute bottom-0 left-0 w-full z-20 py-16 bg-gradient-to-t from-background via-background/80 to-transparent backdrop-blur-[4px] border-t-2 border-white/5 pointer-events-auto">
-                <div className="max-w-[1800px] mx-auto px-6 flex flex-wrap justify-between items-center gap-12 opacity-60 hover:opacity-100 transition-opacity duration-700">
+            <div className="absolute bottom-0 left-0 z-20 w-full border-t-2 border-white/5 bg-gradient-to-t from-background via-background/80 to-transparent py-10 backdrop-blur-[4px] pointer-events-auto md:py-16">
+                <div className="mx-auto flex max-w-[1800px] flex-wrap items-center justify-between gap-8 px-6 opacity-60 transition-opacity duration-700 hover:opacity-100 md:gap-12">
                    <div className="flex flex-col items-start group cursor-pointer">
-                       <span className="text-ui text-[#ff003c] mb-3 group-hover:text-red-300 transition-colors tracking-[0.4em]">SYS.STAT</span>
-                       <span className="text-2xl font-mono font-black tracking-tighter uppercase">INFECTED \\ OK</span>
+                       <span className="text-ui text-[#ff003c] mb-3 group-hover:text-red-300 transition-colors tracking-[0.4em]">Deployment</span>
+                       <span className="text-lg font-mono font-black tracking-tight uppercase md:text-2xl">LOCAL-FIRST RUNTIME</span>
                    </div>
                    <div className="flex flex-col items-start group cursor-pointer">
-                       <span className="text-ui text-[#0ff] mb-3 group-hover:text-cyan-300 transition-colors tracking-[0.4em]">CONTROL</span>
-                       <span className="text-2xl font-mono font-black tracking-tighter uppercase">ABSOLUTE OVERRIDE</span>
+                       <span className="text-ui text-[#0ff] mb-3 group-hover:text-cyan-300 transition-colors tracking-[0.4em]">Latency</span>
+                       <span className="text-lg font-mono font-black tracking-tight uppercase md:text-2xl">EDGE RESPONSE</span>
                    </div>
                    <div className="flex flex-col items-start group cursor-pointer">
-                       <span className="text-ui text-[#f0f] mb-3 group-hover:text-fuchsia-300 transition-colors tracking-[0.4em]">ROOT</span>
-                       <span className="text-2xl font-mono font-black tracking-tighter uppercase">KARA_M_SYNC</span>
+                       <span className="text-ui text-[#f0f] mb-3 group-hover:text-fuchsia-300 transition-colors tracking-[0.4em]">Coordination</span>
+                       <span className="text-lg font-mono font-black tracking-tight uppercase md:text-2xl">REAL-TIME SYNC</span>
                    </div>
                    <div className="flex flex-col items-start group cursor-pointer">
-                       <span className="text-ui text-[#ff003c] mb-3 group-hover:text-red-300 transition-colors tracking-[0.4em]">SECURITY</span>
-                       <span className="text-2xl font-mono font-black tracking-tighter text-[#ff003c] drop-shadow-[0_0_20px_rgba(255,0,60,0.6)] uppercase">TAMPER_DETECTED</span>
+                       <span className="text-ui text-[#ff003c] mb-3 group-hover:text-red-300 transition-colors tracking-[0.4em]">Security</span>
+                       <span className="text-lg font-mono font-black tracking-tight uppercase text-[#ff003c] drop-shadow-[0_0_20px_rgba(255,0,60,0.35)] md:text-2xl">SIGNED COMMAND PATH</span>
                    </div>
                 </div>
             </div>

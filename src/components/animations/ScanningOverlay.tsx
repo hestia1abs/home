@@ -1,8 +1,22 @@
 'use client'
 
+import { useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { hexString, intNoise, rangeNoise } from '@/lib/deterministic'
 
 export function ScanningOverlay() {
+    const strips = useMemo(
+        () =>
+            Array.from({ length: 5 }, (_, index) => ({
+                id: `strip-${index}`,
+                x: `${rangeNoise(index * 8 + 1, 5, 90)}%`,
+                duration: rangeNoise(index * 8 + 2, 10, 20),
+                delay: index * 2,
+                label: `${hexString(index * 8 + 3, 6)} | IP 192.168.1.${intNoise(index * 8 + 4, 10, 240)}`
+            })),
+        []
+    )
+
     return (
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-40">
             {/* Moving Scanning Line */}
@@ -13,22 +27,22 @@ export function ScanningOverlay() {
             />
 
             {/* Random Floating Data Strips */}
-            {[...Array(5)].map((_, i) => (
+            {strips.map((strip) => (
                 <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: Math.random() * 100 + '%' }}
+                    key={strip.id}
+                    initial={{ opacity: 0, x: strip.x }}
                     animate={{ 
                         opacity: [0, 0.5, 0],
                         y: ['0vh', '100vh']
                     }}
                     transition={{ 
-                        duration: 10 + Math.random() * 10, 
+                        duration: strip.duration, 
                         repeat: Infinity, 
-                        delay: i * 2 
+                        delay: strip.delay
                     }}
                     className="absolute top-0 text-[10px] font-mono text-cyan-500/40 whitespace-nowrap"
                 >
-                    {Math.random().toString(16).toUpperCase()} // IP: 192.168.1.{Math.floor(Math.random() * 255)}
+                    {strip.label}
                 </motion.div>
             ))}
 

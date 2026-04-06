@@ -75,7 +75,6 @@ html {
 @layer base {
   * {
     @apply border-border;
-    cursor: crosshair; /* Tech vibe */
   }
   
   html {
@@ -87,7 +86,7 @@ html {
     @apply text-foreground antialiased selection:bg-primary selection:text-primary-foreground font-sans;
     background: transparent;
     overflow-x: hidden;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.005em;
   }
 
   /* ── 2027 High-Tech Overlays ────────────────────── */
@@ -102,8 +101,8 @@ html {
     background: 
       linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,0.1) 50%),
       linear-gradient(90deg, rgba(255,0,0,0.03), rgba(0,255,0,0.01), rgba(0,0,255,0.03));
-    background-size: 100% 3px, 3px 100%;
-    opacity: 0.4;
+    background-size: 100% 4px, 3px 100%;
+    opacity: 0.14;
   }
 
   body::after {
@@ -115,7 +114,7 @@ html {
     pointer-events: none;
     z-index: 9998;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    opacity: 0.04;
+    opacity: 0.018;
   }
 
   /* Custom Scrollbar */
@@ -153,7 +152,7 @@ html {
 
   /* ── Premium Glassmorphism ──────────────────────── */
   .glass-panel {
-    @apply bg-card/40 backdrop-blur-xl border border-white/[0.05] shadow-2xl;
+    @apply bg-card/55 backdrop-blur-md border border-white/[0.08] shadow-[0_20px_80px_rgba(0,0,0,0.35)];
   }
 
   /* ── Bento Grid ─────────────────────────────────── */
@@ -165,25 +164,25 @@ html {
 
   /* ── Typography (Upgraded for 1900p / 2450p) ────────────────────────── */
   .text-h1 {
-    @apply text-6xl md:text-8xl lg:text-9xl 3xl:text-[10rem] 4xl:text-[12rem] font-mono font-black tracking-[0.1em] leading-tight uppercase;
+    @apply text-5xl md:text-7xl lg:text-8xl xl:text-9xl 3xl:text-[10rem] 4xl:text-[12rem] font-mono font-black tracking-[0.08em] md:tracking-[0.1em] leading-[0.92] uppercase;
     color: #ff003c;
-    text-shadow: 2px 0 0 #0ff, -2px 0 0 #f0f;
+    text-shadow: 1px 0 0 rgba(0, 255, 255, 0.65), -1px 0 0 rgba(240, 0, 240, 0.4);
   }
   .text-h2 {
-    @apply text-4xl md:text-6xl lg:text-7xl 3xl:text-8xl 4xl:text-9xl font-mono font-black tracking-widest leading-tight uppercase;
+    @apply text-3xl md:text-5xl lg:text-6xl xl:text-7xl 3xl:text-8xl 4xl:text-9xl font-mono font-black tracking-[0.08em] md:tracking-widest leading-[0.95] uppercase;
     color: #fff;
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.22);
   }
   .text-h3 {
-    @apply text-2xl md:text-4xl lg:text-5xl 3xl:text-6xl 4xl:text-7xl font-mono font-black tracking-tighter uppercase;
+    @apply text-xl md:text-3xl lg:text-4xl xl:text-5xl 3xl:text-6xl 4xl:text-7xl font-mono font-black tracking-tight uppercase;
   }
 
   .text-body {
-    @apply text-lg md:text-xl lg:text-2xl 3xl:text-3xl leading-relaxed;
+    @apply text-base md:text-lg lg:text-xl 3xl:text-3xl leading-relaxed;
   }
 
   .text-ui {
-    @apply text-xs md:text-sm lg:text-base 3xl:text-lg font-mono font-black uppercase tracking-widest;
+    @apply text-[10px] md:text-xs lg:text-sm 3xl:text-lg font-mono font-black uppercase tracking-[0.2em] md:tracking-widest;
   }
 
   .text-script {
@@ -205,13 +204,13 @@ html {
 
 .ctos-grid {
   background-image: 
-    linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 .hacking-glitch {
-  animation: hackingGlitch 0.5s steps(2) infinite;
+  animation: hackingGlitch 1.2s steps(2) infinite;
 }
 
 @keyframes hackingGlitch {

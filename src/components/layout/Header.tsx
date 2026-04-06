@@ -8,10 +8,11 @@ import { useAuth } from '@/lib/auth-context'
 import { MagneticLink } from '@/components/layout/MagneticLink'
 
 const navItems = [
+    { name: 'Overview', href: '#vision' },
     { name: 'Architecture', href: '#platform' },
-    { name: 'Protocol', href: '#technology' },
-    { name: 'Hardware', href: '#entities' },
+    { name: 'Intelligence', href: '#entities' },
     { name: 'Security', href: '#security' },
+    { name: 'Pricing', href: '#pricing' },
 ]
 
 
@@ -109,7 +110,7 @@ export function Header() {
                 ? "border-b border-border bg-background/95 backdrop-blur-xl"
                 : "border-b border-transparent bg-transparent"
         )}>
-            <nav className="mx-auto flex max-w-[1800px] items-center justify-between px-6 py-6 w-full">
+            <nav className="mx-auto flex w-full max-w-[1800px] items-center justify-between px-6 py-4 md:py-5">
                 <Link
                     href="/"
                     className="flex items-center gap-4 flex-shrink-0 group"
@@ -120,12 +121,12 @@ export function Header() {
                         alt="Hestia Labs"
                         width={160}
                         height={160}
-                        className="h-12 w-auto object-contain brightness-110 group-hover:scale-110 transition-transform duration-500"
+                        className="h-10 w-auto object-contain brightness-110 transition-transform duration-500 group-hover:scale-105 md:h-12"
                         priority
                     />
                     <div className="flex flex-col">
                         <span className="text-ui text-foreground font-black tracking-[0.2em] -mb-1">Hestia</span>
-                        <span className="text-[10px] font-black uppercase tracking-[0.4em] bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Research Division</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.35em] bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Embodied Systems Lab</span>
                     </div>
                 </Link>
 
@@ -163,8 +164,8 @@ export function Header() {
                             </Link>
                         ) : (
                             <Link href="https://auth.hestialabs.in/signin">
-                                <button className="px-8 py-3 bg-white text-black text-ui font-black rounded-full hover:scale-105 active:scale-95 transition-all">
-                                    INITIALIZE
+                                <button className="rounded-full bg-white px-6 py-3 text-ui font-black text-black transition-all hover:scale-105 active:scale-95">
+                                    Sign In
                                 </button>
                             </Link>
                         )}
@@ -172,7 +173,7 @@ export function Header() {
 
                     {/* Mobile Menu Button */}
                     <button
-                        className="flex h-10 w-10 items-center justify-center md:hidden flex-shrink-0"
+                        className="flex h-10 w-10 flex-shrink-0 items-center justify-center lg:hidden"
                         onClick={() => setIsOpen(!isOpen)}
                         aria-label="Toggle menu"
                         aria-expanded={isOpen}
@@ -198,7 +199,7 @@ export function Header() {
             {/* Mobile Drawer */}
             <div
                 className={cn(
-                    "fixed inset-0 top-[73px] z-50 w-screen max-w-full transition-all duration-500 ease-in-out md:hidden",
+                    "fixed inset-0 top-[73px] z-50 w-screen max-w-full transition-all duration-500 ease-in-out lg:hidden",
                     isOpen
                         ? "translate-x-0 opacity-100 pointer-events-auto"
                         : "translate-x-full opacity-0 pointer-events-none"
@@ -228,7 +229,7 @@ export function Header() {
                     <div className="mt-auto flex flex-col gap-6 pb-12 space-y-4">
                         <a
                             href="mailto:contact@hestialabs.in"
-                            className="flex h-14 items-center justify-center border border-foreground text-sm uppercase tracking-widest font-bold rounded-none hover:bg-foreground hover:text-background transition-all duration-300"
+                            className="flex h-14 items-center justify-center rounded-2xl border border-foreground text-sm font-bold uppercase tracking-widest transition-all duration-300 hover:bg-foreground hover:text-background"
                             onClick={() => setIsOpen(false)}
                         >
                             Contact Us
@@ -238,7 +239,7 @@ export function Header() {
                         ) : user ? (
                             <Link
                                 href="https://cloud.hestialabs.in/dashboard"
-                                className="flex h-14 items-center justify-center bg-foreground text-background rounded-none cursor-pointer hover:shadow-lg transition-all duration-300 text-sm font-bold uppercase tracking-widest"
+                                className="flex h-14 cursor-pointer items-center justify-center rounded-2xl bg-foreground text-sm font-bold uppercase tracking-widest text-background transition-all duration-300 hover:shadow-lg"
                                 onClick={() => setIsOpen(false)}
                             >
                                 Dashboard
@@ -249,7 +250,7 @@ export function Header() {
                                 className="flex h-14 items-center justify-center bg-foreground text-background rounded-none cursor-pointer hover:shadow-lg transition-all duration-300 text-sm font-bold uppercase tracking-widest"
                                 onClick={() => setIsOpen(false)}
                             >
-                                Login
+                                Sign In
                             </Link>
                         )}
                     </div>

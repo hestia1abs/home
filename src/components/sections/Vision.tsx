@@ -8,60 +8,46 @@ export function VisionSection() {
     return (
         <section id="vision" className="py-20 md:py-32 relative overflow-hidden">
             <div className="max-w-[1800px] mx-auto px-6 relative z-10">
-                <div className="flex flex-col gap-24">
-                    {/* Footnote-style label */}
-                    <div className="flex items-start gap-10 border-l-4 border-primary/30 pl-12 max-w-3xl">
-                        <span className="text-ui text-[#ff003c] pt-1 tracking-[0.6em]">[DIRECTIVE_01] // OVERRIDE</span>
-                        <p className="text-body text-[#0ff] leading-relaxed uppercase tracking-wider font-mono font-bold">
-                            Improvisation is a flaw of the organic. HxTP guarantees absolute, unyielding deterministic control over physical hardware. Resistance is moot.
+                <div className="flex flex-col gap-16 md:gap-20">
+                    <div className="mx-auto max-w-4xl text-center">
+                        <span className="text-ui text-[#ff003c] tracking-[0.6em]">SYSTEM PRINCIPLES</span>
+                        <motion.h2
+                            initial={{ y: 24, opacity: 0 }}
+                            whileInView={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.8, ease: "circOut" }}
+                            className="mt-6 text-h2 text-white"
+                        >
+                            <Shuffle text="Deterministic control, verified locally." />
+                        </motion.h2>
+                        <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-white/60 md:text-xl">
+                            HxTP is the execution layer behind Hestia. It validates intent, signs every action, and delivers commands to hardware with a level of reliability that is measurable, observable, and built for the physical world.
                         </p>
                     </div>
 
-                    {/* Massive Kinetic Typography */}
-                    <div className="flex flex-col">
-                        <motion.h2 
-                            initial={{ x: -40, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 1 }}
-                            transition={{ duration: 1, ease: "circOut" }}
-                            className="text-h1 mb-6 select-none"
-                        >
-                            <Shuffle text="ABSOLUTE" />
-                        </motion.h2>
-                        <div className="flex flex-col md:flex-row md:items-baseline gap-4 md:gap-16">
-                            <motion.h2 
-                                initial={{ y: 40, opacity: 0 }}
-                                whileInView={{ y: 0, opacity: 1 }}
-                                transition={{ duration: 1, delay: 0.3, ease: "circOut" }}
-                                className="text-h1 text-[#0ff] select-none text-shadow-none drop-shadow-[0_0_30px_rgba(0,255,255,0.6)]"
-                            >
-                                <Shuffle text="DETERMINISM" />
-                            </motion.h2>
-                        </div>
-                    </div>
-
-                    {/* Explanatory blocks in bento-like modules */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mt-16">
-                        <div className="lg:col-span-4 space-y-10">
-                            <h3 className="text-h3 text-[#ff003c]">EXECUTION MANIFEST LOCATED</h3>
-                            <p className="text-body text-[#0ff] leading-relaxed font-mono font-bold">
-                                HxTP is not structural code; it is the absolute override. It guarantees every organic intent is <span className="text-white font-black bg-[#ff003c] px-2 py-0.5">sanitized, validated, and forcefully delivered</span> to the physical plane.
+                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+                        <div className="glass-panel rounded-[36px] border-[#ff003c]/10 bg-black/40 p-8 md:p-10 lg:col-span-5">
+                            <span className="text-ui text-[#ff003c]">Execution Layer</span>
+                            <h3 className="mt-5 text-h3 whitespace-nowrap text-[#ff003c]">Execution Manifest Located</h3>
+                            <p className="mt-6 max-w-2xl text-base leading-8 text-white/70 md:text-lg">
+                                HxTP is not generic automation glue. It is a signed control plane that ensures every instruction is authenticated, validated, and delivered with predictable system behavior.
                             </p>
+                            <div className="mt-8 inline-flex rounded-full border border-[#ff003c]/20 bg-[#ff003c]/8 px-4 py-2 text-ui text-white/70">
+                                Signed commands. Local verification. Hardware-safe execution.
+                            </div>
                         </div>
-                        <div className="lg:col-span-8 flex flex-col justify-end">
-                            <div className="h-px w-full bg-[#f0f]/30 mb-16" />
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                                <div className="space-y-6">
-                                    <span className="text-ui text-[#f0f] tracking-widest">SYS.FAULT.01</span>
-                                    <p className="text-body text-white uppercase border-l-4 border-[#f0f] pl-10">
-                                        ORGANIC SYSTEMS PERMIT ERROR. HXTP DESTROYS IT. EVERY COMMAND IS NOW A VERIFIABLE, HIGH-FIDELITY EXPERIENCE.
-                                    </p>
-                                </div>
-                                <div className="space-y-6">
-                                    <span className="text-ui text-[#0ff] tracking-widest">SYS.FAULT.02</span>
-                                    <p className="text-body text-white uppercase border-l-4 border-[#0ff] pl-10">
-                                        INTELLIGENCE UNIFIED UNDER A SINGLE INFECTION PROTOCOL. THE UMBRELLA IS NOW IN TOTAL CONTROL.
-                                    </p>
-                                </div>
+
+                        <div className="lg:col-span-7 grid grid-cols-1 gap-6 md:grid-cols-2">
+                            <div className="glass-panel rounded-[32px] border-[#f0f]/10 bg-black/35 p-8">
+                                <span className="text-ui text-[#f0f]">Reliability</span>
+                                <p className="mt-5 text-base leading-8 text-white/70 md:text-lg">
+                                    Organic systems permit drift and ambiguity. Hestia reduces that risk with deterministic execution paths, explicit validation, and a clear audit trail.
+                                </p>
+                            </div>
+                            <div className="glass-panel rounded-[32px] border-[#0ff]/10 bg-black/35 p-8">
+                                <span className="text-ui text-[#0ff]">Coordination</span>
+                                <p className="mt-5 text-base leading-8 text-white/70 md:text-lg">
+                                    Intelligence, orchestration, and device control operate through a unified protocol, so the system behaves consistently across spaces, devices, and moments.
+                                </p>
                             </div>
                         </div>
                     </div>

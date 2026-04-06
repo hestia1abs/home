@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react'
 import { interpolate, useCurrentFrame, useVideoConfig } from 'remotion'
+import { hexString, rangeNoise } from '@/lib/deterministic'
 
 export const HudScanner = () => {
     const frame = useCurrentFrame()
@@ -9,8 +10,12 @@ export const HudScanner = () => {
     
     // Procedural data generation for the HUD readouts
     const hexCodes = useMemo(() => 
-        Array.from({ length: 20 }, () => Math.random().toString(16).slice(2, 6).toUpperCase())
+        Array.from({ length: 20 }, (_, index) => hexString(index * 13 + 5, 4))
     , [])
+    const meterHeights = useMemo(
+        () => Array.from({ length: 4 }, (_, index) => rangeNoise(index * 17 + 2, 5, 25)),
+        []
+    )
 
     // Rotating elements
     const rotation = interpolate(frame, [0, 300], [0, 360])
@@ -106,8 +111,8 @@ export const HudScanner = () => {
                 <div className="text-[10px] font-mono text-accent uppercase">Latency: 0.04ms</div>
                 <div className="text-[12px] font-mono text-white font-bold uppercase">Entanglement_Live</div>
                 <div className="flex gap-1 justify-end pt-2">
-                    {[1,2,3,4].map(i => (
-                        <div key={i} className="w-1 h-4 bg-accent/40" style={{ height: Math.random() * 20 + 5 }} />
+                    {meterHeights.map((height, index) => (
+                        <div key={index} className="w-1 h-4 bg-accent/40" style={{ height }} />
                     ))}
                 </div>
             </div>

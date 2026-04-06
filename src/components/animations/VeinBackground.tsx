@@ -1,8 +1,21 @@
 'use client'
 
+import { useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { rangeNoise } from '@/lib/deterministic'
 
 export function VeinBackground() {
+    const tendrils = useMemo(
+        () =>
+            Array.from({ length: 8 }, (_, index) => ({
+                id: `tendril-${index}`,
+                d: `M${200 + index * 100} ${rangeNoise(index * 10 + 1, 300, 700)}Q${rangeNoise(index * 10 + 2, 400, 600)} 500 ${rangeNoise(index * 10 + 3, 500, 600)} ${rangeNoise(index * 10 + 4, 500, 600)}`,
+                duration: rangeNoise(index * 10 + 5, 5, 10),
+                delay: index * 0.5
+            })),
+        []
+    )
+
     return (
         <div className="absolute inset-0 z-0 pointer-events-none opacity-20 overflow-hidden">
             <svg className="w-full h-full" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -27,19 +40,19 @@ export function VeinBackground() {
                 />
                 
                 {/* Branching Tendrils */}
-                {[...Array(8)].map((_, i) => (
+                {tendrils.map((tendril) => (
                     <motion.path
-                        key={i}
-                        d={`M${200 + i * 100} ${300 + Math.random() * 400}Q${400 + Math.random() * 200} ${500} ${500 + Math.random() * 100} ${500 + Math.random() * 100}`}
+                        key={tendril.id}
+                        d={tendril.d}
                         stroke="#ff003c"
                         strokeWidth="1"
                         initial={{ pathLength: 0, opacity: 0 }}
                         animate={{ pathLength: 1, opacity: [0, 0.2, 0] }}
                         transition={{ 
-                            duration: 5 + Math.random() * 5, 
+                            duration: tendril.duration, 
                             repeat: Infinity, 
                             ease: "easeInOut", 
-                            delay: i * 0.5 
+                            delay: tendril.delay
                         }}
                     />
                 ))}

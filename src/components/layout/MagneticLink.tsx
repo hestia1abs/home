@@ -64,6 +64,7 @@ export function MagneticLink({ children, href, onClick, active, className }: Mag
     return (
         <div 
             ref={triggerRef}
+            data-href={href}
             className={cn(
                 "relative py-2 px-4 cursor-pointer group transition-colors duration-300",
                 active ? "text-foreground" : "text-muted-foreground hover:text-foreground",

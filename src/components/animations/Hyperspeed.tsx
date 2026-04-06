@@ -4,20 +4,21 @@ import { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import {  Stars, PerspectiveCamera } from '@react-three/drei'
 import * as THREE from 'three'
+import { rangeNoise } from '@/lib/deterministic'
 
 function WarpField() {
   const groupRef = useRef<THREE.Group>(null)
   const count = 200
   const lines = useMemo(() => {
-    return new Array(count).fill(0).map(() => ({
+    return new Array(count).fill(0).map((_, index) => ({
       pos: new THREE.Vector3(
-        (Math.random() - 0.5) * 50,
-        (Math.random() - 0.5) * 50,
-        (Math.random() - 0.5) * 100
+        rangeNoise(index * 10 + 1, -25, 25),
+        rangeNoise(index * 10 + 2, -25, 25),
+        rangeNoise(index * 10 + 3, -50, 50)
       ),
-      speed: 0.5 + Math.random() * 2,
-      length: 5 + Math.random() * 15,
-      color: new THREE.Color().setHSL(0.5 + Math.random() * 0.1, 1, 0.5)
+      speed: rangeNoise(index * 10 + 4, 0.5, 2.5),
+      length: rangeNoise(index * 10 + 5, 5, 20),
+      color: new THREE.Color().setHSL(rangeNoise(index * 10 + 6, 0.5, 0.6), 1, 0.5)
     }))
   }, [])
 
@@ -56,8 +57,8 @@ export function Hyperspeed() {
       </Canvas>
       {/* Cinematic Overlays */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,#020204_100%)]" />
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03] grayscale bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
+      <div className="absolute inset-0 pointer-events-none opacity-[0.02]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.15)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_2px,3px_100%]" />
     </div>
   )
 }

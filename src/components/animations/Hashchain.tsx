@@ -2,6 +2,7 @@
 
 import  { useMemo } from 'react'
 import { useCurrentFrame, useVideoConfig, interpolate } from 'remotion'
+import { hexString, unitNoise } from '@/lib/deterministic'
 
 export const Hashchain = () => {
     const frame = useCurrentFrame()
@@ -9,10 +10,10 @@ export const Hashchain = () => {
     
     // Generate static-ish blocks of hashes that will scroll
     const hashes = useMemo(() => 
-        Array.from({ length: 50 }, () => ({
-            id: Math.random(),
-            content: Array.from({ length: 8 }, () => Math.random().toString(16).slice(2, 6)).join(':'),
-            status: Math.random() > 0.8 ? 'VERIFIED' : 'SYNCING'
+        Array.from({ length: 50 }, (_, index) => ({
+            id: `hash-${index}`,
+            content: Array.from({ length: 8 }, (_, blockIndex) => hexString(index * 100 + blockIndex * 11, 4)).join(':'),
+            status: unitNoise(index + 10) > 0.8 ? 'VERIFIED' : 'SYNCING'
         }))
     , [])
 
