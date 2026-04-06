@@ -167,16 +167,6 @@ export function PricingSection() {
                     ))}
                 </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    viewport={{ once: true }}
-                    className="mt-32 text-center"
-                >
-                    <div className="mx-auto h-1 w-24 bg-gradient-to-r from-transparent via-primary to-transparent mb-12" />
-                    <p className="text-ui text-white/20 tracking-[1em] uppercase font-black">Building In Public</p>
-                </motion.div>
             </div>
         </section>
     )

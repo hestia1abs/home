@@ -21,9 +21,7 @@ export function PlatformSection() {
                 <div className="relative z-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:gap-8">
                     {/* HxTP Protocol Block */}
                     <SpotlightCard className="flex min-h-[460px] flex-col justify-between space-y-6 bg-black/40 p-10 transition-all duration-500 group h-full border-white/5 hover:border-primary/30 xl:p-12 overflow-hidden rounded-[2.5rem]">
-                        <div className="h-16 w-16 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/20 text-primary group-hover:scale-105 transition-transform">
-                            <span className="font-mono text-sm font-black tracking-widest uppercase">HxTP</span>
-                        </div>
+        
                         <div className="space-y-6">
                             <h3 className="text-h3 text-white tracking-tighter">Signed Control Layer</h3>
                             <p className="max-w-[28rem] text-body text-sm leading-relaxed text-white/60">
@@ -43,9 +41,7 @@ export function PlatformSection() {
 
                     {/* Edge-First Block */}
                     <SpotlightCard className="flex min-h-[460px] flex-col justify-between space-y-6 bg-black/40 p-10 transition-all duration-500 group h-full border-white/5 hover:border-primary/30 xl:p-12 overflow-hidden rounded-[2.5rem]" spotlightColor="rgba(34, 211, 238, 0.05)">
-                        <div className="h-16 w-16 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/20 text-primary group-hover:rotate-6 transition-transform">
-                             <span className="font-mono text-sm font-black tracking-widest uppercase">EDGE</span>
-                        </div>
+                      
                         <div className="space-y-6">
                             <h3 className="text-h3 text-white tracking-tighter">Local Runtime</h3>
                             <p className="max-w-[28rem] text-body text-sm leading-relaxed text-white/60">
@@ -65,9 +61,7 @@ export function PlatformSection() {
 
                     {/* Coordination Block */}
                     <SpotlightCard className="flex min-h-[460px] flex-col justify-between space-y-6 bg-black/40 p-10 transition-all duration-500 group h-full border-white/5 hover:border-primary/30 xl:p-12 overflow-hidden rounded-[2.5rem]" spotlightColor="rgba(34, 211, 238, 0.05)">
-                        <div className="h-16 w-16 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/20 text-primary group-hover:scale-110 transition-transform">
-                             <span className="font-mono text-sm font-black tracking-widest uppercase">SYNC</span>
-                        </div>
+        
                         <div className="space-y-6">
                             <h3 className="text-h3 text-white tracking-tighter">Real-time Coordination</h3>
                             <p className="max-w-[28rem] text-body text-sm leading-relaxed text-white/60">
