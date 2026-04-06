@@ -149,13 +149,6 @@ export function TechnologySection() {
                         
                         <div className="relative z-30 max-w-4xl w-full flex flex-col items-center text-center space-y-10">
                             <div className="space-y-4">
-                                <motion.div 
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    className="text-ui text-primary uppercase tracking-[0.4em] font-black"
-                                >
-                                    Audit_Subsystem
-                                </motion.div>
                                 <h3 className="text-h2 text-white font-black uppercase tracking-tighter leading-none md:text-[5rem] lg:text-[7rem]">
                                     Tamper-Proof <br/>
                                     <span className="text-primary italic">Execution Log</span>

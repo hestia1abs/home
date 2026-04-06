@@ -17,7 +17,7 @@ export function HeroSection() {
                 >
                     <div className="w-12 h-px bg-[#ff003c]" />
                     <span className="text-ui text-[#ff003c] tracking-[0.8em]">
-                        <DecryptedText text="> HXTP.LOCAL_EXECUTION_LAYER" speed={50} />
+                        <DecryptedText text="> HXTP - The New Internet <" speed={50} />
                     </span>
                 </motion.div>
 
