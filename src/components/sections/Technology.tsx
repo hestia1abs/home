@@ -6,55 +6,31 @@ import { GlitchText } from '@/components/animations/GlitchText'
 import Shuffle from '@/components/animations/Shuffle'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import { hexString, unitNoise } from '@/lib/deterministic'
 
-function HashchainPreview() {
-    const rows = useMemo(
-        () =>
-            Array.from({ length: 16 }, (_, index) => ({
-                id: `row-${index}`,
-                block: (1047238 - index).toLocaleString(),
-                content: Array.from({ length: 6 }, (_, blockIndex) => hexString(index * 100 + blockIndex * 13, 4)).join(':'),
-                status: unitNoise(index + 20) > 0.75 ? 'VERIFIED' : 'SYNCING'
-            })),
-        []
-    )
-
-    const loopedRows = [...rows, ...rows]
+/**
+ * Ambient Hashchain Background for the centered card
+ */
+function AmbientLedger() {
+    const hashes = useMemo(() => 
+        Array.from({ length: 24 }, (_, i) => ({
+            id: 1047238 - i,
+            hash: Array.from({ length: 12 }, () => 
+                Math.floor(Math.random() * 16).toString(16)
+            ).join(''),
+        }))
+    , [])
 
     return (
-        <div className="relative h-full overflow-hidden bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.08),transparent_28%),linear-gradient(180deg,rgba(1,4,10,0.94),rgba(2,6,16,0.92))] p-8 font-mono md:p-10">
-            <div className="relative z-10 mb-8 flex items-end justify-between border-b border-primary/20 pb-4">
-                <div className="space-y-1">
-                    <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Cryptographic_Hashchain</div>
-                    <div className="text-lg font-black uppercase text-white md:text-2xl">Immutable_Ledger_of_Truth</div>
-                </div>
-                <div className="text-right text-[10px] uppercase text-primary/60">
-                    Status: [LOCKED] <br />
-                    Blocks: 1,047,238
-                </div>
-            </div>
-
-            <motion.div
-                animate={{ y: ['0%', '-50%'] }}
-                transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
-                className="space-y-3"
-            >
-                {loopedRows.map((row, index) => (
-                    <div key={`${row.id}-${index}`} className="flex items-center gap-4 md:gap-6">
-                        <div className="w-14 text-[10px] text-primary/35 md:w-20">{row.block}</div>
-                        <div className="flex-1 border-l-2 border-primary/20 bg-white/5 px-3 py-2 text-[11px] font-bold tracking-[0.22em] text-white/55 transition-colors hover:border-primary hover:bg-white/10 md:text-xs">
-                            {row.content.toUpperCase()}
-                        </div>
-                        <div className={`rounded border px-2 py-1 text-[8px] font-black uppercase ${row.status === 'VERIFIED' ? 'border-green-500/20 bg-green-500/5 text-green-400' : 'border-cyan-500/20 bg-cyan-500/5 text-cyan-400'}`}>
-                            {row.status}
-                        </div>
+        <div className="absolute inset-0 opacity-[0.07] font-mono pointer-events-none overflow-hidden">
+            <div className="flex flex-wrap gap-4 p-4 justify-center items-center">
+                {hashes.map((h) => (
+                    <div key={h.id} className="text-[10px] whitespace-nowrap text-primary uppercase tracking-widest">
+                        0X{h.hash}
                     </div>
                 ))}
-            </motion.div>
-
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black to-transparent" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent" />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black" />
         </div>
     )
 }
@@ -67,101 +43,145 @@ export function TechnologySection() {
         if (!laserRef.current) return
         gsap.fromTo(laserRef.current, 
             { y: '-100%', opacity: 0 },
-            { y: '100%', opacity: 0.4, duration: 2, repeat: -1, ease: 'none' }
+            { y: '100%', opacity: 0.6, duration: 3, repeat: -1, ease: 'power1.inOut' }
         )
     }, { scope: sectionRef })
 
     return (
-        <section ref={sectionRef} id="security" className="py-16 md:py-24 relative overflow-hidden">
+        <section ref={sectionRef} id="security" className="py-20 md:py-32 relative overflow-hidden bg-black">
+        
             {/* GSAP vertical scanning laser */}
-            <div ref={laserRef} className="absolute left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/40 to-transparent z-0 pointer-events-none" />
+            <div ref={laserRef} className="absolute inset-x-0 h-24 bg-gradient-to-b from-transparent via-primary/5 to-transparent z-0 pointer-events-none shadow-[0_0_50px_rgba(34,211,238,0.1)]" />
 
             <div className="max-w-[1800px] mx-auto px-6 relative z-10">
-                <div className="flex flex-col gap-12 mb-20">
-                    <span className="text-ui text-[#ff003c] tracking-[0.6em]">Security & Verification</span>
-                    <h2 className="text-h2 select-none text-glow text-[#ff003c]"><Shuffle text="Trust Built Into Execution" /></h2>
-                    <p className="max-w-2xl border-l-4 border-[#ff003c] pl-6 text-body leading-relaxed text-white/70 md:pl-8">
-                        Hestia is designed for environments where intent, control, and device actions must remain verifiable. Security is part of the execution path, not an add-on.
-                    </p>
+                <div className="flex flex-col gap-10 mb-20">
+                    <div className="flex items-center gap-4">
+                        <div className="h-px w-12 bg-primary/40" />
+                        <span className="text-ui text-primary tracking-[0.6em] uppercase">Security_Validation</span>
+                    </div>
+                    <div className="space-y-6">
+                        <h2 className="text-h2 select-none text-glow text-white tracking-tight">
+                            <Shuffle text="Trust Built Into Execution" />
+                        </h2>
+                        <p className="max-w-2xl border-l-2 border-primary/30 pl-8 text-lg font-light leading-relaxed text-white/50 italic">
+                            Hestia is designed for environments where intent, control, and device actions must remain verifiable. Security is part of the execution path, not an add-on.
+                        </p>
+                    </div>
                 </div>
 
                 <div className="bento-grid gap-6 xl:gap-8">
                     {/* Fail-Closed Block */}
-                    <div className="col-span-12 lg:col-span-4 glass-panel relative flex min-h-[360px] flex-col justify-between overflow-hidden rounded-3xl border-cyan-500/20 p-8 md:min-h-[420px] md:p-12">
-                        {/* Corner brackets */}
-                        <div className="absolute top-6 left-6 w-8 h-8 border-l-2 border-t-2 border-cyan-400/30" />
-                        <div className="absolute top-6 right-6 w-8 h-8 border-r-2 border-t-2 border-cyan-400/30" />
-                        <div className="absolute bottom-6 left-6 w-8 h-8 border-l-2 border-b-2 border-cyan-400/30" />
-                        <div className="absolute bottom-6 right-6 w-8 h-8 border-r-2 border-b-2 border-cyan-400/30" />
+                    <motion.div 
+                        whileHover={{ y: -5 }}
+                        className="col-span-12 lg:col-span-4 glass-panel group relative flex min-h-[400px] flex-col justify-between overflow-hidden rounded-[40px] border-[#0ff]/10 p-8 md:p-12 transition-all duration-500 hover:border-[#0ff]/30"
+                    >
+                        {/* Corner Decorative details */}
+                        <div className="absolute top-8 left-8 w-6 h-6 border-l border-t border-[#0ff]/40" />
+                        <div className="absolute bottom-8 right-8 w-6 h-6 border-r border-b border-[#0ff]/40" />
 
-                        <div className="space-y-5">
-                             <h3 className="text-h3 text-[#0ff]">
-                                <GlitchText text="Fail-Closed Validation" intensity={0.45} />
+                        <div className="space-y-6">
+                             <div className="inline-flex items-center gap-2 text-[10px] font-black uppercase text-[#0ff] tracking-[0.3em]">
+                                 <span className="h-1.5 w-1.5 rounded-full bg-[#0ff] animate-pulse" />
+                                 System_Core
+                             </div>
+                             <h3 className="text-h3 text-white group-hover:text-[#0ff] transition-colors duration-500 uppercase tracking-tighter font-black">
+                                <GlitchText text="Fail-Closed Validation" intensity={0.2} />
                              </h3>
-                             <p className="mt-4 text-body leading-relaxed text-white/75">
-                                 Commands that fail verification do not execute. Device behavior stays bounded by an explicit trust model.
+                             <p className="text-body leading-relaxed text-white/60 font-light">
+                                 Commands that fail verification do not execute. Device behavior stays bounded by an explicit trust model, ensuring zero unauthorized state changes.
                              </p>
                         </div>
-
-                        {/* Scanline effect */}
-                        <div className="absolute inset-0 pointer-events-none opacity-[0.05]" style={{
-                            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,255,0.1) 2px, rgba(0,255,255,0.1) 4px)'
-                        }} />
-
-                        <div className="relative">
-                             <div className="h-[3px] w-full bg-cyan-400/20 overflow-hidden">
-                                 <motion.div 
-                                    animate={{ left: ['-100%', '100%'] }}
-                                    transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                                    className="absolute inset-0 bg-cyan-400 h-full w-20"
-                                 />
-                             </div>
-                        </div>
-                    </div>
+                    </motion.div>
 
                     {/* Allowlists Block */}
-                    <div className="col-span-12 lg:col-span-8 glass-panel relative flex min-h-[360px] flex-col justify-between overflow-hidden rounded-3xl border-purple-500/20 p-8 md:min-h-[420px] md:p-12">
-                        <div className="absolute top-6 left-6 w-8 h-8 border-l-2 border-t-2 border-purple-400/30" />
-                        <div className="absolute top-6 right-6 w-8 h-8 border-r-2 border-t-2 border-purple-400/30" />
-                        <div className="absolute bottom-6 left-6 w-8 h-8 border-l-2 border-b-2 border-purple-400/30" />
-                        <div className="absolute bottom-6 right-6 w-8 h-8 border-r-2 border-b-2 border-purple-400/30" />
+                    <motion.div 
+                        whileHover={{ y: -5 }}
+                        className="col-span-12 lg:col-span-8 glass-panel group relative flex min-h-[400px] flex-col justify-between overflow-hidden rounded-[40px] border-[#f0f]/10 p-8 md:p-12 transition-all duration-500 hover:border-[#f0f]/30"
+                    >
+                        <div className="absolute top-8 right-8 w-6 h-6 border-r border-t border-[#f0f]/40" />
+                        <div className="absolute bottom-8 left-8 w-6 h-6 border-l border-b border-[#f0f]/40" />
 
-                        {/* Scanline effect */}
-                        <div className="absolute inset-0 pointer-events-none opacity-[0.05]" style={{
-                            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(168,85,247,0.1) 2px, rgba(168,85,247,0.1) 4px)'
-                        }} />
-
-                        <div className="space-y-5">
-                             <h3 className="text-h3 text-[#f0f]">
-                                <GlitchText text="Policy & Allowlist Enforcement" intensity={0.35} />
+                        <div className="space-y-6">
+                            <div className="inline-flex items-center gap-2 text-[10px] font-black uppercase text-[#f0f] tracking-[0.3em]">
+                                 <span className="h-1.5 w-1.5 rounded-full bg-[#f0f] animate-pulse" />
+                                 Pathway_Enforcement
+                             </div>
+                             <h3 className="text-h3 text-white group-hover:text-[#f0f] transition-colors duration-500 uppercase tracking-tighter font-black">
+                                <GlitchText text="Policy & Allowlist Enforcement" intensity={0.2} />
                              </h3>
-                             <p className="mt-4 max-w-2xl text-body leading-relaxed text-white/75">
-                                 Devices, actions, and automation pathways can be constrained by policy before they ever reach the execution layer.
+                             <p className="max-w-2xl text-body leading-relaxed text-white/60 font-light">
+                                 Devices, actions, and automation pathways are constrained by cryptographic policy before they reach the execution layer. No "default allow" - only explicit authorization.
                              </p>
                         </div>
 
-                        <div className="flex gap-6 opacity-40 hover:opacity-100 transition-opacity">
-                             {[1,2,3,4,5,6,7,8,9,10].map(i => (
+                        {/* Frequency visualizer style bars */}
+                        <div className="flex items-end gap-2 h-16 opacity-30 group-hover:opacity-70 transition-opacity duration-700">
+                             {Array.from({ length: 40 }).map((_, i) => (
                                 <motion.div 
                                     key={i} 
-                                    animate={{ height: [30, 80, 30] }}
-                                    transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
-                                    className="w-1.5 bg-purple-500 rounded-full" 
+                                    animate={{ height: [10, Math.random() * 60 + 10, 10] }}
+                                    transition={{ 
+                                        duration: 0.8 + Math.random(), 
+                                        repeat: Infinity, 
+                                        delay: i * 0.02,
+                                        ease: "easeInOut"
+                                    }}
+                                    className="flex-1 bg-[#f0f] rounded-t-sm" 
                                 />
                              ))}
                         </div>
-                    </div>
+                    </motion.div>
 
-                    {/* Hashchain Block */}
-                    <div className="col-span-12 glass-panel relative overflow-hidden rounded-3xl border-white/5 min-h-[420px] md:min-h-[500px]">
-                        {/* Corner brackets */}
-                        <div className="absolute top-8 left-8 w-12 h-12 border-l-2 border-t-2 border-primary/30 z-20" />
-                        <div className="absolute top-8 right-8 w-12 h-12 border-r-2 border-t-2 border-primary/30 z-20" />
-                        <div className="absolute bottom-8 left-8 w-12 h-12 border-l-2 border-b-2 border-primary/30 z-20" />
-                        <div className="absolute bottom-8 right-8 w-12 h-12 border-r-2 border-b-2 border-primary/30 z-20" />
-
-                        <HashchainPreview />
-                    </div>
+                    {/* Hashchain Block - Full Width Centered */}
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="col-span-12 glass-panel relative overflow-hidden rounded-[40px] border-white/5 min-h-[500px] shadow-2xl flex items-center justify-center p-8 md:p-16 lg:p-24"
+                    >
+                        {/* Brackets */}
+                        <div className="absolute top-10 left-10 w-16 h-16 border-l border-t border-primary/30 z-20 pointer-events-none" />
+                        <div className="absolute top-10 right-10 w-16 h-16 border-r border-t border-primary/30 z-20 pointer-events-none" />
+                        <div className="absolute bottom-10 left-10 w-16 h-16 border-l border-b border-primary/30 z-20 pointer-events-none" />
+                        <div className="absolute bottom-10 right-10 w-16 h-16 border-r border-b border-primary/30 z-20 pointer-events-none" />
+                        
+                        <AmbientLedger />
+                        
+                        <div className="relative z-30 max-w-4xl w-full flex flex-col items-center text-center space-y-10">
+                            <div className="space-y-4">
+                                <motion.div 
+                                    initial={{ opacity: 0, y: 10 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    className="text-ui text-primary uppercase tracking-[0.4em] font-black"
+                                >
+                                    Audit_Subsystem
+                                </motion.div>
+                                <h3 className="text-h2 text-white font-black uppercase tracking-tighter leading-none md:text-[5rem] lg:text-[7rem]">
+                                    Tamper-Proof <br/>
+                                    <span className="text-primary italic">Execution Log</span>
+                                </h3>
+                            </div>
+                            
+                            <div className="space-y-8 max-w-2xl">
+                                <p className="text-lg md:text-xl text-white/50 leading-relaxed font-light">
+                                    Every command transmitted via HxTP is part of a cryptographic hashchain. This ensures that the history of your environment is immutable, observable, and impossible to spoof.
+                                </p>
+                                
+                                <ul className="flex flex-wrap justify-center gap-6 md:gap-10">
+                                    {[
+                                        'SHA-256 Integrity',
+                                        'Entropy Injection',
+                                        'Offline Verification'
+                                    ].map((item, idx) => (
+                                        <li key={idx} className="flex items-center gap-3 text-[10px] md:text-xs font-mono text-white/70 uppercase tracking-widest bg-white/5 px-4 py-2 border border-white/10 rounded-full">
+                                            <div className="h-1.5 w-1.5 bg-primary rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse" />
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </div>
         </section>
