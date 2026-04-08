@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 
 interface TrueTypewriterProps {
@@ -12,75 +12,81 @@ interface TrueTypewriterProps {
   animateOn?: 'view' | 'load';
 }
 
+/**
+ * TrueTypewriter: A high-performance typewriter effect that supports multi-line text
+ * and ensures the cursor correctly follows the paragraph flow to the final line.
+ */
 export default function TrueTypewriter({
   text,
-  speed = 8, // Faster default
+  speed = 15, // SNAPPY DEFAULT
   delay = 0,
   className = '',
   cursor = true,
   animateOn = 'view',
 }: TrueTypewriterProps) {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isDone, setIsDone] = useState(false);
   const containerRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-50px" });
-
-  const shouldAnimate = animateOn === 'load' || (animateOn === 'view' && isInView);
+  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   
-  // Calculate total duration based on text length to keep it snappy
-  const charCount = text.length;
-  // Never exceed 1.2s for a paragraph, never faster than 0.3s
-  const duration = Math.min(Math.max(charCount * (speed / 1000), 0.3), 1.2);
+  const shouldAnimate = animateOn === 'load' || (animateOn === 'view' && isInView);
+
+  useEffect(() => {
+    if (!shouldAnimate || isDone) return;
+
+    let timeoutId: NodeJS.Timeout;
+    let currentIndex = 0;
+
+    const type = () => {
+      if (currentIndex <= text.length) {
+        setDisplayedText(text.slice(0, currentIndex));
+        currentIndex++;
+        // Use a slightly randomized speed for a more natural "termincal" feel if needed,
+        // but here we keep it constant for cinematic precision.
+        timeoutId = setTimeout(type, speed);
+      } else {
+        setIsDone(true);
+      }
+    };
+
+    const startTimeout = setTimeout(type, delay * 1000);
+
+    return () => {
+      clearTimeout(startTimeout);
+      clearTimeout(timeoutId);
+    };
+  }, [text, speed, delay, shouldAnimate, isDone]);
 
   return (
     <span 
       ref={containerRef} 
-      className={`relative inline-block ${className}`}
+      className={`inline ${className}`}
+      style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
     >
-      {/* Primary text with reveal animation */}
-      <motion.span
-        initial={{ clipPath: 'inset(0 100% 0 0)' }}
-        animate={shouldAnimate ? { clipPath: 'inset(0 0% 0 0)' } : {}}
-        transition={{ 
-          duration, 
-          delay, 
-          ease: "linear",
-          // The "steps" function makes it look like a typewriter by revealing in chunks
-          // We use charCount as steps to simulate character-by-character reveal
-          type: "tween" 
-        }}
-        className="inline-block"
-      >
-        {text}
-      </motion.span>
-
-      {/* Cursor implementation */}
+      {/* Current revealed text segment */}
+      {displayedText}
+      
+      {/* 
+          The cursor is placed INLINE so it naturally moves Line-by-Line 
+          along with the character reveal, fixing the issue where it 
+          stayed on the first line.
+      */}
       {cursor && (
         <motion.span
-          initial={{ left: "0%" }}
-          animate={shouldAnimate ? { left: "100%" } : {}}
+          animate={{ 
+            opacity: isDone ? [1, 0] : [1, 0],
+            display: isDone ? 'none' : 'inline-block' 
+          }}
           transition={{ 
-            duration, 
-            delay, 
-            ease: "linear"
+            opacity: { duration: 0.4, repeat: isDone ? 0 : Infinity, repeatType: "reverse" },
+            display: { delay: 0.5 } // Hide shortly after completion
           }}
-          className="absolute top-0 bottom-0 w-[0.6em] bg-cyan-400 opacity-70 flex items-center justify-center font-mono pointer-events-none"
-          style={{ 
-            height: '1.2em',
-            translateY: '0.1em'
-          }}
+          className="inline-block w-[0.5em] h-[1em] bg-cyan-400/90 ml-1 translate-y-[0.1em]"
         >
-          <motion.span
-            animate={{ opacity: [1, 0] }}
-            transition={{ duration: 0.4, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
-          >
-            █
-          </motion.span>
+          {/* Using a non-breaking space or a block character */}
+          &nbsp;
         </motion.span>
       )}
-
-      {/* Hidden text for layout stability */}
-      <span className="invisible select-none pointer-events-none absolute left-0 top-0">
-        {text}
-      </span>
     </span>
   );
 }
