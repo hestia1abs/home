@@ -32,11 +32,11 @@ export function HeroSection() {
                     </h1>
                 </motion.div>
                 
-                <div className="relative flex h-[88px] w-full items-center justify-center sm:h-[110px] md:h-[150px] lg:h-[190px] xl:h-[220px]">
+                <div className="relative flex h-[140px] w-full items-center justify-center sm:h-[160px] md:h-[180px] lg:h-[190px] xl:h-[220px]">
                      <ASCIIText 
                         text="Intelligence"
-                        asciiFontSize={6}
-                        textFontSize={130}
+                        asciiFontSize={8}
+                        textFontSize={100}
                         textColor="#22d3ee"
                         enableWaves={true}
                      />

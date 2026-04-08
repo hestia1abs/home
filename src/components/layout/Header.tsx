@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { MagneticLink } from '@/components/layout/Magnetic'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronRight } from 'lucide-react'
 
 const navItems = [
     { name: 'Overview', href: '#vision' },
@@ -213,57 +215,48 @@ export function Header() {
                 </div>
             </nav>
 
-            <div
-                className={cn(
-                    'fixed inset-0 top-[73px] z-50 w-screen max-w-full transition-all duration-500 ease-in-out lg:hidden',
-                    isOpen
-                        ? 'translate-x-0 opacity-100 pointer-events-auto'
-                        : 'translate-x-full opacity-0 pointer-events-none'
+            {/* Mobile Menu */}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="lg:hidden glass border-t border-white/10 overflow-hidden"
+                    >
+                        <div className="px-6 py-8 space-y-6">
+                            {navItems.map((item) => (
+                                <button
+                                    key={item.href}
+                                    data-testid={`mobile-nav-${item.name.toLowerCase()}`}
+                                    onClick={() => scrollToSection(item.href)}
+                                    className="block text-lg font-bold tracking-tight text-zinc-300 hover:text-white transition-colors w-full text-left"
+                                >
+                                    {item.name}
+                                </button>
+                            ))}
+                            <div className="pt-4 border-t border-white/10 space-y-4">
+                                <a
+                                    href="mailto:contact@hestialabs.in"
+                                    onClick={() => setIsOpen(false)}
+                                    className="w-full flex items-center justify-center gap-2 px-5 py-3 border border-white/20 text-white text-sm font-bold tracking-wider uppercase rounded transition-all hover:bg-white/5"
+                                >
+                                    Contact
+                                    <ChevronRight className="w-4 h-4" />
+                                </a>
+                                <Link
+                                    href="https://auth.hestialabs.in/signin"
+                                    onClick={() => setIsOpen(false)}
+                                    className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-white text-black text-sm font-bold tracking-wider uppercase rounded transition-all"
+                                >
+                                    Sign In
+                                    <ChevronRight className="w-4 h-4" />
+                                </Link>
+                            </div>
+                        </div>
+                    </motion.div>
                 )}
-                style={{
-                    background: 'rgba(0, 0, 0, 0.95)',
-                    backdropFilter: 'blur(12px)',
-                }}
-                role="dialog"
-                aria-modal="true"
-                aria-hidden={!isOpen}
-            >
-                <div className="flex min-h-full flex-col gap-8 p-6">
-                    {navItems.map((item) => (
-                        <button
-                            key={item.href}
-                            onClick={() => scrollToSection(item.href)}
-                            className={cn(
-                                'group relative text-left text-3xl font-bold uppercase tracking-tighter text-foreground transition-all duration-300',
-                                activeSection === item.href.replace('#', '')
-                                    ? 'font-bold'
-                                    : 'opacity-90 hover:opacity-100'
-                            )}
-                        >
-                            {item.name}
-                            <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-blue-400 transition-all duration-300 group-hover:w-full" />
-                        </button>
-                    ))}
-
-                    <div className="mt-auto flex flex-col gap-6 space-y-4 pb-12">
-                        <a
-                            href="mailto:contact@hestialabs.in"
-                            className="flex h-14 items-center justify-center rounded-2xl border border-foreground text-sm font-bold uppercase tracking-widest transition-all duration-300 hover:bg-foreground hover:text-background"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Contact Us
-                        </a>
-
-                        <Link
-                            href="https://auth.hestialabs.in/signin"
-                            className="flex h-14 cursor-pointer items-center justify-center rounded-none bg-foreground text-sm font-bold uppercase tracking-widest text-background transition-all duration-300 hover:shadow-lg"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Sign In
-                        </Link>
-                    </div>
-                </div>
-            </div>
+            </AnimatePresence>
         </header>
     )
 }

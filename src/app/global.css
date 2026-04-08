@@ -155,6 +155,10 @@ html {
     @apply bg-card/55 backdrop-blur-md border border-white/[0.08] shadow-[0_20px_80px_rgba(0,0,0,0.35)];
   }
 
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
   /* ── Bento Grid ─────────────────────────────────── */
   .bento-grid {
     display: grid;

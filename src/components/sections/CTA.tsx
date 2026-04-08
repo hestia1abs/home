@@ -1,82 +1,163 @@
 'use client'
 
-import { useState } from 'react'
+import { useState } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import { ArrowRight, Check, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
-const ArrowIcon = ({ size = 20, className }: { size?: number, className?: string }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-        <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-)
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export function CTASection() {
-    const [email, setEmail] = useState('')
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        if (!email || !email.includes('@')) {
-            return
-        }
-        // TODO: Implement actual submission (e.g., API call or redirect)
-        console.log('Request access for:', email)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !email.includes('@')) {
+      toast.error('Please enter a valid email address');
+      return;
     }
 
-    const isValid = email && email.includes('@')
-    return (
-        <section id="cta" className="py-20 md:py-32 relative overflow-hidden px-6">
-            <div className="max-w-[1800px] mx-auto relative z-10">
-                <div className="glass-panel relative overflow-hidden rounded-[40px] border-primary/20 bg-black/40 p-8 shadow-[0_0_160px_rgba(34,211,238,0.12)] md:p-12 xl:p-16">
-                    {/* Background abstract visual */}
-                    <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_0%,rgba(183,255,255,0.1),transparent_70%)]" />
-                    <div className="absolute -bottom-60 -left-60 w-[500px] h-[500px] bg-primary/10 blur-[150px] rounded-full" />
-                    <div className="absolute -top-60 -right-60 w-[500px] h-[500px] bg-accent/10 blur-[150px] rounded-full" />
+    setIsSubmitting(true);
 
-                    <div className="relative z-10 grid grid-cols-1 gap-10 xl:grid-cols-[1.2fr_0.8fr] xl:items-end">
-                        <div className="max-w-4xl space-y-8">
-                            <span className="text-ui text-primary tracking-[1em] font-black uppercase">Get in touch</span>
-                            <h2 className="text-h2 max-w-[14ch] select-none leading-tight text-white">
-                                Build the next layer of real-world intelligence.
-                            </h2>
-                            <p className="max-w-2xl text-body leading-relaxed text-white/60">
-                                If you are working on private infrastructure, residential systems, or hardware-aware AI experiences, we would love to hear what you are building.
-                            </p>
-                        </div>
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/waitlist`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, access_type: 'general' }),
+      });
 
-                        <div className="w-full max-w-2xl xl:ml-auto">
-                            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                                <input 
-                                    type="email" 
-                                    id="work-email"
-                                    aria-label="Work email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="Enter your work email" 
-                                    className="w-full rounded-2xl border-2 border-white/10 bg-white/5 px-6 py-5 text-left text-ui font-black tracking-[0.3em] placeholder:opacity-35 focus:border-primary/50 focus:outline-none transition-all"
-                                />
-                                <button type="submit" disabled={!isValid} className="group flex items-center justify-center gap-4 rounded-2xl bg-primary px-8 py-5 text-ui font-black uppercase tracking-widest text-background transition-all hover:scale-[1.01] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
-                                     Request Access
-                                     <ArrowIcon size={20} className="transition-transform group-hover:translate-x-2" />
-                                </button>
-                            </form>
-                            <p className="mt-4 text-sm leading-7 text-white/45">
-                                For product pilots, hardware partnerships, and early deployments, write to us directly at contact@hestialabs.in.
-                            </p>
-                        </div>
-                    </div>
+      if (response.ok) {
+        setIsSuccess(true);
+        setEmail('');
+        toast.success('Welcome to the waitlist! We\'ll be in touch soon.');
+      } else {
+        const data = await response.json();
+        toast.error(data.detail || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      toast.error('Network error. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-                    <div className="relative z-10 pt-12 flex flex-col items-center gap-6 md:pt-14">
-                        <div className="flex -space-x-4 md:-space-x-6">
-                             {[1,2,3,4,5,6].map(i => (
-                                <div key={i} className="flex h-12 w-12 items-center justify-center rounded-full border-4 border-background bg-zinc-900 text-ui font-black shadow-xl md:h-16 md:w-16">
-                                    {String.fromCharCode(65 + i)}
-                                </div>
-                             ))}
-                        </div>
-                        <p className="text-ui font-black tracking-[0.35em] text-primary/40 text-center">
-                             Active conversations across residential, hardware, and systems design teams.
-                        </p>
-                    </div>
-                </div>
+  return (
+    <section
+      ref={ref}
+      id="cta"
+      data-testid="cta-section"
+      className="relative py-24 md:py-32 overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="glass-card rounded-3xl p-8 md:p-12 lg:p-16 relative overflow-hidden"
+        >
+          {/* Background effects */}
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-fuchsia-500/5 pointer-events-none" />
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px]" />
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-fuchsia-500/10 rounded-full blur-[100px]" />
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Content */}
+            <div>
+              <span className="text-xs font-bold tracking-[0.25em] uppercase text-cyan-400 mb-6 block">
+                Get in touch
+              </span>
+              <h2 
+                data-testid="cta-headline"
+                className="font-heading text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-white mb-6 leading-tight"
+              >
+                Build the next layer of real-world intelligence.
+              </h2>
+              <p className="text-zinc-400 leading-relaxed">
+                If you are working on private infrastructure, residential systems, or hardware-aware AI experiences, 
+                we would love to hear what you are building.
+              </p>
             </div>
-        </section>
-    )
+
+            {/* Form */}
+            <div className="w-full max-w-md lg:ml-auto">
+              {isSuccess ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center py-8"
+                >
+                  <div className="w-16 h-16 rounded-full bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center mx-auto mb-6">
+                    <Check className="w-8 h-8 text-cyan-400" />
+                  </div>
+                  <h3 className="font-heading text-xl text-white mb-2">You're on the list</h3>
+                  <p className="text-zinc-400 text-sm">We'll reach out when it's your turn.</p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <input
+                      type="email"
+                      data-testid="cta-email-input"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Enter your work email"
+                      className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-zinc-500 focus:border-cyan-500/50 focus:shadow-[0_0_0_2px_rgba(34,211,238,0.2)] outline-none transition-all text-sm tracking-wide"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    data-testid="cta-submit-btn"
+                    disabled={isSubmitting}
+                    className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-cyan-500 hover:bg-cyan-400 disabled:bg-cyan-500/50 text-black text-sm font-bold tracking-[0.1em] uppercase rounded-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(34,211,238,0.4)] disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        Request Access
+                        <ArrowRight className="w-5 h-5" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
+
+              <p className="text-zinc-500 text-xs mt-4 leading-relaxed">
+                For product pilots, hardware partnerships, and early deployments, write to us directly at{' '}
+                <a href="mailto:contact@hestialabs.in" className="text-cyan-400 hover:underline">
+                  contact@hestialabs.in
+                </a>
+              </p>
+            </div>
+          </div>
+
+          {/* Social proof */}
+          <div className="relative z-10 mt-12 pt-10 border-t border-white/10 flex flex-col items-center gap-6">
+            <div className="flex -space-x-3">
+              {['A', 'B', 'C', 'D', 'E', 'F'].map((letter, i) => (
+                <div
+                  key={letter}
+                  className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-zinc-800 border-2 border-[#050505] flex items-center justify-center text-xs font-bold text-zinc-400"
+                  style={{ zIndex: 6 - i }}
+                >
+                  {letter}
+                </div>
+              ))}
+            </div>
+            <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400/40 text-center">
+              Active conversations across residential, hardware, and systems design teams.
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 }
