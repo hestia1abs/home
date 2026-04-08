@@ -2,7 +2,8 @@
 
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
-import { Shield, Cpu, Layers, Code } from 'lucide-react';
+import { Shield, Cpu, Layers, Code, Activity, Database, Box } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const offerings = [
   {
@@ -42,6 +43,36 @@ const offerings = [
     icon: Code,
   },
 ];
+
+function SpecModule({ spec, accent }: { spec: string; accent: string }) {
+  const getIcon = (text: string) => {
+    const t = text.toLowerCase();
+    if (t.includes('signed') || t.includes('lock') || t.includes('security') || t.includes('private') || t.includes('policy')) return Shield;
+    if (t.includes('latency') || t.includes('real-time') || t.includes('telemetry') || t.includes('activity')) return Activity;
+    if (t.includes('gpu') || t.includes('compute') || t.includes('cpu') || t.includes('execution')) return Cpu;
+    if (t.includes('ledger') || t.includes('history') || t.includes('drift') || t.includes('sensor')) return Database;
+    return Box;
+  };
+
+  const Icon = getIcon(spec);
+
+  return (
+    <div className="flex flex-col gap-2 p-3 rounded-xl bg-white/[0.02] border border-white/[0.05] group/module hover:bg-white/[0.04] hover:border-white/[0.1] transition-all duration-300">
+      <div className="flex items-center justify-between">
+        <div className="p-1.5 rounded-lg bg-white/[0.03] group-hover/module:bg-white/[0.08] transition-colors">
+          <Icon className="w-3 h-3 text-zinc-500 group-hover/module:text-zinc-300 transition-colors" />
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="text-[7px] font-black tracking-widest text-zinc-600 uppercase">Active</span>
+          <div className="w-1 h-1 rounded-full animate-pulse" style={{ backgroundColor: accent }} />
+        </div>
+      </div>
+      <span className="text-[9px] font-bold tracking-[0.1em] text-zinc-400 group-hover/module:text-zinc-200 transition-colors uppercase leading-tight">
+        {spec}
+      </span>
+    </div>
+  );
+}
 
 export function PricingSection() {
   const ref = useRef<HTMLElement>(null);
@@ -97,16 +128,20 @@ export function PricingSection() {
         </motion.div>
 
         {/* Offerings Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bento-grid">
           {offerings.map((offering, i) => {
             const Icon = offering.icon;
+            const isLarge = i === 0 || i === 3;
             return (
               <motion.div
                 key={offering.title}
                 initial={{ opacity: 0, y: 40 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="glass-card rounded-2xl p-8 spotlight-card group relative overflow-hidden min-h-[480px] flex flex-col justify-between"
+                className={cn(
+                  "glass-card rounded-3xl p-8 spotlight-card group relative overflow-hidden flex flex-col justify-between min-h-[400px] md:min-h-[480px]",
+                  isLarge ? "col-span-12 lg:col-span-7" : "col-span-12 lg:col-span-5"
+                )}
                 data-testid={`offering-card-${i}`}
               >
                 {/* Top section */}
@@ -127,31 +162,25 @@ export function PricingSection() {
                     </span>
                   </div>
 
-                  <h3 className="font-heading text-xl md:text-2xl font-medium text-white mb-4 group-hover:scale-[1.02] transition-transform origin-left">
+                  <h3 className="font-heading text-2xl md:text-3xl lg:text-4xl font-medium text-white mb-4 group-hover:scale-[1.02] transition-transform origin-left leading-tight">
                     {offering.title}
                   </h3>
-                  <p className="text-zinc-400 text-sm leading-relaxed group-hover:text-zinc-300 transition-colors">
+                  <p className="text-zinc-400 text-sm md:text-base leading-relaxed group-hover:text-zinc-300 transition-colors max-w-sm">
                     {offering.desc}
                   </p>
                 </div>
 
-                {/* Specs */}
-                <div className="mt-8">
-                  <div className="h-px w-full bg-white/5 group-hover:bg-white/10 transition-colors mb-6" />
-                  <ul className="space-y-3">
+                {/* Specs Grid */}
+                <div className="mt-8 pt-8 border-t border-white/5">
+                  <div className="flex items-center justify-between mb-4 px-1">
+                    <span className="text-[9px] font-black tracking-[0.3em] uppercase text-zinc-600">Technical Parameters</span>
+                    <div className="h-px w-12 bg-gradient-to-r from-white/10 to-transparent" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
                     {offering.specs.map((spec) => (
-                      <li
-                        key={spec}
-                        className="flex items-center gap-3 text-[10px] font-bold tracking-[0.1em] uppercase text-zinc-500 group-hover:text-zinc-400 transition-colors"
-                      >
-                        <div
-                          className="w-1 h-1 rounded-full"
-                          style={{ backgroundColor: offering.accent }}
-                        />
-                        {spec}
-                      </li>
+                      <SpecModule key={spec} spec={spec} accent={offering.accent} />
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </motion.div>
             );
