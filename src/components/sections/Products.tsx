@@ -27,15 +27,8 @@ export  function ProductsSection() {
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16"
         >
           <div>
-            <div className="relative h-6 w-32 mb-4 opacity-70">
-              <ASCIIText 
-                text="HARDWARE" 
-                asciiFontSize={4} 
-                textFontSize={40} 
-                planeBaseHeight={2} 
-                enableWaves={false} 
-                textColor="#22d3ee"
-              />
+            <div className="mb-4">
+              <span className="text-[10px] font-mono tracking-[0.2em] text-cyan-400/70 uppercase">HARDWARE</span>
             </div>
             <h2 
               data-testid="hardware-headline"

@@ -4,7 +4,6 @@ import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { ShieldCheck, Lock, Hash } from 'lucide-react';
 import DecryptedText from '@/components/animations/DecryptedText';
-import ASCIIText from '@/components/animations/ASCIIText';
 import TrueTypewriter from '@/components/animations/TrueTypewriter';
 
 function AmbientLedger() {
@@ -63,16 +62,6 @@ export function TechnologySection() {
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="h-px w-12 bg-cyan-500/40" />
-            <div className="relative h-6 w-32 opacity-70">
-              <ASCIIText 
-                text="VALIDATION" 
-                asciiFontSize={4} 
-                textFontSize={40} 
-                planeBaseHeight={2} 
-                enableWaves={false} 
-                textColor="#22d3ee"
-              />
-            </div>
           </div>
           <h2 
             data-testid="security-headline"

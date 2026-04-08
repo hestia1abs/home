@@ -4,7 +4,6 @@ import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import DecryptedText from '@/components/animations/DecryptedText';
 import { ScrollParallax, DepthLayer } from '@/components/animations/ScrollEffects';
-import ASCIIText from '@/components/animations/ASCIIText';
 import TrueTypewriter from '@/components/animations/TrueTypewriter';
 
 export function VisionSection() {
@@ -39,15 +38,7 @@ export function VisionSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <div className="relative h-6 w-48 mb-6 mx-auto opacity-70">
-            <ASCIIText 
-              text="PRINCIPLES" 
-              asciiFontSize={4} 
-              textFontSize={40} 
-              planeBaseHeight={2} 
-              enableWaves={false} 
-              textColor="#22d3ee"
-            />
+          <div className="flex justify-center mb-6">
           </div>
           <h2 
             data-testid="vision-headline"

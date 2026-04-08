@@ -4,7 +4,6 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Shield, Cpu, Layers, ArrowRight } from 'lucide-react';
 import DecryptedText from '@/components/animations/DecryptedText';
-import ASCIIText from '@/components/animations/ASCIIText';
 import TrueTypewriter from '@/components/animations/TrueTypewriter';
 
 export function PlatformSection() {
@@ -26,24 +25,14 @@ export function PlatformSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <div className="relative h-6 w-full max-w-[200px] mb-6 mx-auto opacity-70">
-            <ASCIIText 
-              text="ARCHITECTURE" 
-              asciiFontSize={4} 
-              textFontSize={40} 
-              planeBaseHeight={2} 
-              enableWaves={false} 
-              textColor="#22d3ee"
-            />
-          </div>
-          <h2 
+          <h2
             data-testid="platform-headline"
             className="font-heading text-3xl md:text-5xl font-medium tracking-tight text-white mb-6"
           >
             <DecryptedText text="Deterministic execution for the physical world." animateOn="view" speed={100} />
           </h2>
           <p className="text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            <TrueTypewriter 
+            <TrueTypewriter
               text="HxTP is a layered runtime that connects intelligence, orchestration, and device control without sacrificing latency, privacy, or observability."
               speed={10}
             />
@@ -68,7 +57,7 @@ export function PlatformSection() {
                 <DecryptedText text="Signed Control Layer" animateOn="inViewHover" speed={50} />
               </h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                <TrueTypewriter 
+                <TrueTypewriter
                   text="HxTP signs and verifies every command so execution remains traceable, predictable, and resilient across real hardware environments."
                   speed={8}
                 />
@@ -96,7 +85,7 @@ export function PlatformSection() {
                 <DecryptedText text="Local Runtime" animateOn="inViewHover" speed={50} />
               </h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                <TrueTypewriter 
+                <TrueTypewriter
                   text="Local execution keeps response times low and user experience stable, even when connectivity changes or cloud services are unavailable."
                   speed={8}
                 />
@@ -134,7 +123,7 @@ export function PlatformSection() {
                 <DecryptedText text="Real-time Coordination" animateOn="inViewHover" speed={50} />
               </h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                <TrueTypewriter 
+                <TrueTypewriter
                   text="Orchestration keeps services, devices, and AI agents synchronized so the system behaves as a single dependable control surface."
                   speed={8}
                 />
@@ -161,7 +150,7 @@ export function PlatformSection() {
             data-testid="platform-fabric-card"
           >
             {/* Background image */}
-            <div 
+            <div
               className="absolute inset-0 opacity-30"
               style={{
                 backgroundImage: 'url(https://static.prod-images.emergentagent.com/jobs/ab3bc862-19cc-4662-9f8a-c80ad0e4a351/images/ea8d5123bb2b1a5151da0feb411efdabf7400b37750b7a345fc89230dd7006ba.png)',
@@ -170,7 +159,7 @@ export function PlatformSection() {
                 maskImage: 'radial-gradient(ellipse 80% 80% at center, black 0%, transparent 70%)'
               }}
             />
-            
+
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/80" />
 
@@ -179,7 +168,7 @@ export function PlatformSection() {
                 <DecryptedText text="Resilient Fabric" animateOn="view" speed={120} />
               </h3>
               <p className="text-zinc-400 leading-relaxed text-lg">
-                Core routing, validation, and device coordination are isolated within a single execution fabric. 
+                Core routing, validation, and device coordination are isolated within a single execution fabric.
                 This architectural choice provides hardware-aware reliability that scales across environments.
               </p>
 
@@ -187,7 +176,7 @@ export function PlatformSection() {
               <div className="relative mt-12 h-24 flex items-center justify-center">
                 <div className="absolute h-px w-full bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
                 <div className="absolute w-px h-full bg-gradient-to-b from-transparent via-cyan-500/30 to-transparent" />
-                
+
                 <motion.div
                   animate={{ scale: [0.9, 1.1, 0.9], opacity: [0.3, 0.6, 0.3] }}
                   transition={{ duration: 3, repeat: Infinity }}

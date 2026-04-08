@@ -3,7 +3,6 @@
 
 import { motion } from 'framer-motion'
 import DecryptedText from '@/components/animations/DecryptedText'
-import ASCIIText from '@/components/animations/ASCIIText'
 import TrueTypewriter from '@/components/animations/TrueTypewriter'
 
 const applications = [
@@ -20,15 +19,7 @@ export function ApplicationsSection() {
                 <div className="flex flex-col gap-12 mb-24">
                    <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-2 lg:gap-16">
                        <div className="flex flex-col gap-6">
-                           <div className="relative h-6 w-40 opacity-70">
-                               <ASCIIText 
-                                   text="DEPLOYMENTS" 
-                                   asciiFontSize={4} 
-                                   textFontSize={40} 
-                                   planeBaseHeight={2} 
-                                   enableWaves={false} 
-                                   textColor="#fbbf24"
-                               />
+                           <div className="flex items-center mb-0">
                            </div>
                            <h2 className="text-h2">
                                <DecryptedText text="Built for real environments" animateOn="view" speed={100} />
