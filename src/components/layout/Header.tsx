@@ -12,8 +12,9 @@ import { ChevronRight } from 'lucide-react'
 const navItems = [
     { name: 'Overview', href: '#vision' },
     { name: 'Architecture', href: '#platform' },
-    { name: 'Hardware', href: '#products' },
+    { name: 'Hardware', href: '#hardware' },
     { name: 'Security', href: '#security' },
+    { name: 'Deployments', href: '#applications' },
     { name: 'Offerings', href: '#offerings' },
 ]
 
