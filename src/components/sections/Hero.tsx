@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import DecryptedText from '@/components/animations/DecryptedText'
 import Shuffle from '@/components/animations/Shuffle'
 import ASCIIText from '@/components/animations/ASCIIText'
+import TrueTypewriter from '@/components/animations/TrueTypewriter'
 
 export function HeroSection() {
     return (
@@ -56,7 +57,11 @@ export function HeroSection() {
                         stagger={0.05}
                     />
                     <p className="mx-auto mt-6 max-w-3xl text-base leading-8 text-white/55 md:text-lg">
-                        Hestia combines private infrastructure, dependable orchestration, and edge-native intelligence into a system designed to act with precision across homes, devices, and spaces.
+                        <TrueTypewriter 
+                            text="Hestia combines private infrastructure, dependable orchestration, and edge-native intelligence into a system designed to act with precision across homes, devices, and spaces."
+                            delay={1.5}
+                            speed={10}
+                        />
                     </p>
                 </motion.div>
             </div>

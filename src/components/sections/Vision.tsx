@@ -4,6 +4,8 @@ import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import DecryptedText from '@/components/animations/DecryptedText';
 import { ScrollParallax, DepthLayer } from '@/components/animations/ScrollEffects';
+import ASCIIText from '@/components/animations/ASCIIText';
+import TrueTypewriter from '@/components/animations/TrueTypewriter';
 
 export function VisionSection() {
   const ref = useRef<HTMLElement>(null);
@@ -37,9 +39,16 @@ export function VisionSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <span className="text-xs font-bold tracking-[0.25em] uppercase text-cyan-400 mb-6 block">
-            <DecryptedText text="System Principles" animateOn="view" speed={60} />
-          </span>
+          <div className="relative h-6 w-48 mb-6 mx-auto opacity-70">
+            <ASCIIText 
+              text="PRINCIPLES" 
+              asciiFontSize={4} 
+              textFontSize={40} 
+              planeBaseHeight={2} 
+              enableWaves={false} 
+              textColor="#22d3ee"
+            />
+          </div>
           <h2 
             data-testid="vision-headline"
             className="font-heading text-3xl md:text-5xl font-medium tracking-tight text-white mb-6"
@@ -56,8 +65,10 @@ export function VisionSection() {
             />
           </h2>
           <p className="text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            HxTP is the foundational execution layer for AI. It validates intent, signs every action, 
-            and delivers commands to hardware with measurable and observable reliability.
+            <TrueTypewriter 
+              text="HxTP is the foundational execution layer for AI. It validates intent, signs every action, and delivers commands to hardware with measurable and observable reliability."
+              speed={10}
+            />
           </p>
         </motion.div>
 
@@ -80,8 +91,10 @@ export function VisionSection() {
                 Protocol<br />Enforcement
               </h3>
               <p className="text-zinc-400 leading-relaxed mb-8">
-                HxTP is not generic automation middleware. It is a signed control plane that ensures 
-                every instruction is authenticated, validated, and delivered with predictable system behavior.
+                <TrueTypewriter 
+                  text="HxTP is not generic automation middleware. It is a signed control plane that ensures every instruction is authenticated, validated, and delivered with predictable system behavior."
+                  speed={8}
+                />
               </p>
               <div className="flex flex-wrap gap-3">
                 {['Signed Commands', 'Local Verification', 'Hardware-Safe'].map((badge, i) => (
@@ -116,8 +129,10 @@ export function VisionSection() {
                   <DecryptedText text="Reliability" animateOn="inViewHover" speed={50} />
                 </span>
                 <p className="text-zinc-400 text-sm leading-relaxed mb-8">
-                  Organic systems permit drift and ambiguity. Hestia eliminates that risk with 
-                  deterministic execution paths, explicit validation, and a clear audit trail.
+                  <TrueTypewriter 
+                    text="Organic systems permit drift and ambiguity. Hestia eliminates that risk with deterministic execution paths, explicit validation, and a clear audit trail."
+                    speed={8}
+                  />
                 </p>
                 <motion.div 
                   className="h-1 w-12 bg-white/10 rounded-full"
@@ -141,8 +156,10 @@ export function VisionSection() {
                   <DecryptedText text="Coordination" animateOn="inViewHover" speed={50} />
                 </span>
                 <p className="text-zinc-400 text-sm leading-relaxed mb-8">
-                  Intelligence, orchestration, and device control operate through a unified protocol, 
-                  ensuring consistent behavior across spaces, devices, and moments.
+                  <TrueTypewriter 
+                    text="Intelligence, orchestration, and device control operate through a unified protocol, ensuring consistent behavior across spaces, devices, and moments."
+                    speed={8}
+                  />
                 </p>
                 <motion.div 
                   className="h-1 w-12 bg-white/10 rounded-full"

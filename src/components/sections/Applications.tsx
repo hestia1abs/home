@@ -3,6 +3,8 @@
 
 import { motion } from 'framer-motion'
 import DecryptedText from '@/components/animations/DecryptedText'
+import ASCIIText from '@/components/animations/ASCIIText'
+import TrueTypewriter from '@/components/animations/TrueTypewriter'
 
 const applications = [
     { title: 'Residential Automation', desc: 'Local-first control for lighting, climate, access, and routines without giving up responsiveness or privacy.', tag: 'Residential' },
@@ -18,15 +20,25 @@ export function ApplicationsSection() {
                 <div className="flex flex-col gap-12 mb-24">
                    <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-2 lg:gap-16">
                        <div className="flex flex-col gap-6">
-                           <span className="text-ui text-accent tracking-[0.6em]">
-                               <DecryptedText text="Deployments" animateOn="view" speed={60} />
-                           </span>
+                           <div className="relative h-6 w-40 opacity-70">
+                               <ASCIIText 
+                                   text="DEPLOYMENTS" 
+                                   asciiFontSize={4} 
+                                   textFontSize={40} 
+                                   planeBaseHeight={2} 
+                                   enableWaves={false} 
+                                   textColor="#fbbf24"
+                               />
+                           </div>
                            <h2 className="text-h2">
                                <DecryptedText text="Built for real environments" animateOn="view" speed={100} />
                            </h2>
                        </div>
                        <p className="flex min-h-0 max-w-2xl items-center border-l-4 border-accent/30 pl-6 text-body text-white/65 lg:min-h-[6rem] lg:pl-10">
-                           Hestia is designed for spaces where local execution, trust, and observability matter more than novelty.
+                           <TrueTypewriter 
+                               text="Hestia is designed for spaces where local execution, trust, and observability matter more than novelty."
+                               speed={10}
+                           />
                        </p>
                    </div>
                 </div>
@@ -49,7 +61,7 @@ export function ApplicationsSection() {
                                     <DecryptedText text={app.title} animateOn="inViewHover" speed={50} />
                                 </h3>
                                 <p className="max-w-xl text-body leading-relaxed text-white/60">
-                                    {app.desc}
+                                    <TrueTypewriter text={app.desc} speed={8} />
                                 </p>
                             </div>
                             <div className="flex justify-between items-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">

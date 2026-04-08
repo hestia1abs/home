@@ -4,6 +4,8 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Radio, Cpu } from 'lucide-react';
 import DecryptedText from '@/components/animations/DecryptedText';
+import ASCIIText from '@/components/animations/ASCIIText';
+import TrueTypewriter from '@/components/animations/TrueTypewriter';
 
 export  function ProductsSection() {
   const ref = useRef(null);
@@ -25,9 +27,16 @@ export  function ProductsSection() {
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16"
         >
           <div>
-            <span className="text-xs font-bold tracking-[0.25em] uppercase text-cyan-400 mb-4 block">
-              <DecryptedText text="Hardware Platform" animateOn="view" speed={60} />
-            </span>
+            <div className="relative h-6 w-32 mb-4 opacity-70">
+              <ASCIIText 
+                text="HARDWARE" 
+                asciiFontSize={4} 
+                textFontSize={40} 
+                planeBaseHeight={2} 
+                enableWaves={false} 
+                textColor="#22d3ee"
+              />
+            </div>
             <h2 
               data-testid="hardware-headline"
               className="font-heading text-3xl md:text-5xl font-medium tracking-tight text-white"
@@ -36,8 +45,10 @@ export  function ProductsSection() {
             </h2>
           </div>
           <p className="text-zinc-400 max-w-xl leading-relaxed border-l border-white/10 pl-6">
-            Purpose-built hardware that runs private intelligence close to the environment it serves, 
-            with predictable control, low-latency response, and local resilience.
+            <TrueTypewriter 
+              text="Purpose-built hardware that runs private intelligence close to the environment it serves, with predictable control, low-latency response, and local resilience."
+              speed={10}
+            />
           </p>
         </motion.div>
 
@@ -56,17 +67,26 @@ export  function ProductsSection() {
             {/* Content */}
             <div>
               <span className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-6 block">
-                <DecryptedText text="Helix Hardware // Local Execution Node" animateOn="view" speed={60} />
+                <DecryptedText text="Hestia Smart Hardware " animateOn="view" speed={60} />
               </span>
-              <h3 className="font-heading text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4 tracking-tighter">
-                <DecryptedText text="HX47" animateOn="view" speed={40} />
-              </h3>
+              <div className="relative h-32 md:h-40 lg:h-48 w-full max-w-[400px] mb-4">
+                <ASCIIText 
+                  text="HX47" 
+                  asciiFontSize={8} 
+                  textFontSize={200} 
+                  planeBaseHeight={8} 
+                  enableWaves={true} 
+                  textColor="#ffffff"
+                />
+              </div>
               <p className="font-heading text-xl md:text-2xl text-zinc-300 mb-6">
                 Secure local execution for devices, spaces, and AI-driven control.
               </p>
               <p className="text-zinc-400 leading-relaxed mb-8 max-w-lg">
-                A high-performance localized compute platform designed to host Hestia services inside 
-                your environment, without relying on constant cloud round-trips.
+                <TrueTypewriter 
+                  text="A high-performance localized compute platform designed to host Hestia services inside your environment, without relying on constant cloud round-trips."
+                  speed={8}
+                />
               </p>
               
               {/* Specs */}
@@ -90,7 +110,7 @@ export  function ProductsSection() {
             <div className="relative flex items-center justify-center min-h-[300px] md:min-h-[400px]">
               <img
                 src="/assets/5d86663e7bb80e39073e14b3e0a8cff243ce91a16f465d98523764162633a6fa.png"
-                alt="HX47 Hardware Node"
+                alt="AI Hardware Node"
                 className="max-w-full max-h-[350px] object-contain drop-shadow-[0_0_60px_rgba(34,211,238,0.2)]"
               />
               
@@ -120,7 +140,10 @@ export  function ProductsSection() {
               <DecryptedText text="Sovereign Sensors" animateOn="inViewHover" speed={50} />
             </h3>
             <p className="text-zinc-400 text-sm leading-relaxed mb-6">
-              Environmental sensing designed to report into the local runtime, not upstream to a generic cloud service.
+              <TrueTypewriter 
+                text="Environmental sensing designed to report into the local runtime, not upstream to a generic cloud service."
+                speed={8}
+              />
             </p>
             <div className="flex gap-2">
               {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -149,7 +172,10 @@ export  function ProductsSection() {
               <DecryptedText text="Unified Actuators" animateOn="inViewHover" speed={50} />
             </h3>
             <p className="text-zinc-400 text-sm leading-relaxed mb-6">
-              A modular output layer for lighting, climate, access, and other physical systems that need dependable real-time control.
+              <TrueTypewriter 
+                text="A modular output layer for lighting, climate, access, and other physical systems that need dependable real-time control."
+                speed={8}
+              />
             </p>
             <div className="flex justify-end">
               <motion.div
