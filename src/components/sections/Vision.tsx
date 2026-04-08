@@ -59,6 +59,9 @@ export function VisionSection() {
             <DecryptedText 
               text="HxTP is the foundational execution layer for AI. It validates intent, signs every action, and delivers commands to hardware with measurable and observable reliability."
               speed={10}
+              animateOn="view"
+              className="text-white"
+              encryptedClassName="text-cyan-400/40"
             />
           </p>
         </motion.div>
