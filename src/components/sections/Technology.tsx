@@ -1,182 +1,194 @@
 'use client'
 
-import { useRef, useMemo } from 'react'
-import { motion } from 'framer-motion'
-import { GlitchText } from '@/components/animations/GlitchText'
-import Shuffle from '@/components/animations/Shuffle'
-import gsap from 'gsap'
-import { useGSAP } from '@gsap/react'
+import { motion, useInView } from 'framer-motion';
+import { useRef, useMemo } from 'react';
+import { ShieldCheck, Lock, Hash } from 'lucide-react';
 
-/**
- * Ambient Hashchain Background for the centered card
- */
 function AmbientLedger() {
-    const hashes = useMemo(() => 
-        Array.from({ length: 24 }, (_, i) => ({
-            id: 1047238 - i,
-            hash: Array.from({ length: 12 }, () => 
-                Math.floor(Math.random() * 16).toString(16)
-            ).join(''),
-        }))
-    , [])
+  const hashes = useMemo(() =>
+    Array.from({ length: 24 }, (_, i) => ({
+      id: 1047238 - i,
+      hash: Array.from({ length: 12 }, () =>
+        Math.floor(Math.random() * 16).toString(16)
+      ).join(''),
+    }))
+  , []);
 
-    return (
-        <div className="absolute inset-0 opacity-[0.07] font-mono pointer-events-none overflow-hidden">
-            <div className="flex flex-wrap gap-4 p-4 justify-center items-center">
-                {hashes.map((h) => (
-                    <div key={h.id} className="text-[10px] whitespace-nowrap text-primary uppercase tracking-widest">
-                        0X{h.hash}
-                    </div>
-                ))}
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black" />
-        </div>
-    )
+  return (
+    <div className="absolute inset-0 opacity-[0.04] font-mono pointer-events-none overflow-hidden">
+      <div className="flex flex-wrap gap-4 p-8 justify-center items-center">
+        {hashes.map((h) => (
+          <div key={h.id} className="text-[10px] whitespace-nowrap text-cyan-400 uppercase tracking-widest">
+            0X{h.hash}
+          </div>
+        ))}
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-transparent to-[#050505]" />
+    </div>
+  );
 }
 
 export function TechnologySection() {
-    const sectionRef = useRef<HTMLElement>(null)
-    const laserRef = useRef<HTMLDivElement>(null)
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-    useGSAP(() => {
-        if (!laserRef.current) return
-        gsap.fromTo(laserRef.current, 
-            { y: '-100%', opacity: 0 },
-            { y: '100%', opacity: 0.6, duration: 3, repeat: -1, ease: 'power1.inOut' }
-        )
-    }, { scope: sectionRef })
+  return (
+    <section
+      ref={ref}
+      id="security"
+      data-testid="security-section"
+      className="relative py-24 md:py-32 overflow-hidden bg-[#030303]"
+    >
+      {/* Scanning laser effect */}
+      <motion.div
+        animate={{ y: ['-100%', '200%'] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-x-0 h-32 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent pointer-events-none"
+      />
 
-    return (
-        <section ref={sectionRef} id="security" className="py-20 md:py-32 relative overflow-hidden bg-black">
-        
-            {/* GSAP vertical scanning laser */}
-            <div ref={laserRef} className="absolute inset-x-0 h-24 bg-gradient-to-b from-transparent via-primary/5 to-transparent z-0 pointer-events-none shadow-[0_0_50px_rgba(34,211,238,0.1)]" />
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="mb-20"
+        >
+          <div className="flex items-center gap-4 mb-6">
+            <div className="h-px w-12 bg-cyan-500/40" />
+            <span className="text-xs font-bold tracking-[0.25em] uppercase text-cyan-400">
+              Security_Validation
+            </span>
+          </div>
+          <h2 
+            data-testid="security-headline"
+            className="font-heading text-3xl md:text-5xl font-medium tracking-tight text-white mb-6"
+          >
+            Trust Built Into Execution
+          </h2>
+          <p className="text-zinc-400 max-w-2xl border-l border-cyan-500/30 pl-6 italic">
+            Hestia is designed for environments where intent, control, and device actions must remain verifiable. 
+            Security is part of the execution path, not an add-on.
+          </p>
+        </motion.div>
 
-            <div className="max-w-[1800px] mx-auto px-6 relative z-10">
-                <div className="flex flex-col gap-10 mb-20">
-                    <div className="flex items-center gap-4">
-                        <div className="h-px w-12 bg-primary/40" />
-                        <span className="text-ui text-primary tracking-[0.6em] uppercase">Security_Validation</span>
-                    </div>
-                    <div className="space-y-6">
-                        <h2 className="text-h2 select-none text-glow text-white tracking-tight">
-                            <Shuffle text="Trust Built Into Execution" />
-                        </h2>
-                        <p className="max-w-2xl border-l-2 border-primary/30 pl-8 text-lg font-light leading-relaxed text-white/50 italic">
-                            Hestia is designed for environments where intent, control, and device actions must remain verifiable. Security is part of the execution path, not an add-on.
-                        </p>
-                    </div>
-                </div>
+        {/* Security Cards Grid */}
+        <div className="bento-grid">
+          {/* Fail-Closed Validation */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            whileHover={{ y: -5 }}
+            className="col-span-12 md:col-span-4 glass-card rounded-2xl p-8 border-cyan-500/10 hover:border-cyan-500/30 transition-colors relative group"
+            data-testid="security-validation-card"
+          >
+            {/* Corner decorations */}
+            <div className="absolute top-6 left-6 w-4 h-4 border-l border-t border-cyan-500/40" />
+            <div className="absolute bottom-6 right-6 w-4 h-4 border-r border-b border-cyan-500/40" />
 
-                <div className="bento-grid gap-6 xl:gap-8">
-                    {/* Fail-Closed Block */}
-                    <motion.div 
-                        whileHover={{ y: -5 }}
-                        className="col-span-12 lg:col-span-4 glass-panel group relative flex min-h-[400px] flex-col justify-between overflow-hidden rounded-[40px] border-[#0ff]/10 p-8 md:p-12 transition-all duration-500 hover:border-[#0ff]/30"
-                    >
-                        {/* Corner Decorative details */}
-                        <div className="absolute top-8 left-8 w-6 h-6 border-l border-t border-[#0ff]/40" />
-                        <div className="absolute bottom-8 right-8 w-6 h-6 border-r border-b border-[#0ff]/40" />
-
-                        <div className="space-y-6">
-                             <div className="inline-flex items-center gap-2 text-[10px] font-black uppercase text-[#0ff] tracking-[0.3em]">
-                                 <span className="h-1.5 w-1.5 rounded-full bg-[#0ff] animate-pulse" />
-                                 System_Core
-                             </div>
-                             <h3 className="text-h3 text-white group-hover:text-[#0ff] transition-colors duration-500 uppercase tracking-tighter font-black">
-                                <GlitchText text="Fail-Closed Validation" intensity={0.2} />
-                             </h3>
-                             <p className="text-body leading-relaxed text-white/60 font-light">
-                                 Commands that fail verification do not execute. Device behavior stays bounded by an explicit trust model, ensuring zero unauthorized state changes.
-                             </p>
-                        </div>
-                    </motion.div>
-
-                    {/* Allowlists Block */}
-                    <motion.div 
-                        whileHover={{ y: -5 }}
-                        className="col-span-12 lg:col-span-8 glass-panel group relative flex min-h-[400px] flex-col justify-between overflow-hidden rounded-[40px] border-[#f0f]/10 p-8 md:p-12 transition-all duration-500 hover:border-[#f0f]/30"
-                    >
-                        <div className="absolute top-8 right-8 w-6 h-6 border-r border-t border-[#f0f]/40" />
-                        <div className="absolute bottom-8 left-8 w-6 h-6 border-l border-b border-[#f0f]/40" />
-
-                        <div className="space-y-6">
-                            <div className="inline-flex items-center gap-2 text-[10px] font-black uppercase text-[#f0f] tracking-[0.3em]">
-                                 <span className="h-1.5 w-1.5 rounded-full bg-[#f0f] animate-pulse" />
-                                 Pathway_Enforcement
-                             </div>
-                             <h3 className="text-h3 text-white group-hover:text-[#f0f] transition-colors duration-500 uppercase tracking-tighter font-black">
-                                <GlitchText text="Policy & Allowlist Enforcement" intensity={0.2} />
-                             </h3>
-                             <p className="max-w-2xl text-body leading-relaxed text-white/60 font-light">
-                                 Devices, actions, and automation pathways are constrained by cryptographic policy before they reach the execution layer. No "default allow" - only explicit authorization.
-                             </p>
-                        </div>
-
-                        {/* Frequency visualizer style bars */}
-                        <div className="flex items-end gap-2 h-16 opacity-30 group-hover:opacity-70 transition-opacity duration-700">
-                             {Array.from({ length: 40 }).map((_, i) => (
-                                <motion.div 
-                                    key={i} 
-                                    animate={{ height: [10, Math.random() * 60 + 10, 10] }}
-                                    transition={{ 
-                                        duration: 0.8 + Math.random(), 
-                                        repeat: Infinity, 
-                                        delay: i * 0.02,
-                                        ease: "easeInOut"
-                                    }}
-                                    className="flex-1 bg-[#f0f] rounded-t-sm" 
-                                />
-                             ))}
-                        </div>
-                    </motion.div>
-
-                    {/* Hashchain Block - Full Width Centered */}
-                    <motion.div 
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="col-span-12 glass-panel relative overflow-hidden rounded-[40px] border-white/5 min-h-[500px] shadow-2xl flex items-center justify-center p-8 md:p-16 lg:p-24"
-                    >
-                        {/* Brackets */}
-                        <div className="absolute top-10 left-10 w-16 h-16 border-l border-t border-primary/30 z-20 pointer-events-none" />
-                        <div className="absolute top-10 right-10 w-16 h-16 border-r border-t border-primary/30 z-20 pointer-events-none" />
-                        <div className="absolute bottom-10 left-10 w-16 h-16 border-l border-b border-primary/30 z-20 pointer-events-none" />
-                        <div className="absolute bottom-10 right-10 w-16 h-16 border-r border-b border-primary/30 z-20 pointer-events-none" />
-                        
-                        <AmbientLedger />
-                        
-                        <div className="relative z-30 max-w-4xl w-full flex flex-col items-center text-center space-y-10">
-                            <div className="space-y-4">
-                                <h3 className="text-h2 text-white font-black uppercase tracking-tighter leading-none md:text-[5rem] lg:text-[7rem]">
-                                    Tamper-Proof <br/>
-                                    <span className="text-primary italic">Execution Log</span>
-                                </h3>
-                            </div>
-                            
-                            <div className="space-y-8 max-w-2xl">
-                                <p className="text-lg md:text-xl text-white/50 leading-relaxed font-light">
-                                    Every command transmitted via HxTP is part of a cryptographic hashchain. This ensures that the history of your environment is immutable, observable, and impossible to spoof.
-                                </p>
-                                
-                                <ul className="flex flex-wrap justify-center gap-6 md:gap-10">
-                                    {[
-                                        'SHA-256 Integrity',
-                                        'Entropy Injection',
-                                        'Offline Verification'
-                                    ].map((item, idx) => (
-                                        <li key={idx} className="flex items-center gap-3 text-[10px] md:text-xs font-mono text-white/70 uppercase tracking-widest bg-white/5 px-4 py-2 border border-white/10 rounded-full">
-                                            <div className="h-1.5 w-1.5 bg-primary rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)] animate-pulse" />
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
+            <div className="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-cyan-400 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              System_Core
             </div>
-        </section>
-    )
+            <h3 className="font-heading text-xl md:text-2xl font-medium text-white group-hover:text-cyan-400 transition-colors mb-4">
+              Fail-Closed Validation
+            </h3>
+            <p className="text-zinc-400 text-sm leading-relaxed">
+              Commands that fail verification do not execute. Device behavior stays bounded by an explicit trust model, 
+              ensuring zero unauthorized state changes.
+            </p>
+          </motion.div>
+
+          {/* Policy & Allowlist */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            whileHover={{ y: -5 }}
+            className="col-span-12 md:col-span-8 glass-card rounded-2xl p-8 border-fuchsia-500/10 hover:border-fuchsia-500/30 transition-colors relative group"
+            data-testid="security-policy-card"
+          >
+            {/* Corner decorations */}
+            <div className="absolute top-6 right-6 w-4 h-4 border-r border-t border-fuchsia-500/40" />
+            <div className="absolute bottom-6 left-6 w-4 h-4 border-l border-b border-fuchsia-500/40" />
+
+            <div className="flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] uppercase text-fuchsia-400 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-fuchsia-400 animate-pulse" />
+              Pathway_Enforcement
+            </div>
+            <h3 className="font-heading text-xl md:text-2xl font-medium text-white group-hover:text-fuchsia-400 transition-colors mb-4">
+              Policy & Allowlist Enforcement
+            </h3>
+            <p className="text-zinc-400 text-sm leading-relaxed mb-8 max-w-2xl">
+              Devices, actions, and automation pathways are constrained by cryptographic policy before they reach 
+              the execution layer. No "default allow" — only explicit authorization.
+            </p>
+
+            {/* Frequency visualizer */}
+            <div className="flex items-end gap-1 h-12 opacity-30 group-hover:opacity-70 transition-opacity">
+              {Array.from({ length: 30 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  animate={{ height: [10, Math.random() * 40 + 10, 10] }}
+                  transition={{
+                    duration: 0.8 + Math.random() * 0.4,
+                    repeat: Infinity,
+                    delay: i * 0.02,
+                  }}
+                  className="flex-1 bg-fuchsia-400 rounded-t-sm"
+                />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Tamper-Proof Execution Log */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="col-span-12 glass-card rounded-3xl p-10 md:p-16 relative overflow-hidden min-h-[450px] flex items-center justify-center"
+            data-testid="security-hashchain-card"
+          >
+            {/* Corner brackets */}
+            <div className="absolute top-8 left-8 w-12 h-12 border-l border-t border-cyan-500/30 pointer-events-none" />
+            <div className="absolute top-8 right-8 w-12 h-12 border-r border-t border-cyan-500/30 pointer-events-none" />
+            <div className="absolute bottom-8 left-8 w-12 h-12 border-l border-b border-cyan-500/30 pointer-events-none" />
+            <div className="absolute bottom-8 right-8 w-12 h-12 border-r border-b border-cyan-500/30 pointer-events-none" />
+
+            <AmbientLedger />
+
+            <div className="relative z-10 text-center max-w-3xl">
+              <h3 className="font-heading text-4xl md:text-6xl lg:text-7xl font-medium text-white mb-4 leading-tight">
+                Tamper-Proof<br />
+                <span className="text-gradient-cyan italic">Execution Log</span>
+              </h3>
+              <p className="text-zinc-400 leading-relaxed text-lg mb-10">
+                Every command transmitted via HxTP is part of a cryptographic hashchain. This ensures that 
+                the history of your environment is immutable, observable, and impossible to spoof.
+              </p>
+
+              {/* Feature badges */}
+              <div className="flex flex-wrap justify-center gap-4">
+                {[
+                  { icon: ShieldCheck, text: 'SHA-256 Integrity' },
+                  { icon: Lock, text: 'Entropy Injection' },
+                  { icon: Hash, text: 'Offline Verification' },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-3 px-5 py-2.5 bg-white/5 border border-white/10 rounded-full text-xs font-bold tracking-[0.1em] uppercase text-zinc-400"
+                  >
+                    <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
+                    {item.text}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
 }

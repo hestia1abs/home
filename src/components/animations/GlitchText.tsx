@@ -1,6 +1,6 @@
 'use client'
 
-import  { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 interface GlitchTextProps {
@@ -47,3 +47,5 @@ export function GlitchText({ text, className, intensity = 0.5 }: GlitchTextProps
         </span>
     )
 }
+
+export default GlitchText;

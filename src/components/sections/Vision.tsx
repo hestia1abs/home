@@ -1,86 +1,160 @@
 'use client'
 
-
-import { motion } from 'framer-motion'
-import Shuffle from '@/components/animations/Shuffle'
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import DecryptedText from '@/components/animations/DecryptedText';
+import GlitchText from '@/components/animations/GlitchText';
+import { ScrollParallax, DepthLayer } from '@/components/animations/ScrollEffects';
 
 export function VisionSection() {
-    return (
-        <section id="vision" className="py-24 md:py-48 relative overflow-hidden bg-background">
-            <div className="max-w-[1800px] mx-auto px-6 relative z-10">
-                <div className="flex flex-col gap-20 md:gap-32">
-                    <div className="mx-auto max-w-4xl text-center">
-                        <span className="text-ui text-primary tracking-[0.4em] font-bold">SYSTEM PRINCIPLES</span>
-                        <motion.h2
-                            initial={{ y: 20, opacity: 0 }}
-                            whileInView={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 0.8, ease: "circOut" }}
-                            viewport={{ once: true }}
-                            className="mt-8 text-h2 text-white"
-                        >
-                            <Shuffle text="Deterministic control, verified locally." />
-                        </motion.h2>
-                        <p className="mx-auto mt-10 text-body max-w-3xl text-white/50 leading-relaxed md:text-xl">
-                            HxTP is the foundational execution layer for AI. It validates intent, signs every action, and delivers commands to hardware with measurable and observable reliability.
-                        </p>
-                    </div>
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start']
+  });
 
-                    <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-                        {/* HxTP Core Block */}
-                        <div className="glass-panel rounded-[2.5rem] border-primary/10 bg-black/40 p-10 md:p-14 lg:col-span-12 xl:col-span-5 flex flex-col justify-center space-y-10 group">
-                            <div className="space-y-6">
-                                <span className="text-ui text-primary tracking-widest font-black uppercase">Execution_Layer</span>
-                                <h3 className="text-h2 md:text-6xl text-white">
-                                    Protocol <br/>
-                                    Enforcement
-                                </h3>
-                                <p className="text-body max-w-xl text-white/60">
-                                    HxTP is not generic automation middleware. It is a signed control plane that ensures every instruction is authenticated, validated, and delivered with predictable system behavior.
-                                </p>
-                            </div>
-                            <div className="flex flex-wrap gap-3">
-                                {[
-                                    'Signed Commands',
-                                    'Local Verification',
-                                    'Hardware-Safe'
-                                ].map((badge) => (
-                                    <span key={badge} className="px-5 py-2 rounded-full bg-primary/5 border border-primary/10 text-[10px] font-mono text-primary uppercase tracking-widest">
-                                        {badge}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
 
-                        {/* Secondary Principles Container */}
-                        <div className="lg:col-span-12 xl:col-span-7 grid grid-cols-1 gap-8 md:grid-cols-2">
-                            <div className="glass-panel rounded-[2.5rem] border-white/5 bg-black/35 p-10 flex flex-col justify-between group h-full">
-                                <div className="space-y-8">
-                                    <span className="text-ui text-white/30 group-hover:text-primary transition-colors uppercase font-black tracking-widest">Reliability</span>
-                                    <p className="text-body text-sm leading-relaxed text-white/50">
-                                        Organic systems permit drift and ambiguity. Hestia eliminates that risk with deterministic execution paths, explicit validation, and a clear audit trail.
-                                    </p>
-                                </div>
-                                <div className="h-1 w-12 bg-white/10 rounded-full mt-12 group-hover:w-full group-hover:bg-primary/20 transition-all duration-700" />
-                            </div>
-                            
-                            <div className="glass-panel rounded-[2.5rem] border-white/5 bg-black/35 p-10 flex flex-col justify-between group h-full">
-                                <div className="space-y-8">
-                                    <span className="text-ui text-white/30 group-hover:text-primary transition-colors uppercase font-black tracking-widest">Coordination</span>
-                                    <p className="text-body text-sm leading-relaxed text-white/50">
-                                        Intelligence, orchestration, and device control operate through a unified protocol, ensuring consistent behavior across spaces, devices, and moments.
-                                    </p>
-                                </div>
-                                <div className="h-1 w-12 bg-white/10 rounded-full mt-12 group-hover:w-full group-hover:bg-primary/20 transition-all duration-700" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <section
+      ref={ref}
+      id="vision"
+      data-testid="vision-section"
+      className="relative py-24 md:py-32 overflow-hidden"
+    >
+      {/* Parallax background decoration */}
+      <motion.div 
+        className="absolute top-1/2 -translate-y-1/2 -right-40 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none"
+        style={{ y: backgroundY }}
+      />
 
-            {/* Subdued large background text deco */}
-            <div className="absolute -bottom-24 -left-20 text-[20vw] font-black text-white/[0.01] select-none pointer-events-none uppercase tracking-tighter mix-blend-overlay">
-                HESTIA
-            </div>
-        </section>
-    )
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
+          <span className="text-xs font-bold tracking-[0.25em] uppercase text-cyan-400 mb-6 block">
+            <GlitchText text="System Principles" intensity={0.2} />
+          </span>
+          <h2 
+            data-testid="vision-headline"
+            className="font-heading text-3xl md:text-5xl font-medium tracking-tight text-white mb-6"
+          >
+            <DecryptedText
+              text="Deterministic control, verified locally."
+              speed={40}
+              maxIterations={10}
+              sequential
+              revealDirection="center"
+              animateOn="view"
+              className="text-white"
+              encryptedClassName="text-cyan-400/40"
+            />
+          </h2>
+          <p className="text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            HxTP is the foundational execution layer for AI. It validates intent, signs every action, 
+            and delivers commands to hardware with measurable and observable reliability.
+          </p>
+        </motion.div>
+
+        {/* Bento Grid */}
+        <div className="bento-grid">
+          {/* Main Protocol Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+            className="col-span-12 lg:col-span-5 glass-card rounded-2xl p-8 md:p-10 spotlight-card group"
+            data-testid="vision-protocol-card"
+          >
+            <DepthLayer depth={0.2}>
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-6 block">
+                <GlitchText text="Execution_Layer" intensity={0.3} />
+              </span>
+              <h3 className="font-heading text-3xl md:text-4xl font-medium text-white mb-6 leading-tight">
+                Protocol<br />Enforcement
+              </h3>
+              <p className="text-zinc-400 leading-relaxed mb-8">
+                HxTP is not generic automation middleware. It is a signed control plane that ensures 
+                every instruction is authenticated, validated, and delivered with predictable system behavior.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {['Signed Commands', 'Local Verification', 'Hardware-Safe'].map((badge, i) => (
+                  <motion.span
+                    key={badge}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.3, delay: 0.3 + i * 0.1 }}
+                    whileHover={{ scale: 1.05 }}
+                    className="px-4 py-2 text-[10px] font-bold tracking-[0.15em] uppercase text-cyan-400 border border-cyan-400/20 rounded-full bg-cyan-400/5 cursor-default"
+                  >
+                    {badge}
+                  </motion.span>
+                ))}
+              </div>
+            </DepthLayer>
+          </motion.div>
+
+          {/* Secondary Cards Container */}
+          <div className="col-span-12 lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Reliability Card */}
+            <ScrollParallax speed={0.2}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="glass-card rounded-2xl p-8 spotlight-card group h-full"
+                data-testid="vision-reliability-card"
+              >
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 group-hover:text-cyan-400 transition-colors mb-6 block">
+                  Reliability
+                </span>
+                <p className="text-zinc-400 text-sm leading-relaxed mb-8">
+                  Organic systems permit drift and ambiguity. Hestia eliminates that risk with 
+                  deterministic execution paths, explicit validation, and a clear audit trail.
+                </p>
+                <motion.div 
+                  className="h-1 w-12 bg-white/10 rounded-full"
+                  whileHover={{ width: '100%', backgroundColor: 'rgba(34,211,238,0.3)' }}
+                  transition={{ duration: 0.5 }}
+                />
+              </motion.div>
+            </ScrollParallax>
+
+            {/* Coordination Card */}
+            <ScrollParallax speed={0.3}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="glass-card rounded-2xl p-8 spotlight-card group h-full"
+                data-testid="vision-coordination-card"
+              >
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 group-hover:text-cyan-400 transition-colors mb-6 block">
+                  Coordination
+                </span>
+                <p className="text-zinc-400 text-sm leading-relaxed mb-8">
+                  Intelligence, orchestration, and device control operate through a unified protocol, 
+                  ensuring consistent behavior across spaces, devices, and moments.
+                </p>
+                <motion.div 
+                  className="h-1 w-12 bg-white/10 rounded-full"
+                  whileHover={{ width: '100%', backgroundColor: 'rgba(34,211,238,0.3)' }}
+                  transition={{ duration: 0.5 }}
+                />
+              </motion.div>
+            </ScrollParallax>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
