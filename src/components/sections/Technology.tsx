@@ -4,7 +4,6 @@ import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { ShieldCheck, Lock, Hash } from 'lucide-react';
 import DecryptedText from '@/components/animations/DecryptedText';
-import TrueTypewriter from '@/components/animations/TrueTypewriter';
 
 function AmbientLedger() {
   const [hashes, setHashes] = useState<{id: number, hash: string}[]>([]);
@@ -70,7 +69,7 @@ export function TechnologySection() {
             <DecryptedText text="Trust Built Into Execution" animateOn="view" speed={100} />
           </h2>
           <p className="text-zinc-400 max-w-2xl border-l border-cyan-500/30 pl-6 italic">
-            <TrueTypewriter 
+            <DecryptedText 
               text="Hestia is designed for environments where intent, control, and device actions must remain verifiable. Security is part of the execution path, not an add-on."
               speed={10}
             />
@@ -100,7 +99,7 @@ export function TechnologySection() {
               <DecryptedText text="Fail-Closed Validation" animateOn="inViewHover" speed={50} />
             </h3>
             <p className="text-zinc-400 text-sm leading-relaxed">
-              <TrueTypewriter 
+              <DecryptedText 
                 text="Commands that fail verification do not execute. Device behavior stays bounded by an explicit trust model, ensuring zero unauthorized state changes."
                 speed={8}
               />
@@ -128,7 +127,7 @@ export function TechnologySection() {
               <DecryptedText text="Policy & Allowlist Enforcement" animateOn="inViewHover" speed={50} />
             </h3>
             <p className="text-zinc-400 text-sm leading-relaxed mb-8 max-w-2xl">
-              <TrueTypewriter 
+              <DecryptedText 
                 text="Devices, actions, and automation pathways are constrained by cryptographic policy before they reach the execution layer. No 'default allow' — only explicit authorization."
                 speed={8}
               />
@@ -172,7 +171,7 @@ export function TechnologySection() {
                 <DecryptedText text="Tamper-Proof Execution Log" animateOn="view" speed={120} />
               </h3>
                <p className="text-zinc-400 leading-relaxed text-lg mb-10">
-                <TrueTypewriter 
+                <DecryptedText 
                   text="Every command transmitted via HxTP is part of a cryptographic hashchain. This ensures that the history of your environment is immutable, observable, and impossible to spoof."
                   speed={12}
                 />

@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { Radio, Cpu } from 'lucide-react';
 import DecryptedText from '@/components/animations/DecryptedText';
 import ASCIIText from '@/components/animations/ASCIIText';
-import TrueTypewriter from '@/components/animations/TrueTypewriter';
+
 
 export  function ProductsSection() {
   const ref = useRef(null);
@@ -38,10 +38,7 @@ export  function ProductsSection() {
             </h2>
           </div>
           <p className="text-zinc-400 max-w-xl leading-relaxed border-l border-white/10 pl-6">
-            <TrueTypewriter 
-              text="Purpose-built hardware that runs private intelligence close to the environment it serves, with predictable control, low-latency response, and local resilience."
-              speed={10}
-            />
+            <DecryptedText text="Purpose-built hardware that runs private intelligence close to the environment it serves, with predictable control, low-latency response, and local resilience." animateOn="view" speed={100} />
           </p>
         </motion.div>
 
@@ -76,10 +73,7 @@ export  function ProductsSection() {
                 Secure local execution for devices, spaces, and AI-driven control.
               </p>
               <p className="text-zinc-400 leading-relaxed mb-8 max-w-lg">
-                <TrueTypewriter 
-                  text="A high-performance localized compute platform designed to host Hestia services inside your environment, without relying on constant cloud round-trips."
-                  speed={8}
-                />
+                <DecryptedText text="A high-performance localized compute platform designed to host Hestia services inside your environment, without relying on constant cloud round-trips." animateOn="view" speed={100} />
               </p>
               
               {/* Specs */}
@@ -133,10 +127,7 @@ export  function ProductsSection() {
               <DecryptedText text="Sovereign Sensors" animateOn="inViewHover" speed={50} />
             </h3>
             <p className="text-zinc-400 text-sm leading-relaxed mb-6">
-              <TrueTypewriter 
-                text="Environmental sensing designed to report into the local runtime, not upstream to a generic cloud service."
-                speed={8}
-              />
+              <DecryptedText text="Environmental sensing designed to report into the local runtime, not upstream to a generic cloud service." animateOn="view" speed={100} />
             </p>
             <div className="flex gap-2">
               {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -165,10 +156,7 @@ export  function ProductsSection() {
               <DecryptedText text="Unified Actuators" animateOn="inViewHover" speed={50} />
             </h3>
             <p className="text-zinc-400 text-sm leading-relaxed mb-6">
-              <TrueTypewriter 
-                text="A modular output layer for lighting, climate, access, and other physical systems that need dependable real-time control."
-                speed={8}
-              />
+              <DecryptedText text="A modular output layer for lighting, climate, access, and other physical systems that need dependable real-time control." animateOn="view" speed={100} />
             </p>
             <div className="flex justify-end">
               <motion.div

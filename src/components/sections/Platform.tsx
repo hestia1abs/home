@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Shield, Cpu, Layers, ArrowRight } from 'lucide-react';
 import DecryptedText from '@/components/animations/DecryptedText';
-import TrueTypewriter from '@/components/animations/TrueTypewriter';
+
 
 export function PlatformSection() {
   const ref = useRef(null);
@@ -32,10 +32,7 @@ export function PlatformSection() {
             <DecryptedText text="Deterministic execution for the physical world." animateOn="view" speed={100} />
           </h2>
           <p className="text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            <TrueTypewriter
-              text="HxTP is a layered runtime that connects intelligence, orchestration, and device control without sacrificing latency, privacy, or observability."
-              speed={10}
-            />
+            <DecryptedText text="HxTP is a layered runtime that connects intelligence, orchestration, and device control without sacrificing latency, privacy, or observability." animateOn="view" speed={100} />
           </p>
         </motion.div>
 
@@ -57,10 +54,7 @@ export function PlatformSection() {
                 <DecryptedText text="Signed Control Layer" animateOn="inViewHover" speed={50} />
               </h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                <TrueTypewriter
-                  text="HxTP signs and verifies every command so execution remains traceable, predictable, and resilient across real hardware environments."
-                  speed={8}
-                />
+                <DecryptedText text="HxTP signs and verifies every command so execution remains traceable, predictable, and resilient across real hardware environments." animateOn="view" speed={100} />
               </p>
             </div>
             <button className="flex items-center gap-2 text-xs font-bold tracking-[0.1em] uppercase text-zinc-500 group-hover:text-cyan-400 transition-colors mt-6">
@@ -85,10 +79,7 @@ export function PlatformSection() {
                 <DecryptedText text="Local Runtime" animateOn="inViewHover" speed={50} />
               </h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                <TrueTypewriter
-                  text="Local execution keeps response times low and user experience stable, even when connectivity changes or cloud services are unavailable."
-                  speed={8}
-                />
+                <DecryptedText text="Local execution keeps response times low and user experience stable, even when connectivity changes or cloud services are unavailable." animateOn="view" speed={100} />
               </p>
             </div>
             <div className="mt-6">
@@ -123,10 +114,7 @@ export function PlatformSection() {
                 <DecryptedText text="Real-time Coordination" animateOn="inViewHover" speed={50} />
               </h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                <TrueTypewriter
-                  text="Orchestration keeps services, devices, and AI agents synchronized so the system behaves as a single dependable control surface."
-                  speed={8}
-                />
+                <DecryptedText text="Orchestration keeps services, devices, and AI agents synchronized so the system behaves as a single dependable control surface." animateOn="view" speed={100} />
               </p>
             </div>
             <div className="flex gap-1 items-end h-8 mt-6 opacity-30 group-hover:opacity-70 transition-opacity">

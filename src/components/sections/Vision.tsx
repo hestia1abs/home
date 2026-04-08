@@ -4,7 +4,7 @@ import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import DecryptedText from '@/components/animations/DecryptedText';
 import { ScrollParallax, DepthLayer } from '@/components/animations/ScrollEffects';
-import TrueTypewriter from '@/components/animations/TrueTypewriter';
+
 
 export function VisionSection() {
   const ref = useRef<HTMLElement>(null);
@@ -56,7 +56,7 @@ export function VisionSection() {
             />
           </h2>
           <p className="text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            <TrueTypewriter 
+            <DecryptedText 
               text="HxTP is the foundational execution layer for AI. It validates intent, signs every action, and delivers commands to hardware with measurable and observable reliability."
               speed={10}
             />
@@ -82,7 +82,7 @@ export function VisionSection() {
                 Protocol<br />Enforcement
               </h3>
               <p className="text-zinc-400 leading-relaxed mb-8">
-                <TrueTypewriter 
+                <DecryptedText 
                   text="HxTP is not generic automation middleware. It is a signed control plane that ensures every instruction is authenticated, validated, and delivered with predictable system behavior."
                   speed={8}
                 />
@@ -120,7 +120,7 @@ export function VisionSection() {
                   <DecryptedText text="Reliability" animateOn="inViewHover" speed={50} />
                 </span>
                 <p className="text-zinc-400 text-sm leading-relaxed mb-8">
-                  <TrueTypewriter 
+                  <DecryptedText 
                     text="Organic systems permit drift and ambiguity. Hestia eliminates that risk with deterministic execution paths, explicit validation, and a clear audit trail."
                     speed={8}
                   />
@@ -147,7 +147,7 @@ export function VisionSection() {
                   <DecryptedText text="Coordination" animateOn="inViewHover" speed={50} />
                 </span>
                 <p className="text-zinc-400 text-sm leading-relaxed mb-8">
-                  <TrueTypewriter 
+                  <DecryptedText 
                     text="Intelligence, orchestration, and device control operate through a unified protocol, ensuring consistent behavior across spaces, devices, and moments."
                     speed={8}
                   />

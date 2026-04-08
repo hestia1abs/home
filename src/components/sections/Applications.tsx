@@ -3,7 +3,6 @@
 
 import { motion } from 'framer-motion'
 import DecryptedText from '@/components/animations/DecryptedText'
-import TrueTypewriter from '@/components/animations/TrueTypewriter'
 
 const applications = [
     { title: 'Residential Automation', desc: 'Local-first control for lighting, climate, access, and routines without giving up responsiveness or privacy.', tag: 'Residential' },
@@ -26,10 +25,7 @@ export function ApplicationsSection() {
                            </h2>
                        </div>
                        <p className="flex min-h-0 max-w-2xl items-center border-l-4 border-accent/30 pl-6 text-body text-white/65 lg:min-h-[6rem] lg:pl-10">
-                           <TrueTypewriter 
-                               text="Hestia is designed for spaces where local execution, trust, and observability matter more than novelty."
-                               speed={10}
-                           />
+                           <DecryptedText text="Hestia is designed for spaces where local execution, trust, and observability matter more than novelty." animateOn="view" speed={100} />
                        </p>
                    </div>
                 </div>
@@ -52,7 +48,7 @@ export function ApplicationsSection() {
                                     <DecryptedText text={app.title} animateOn="inViewHover" speed={50} />
                                 </h3>
                                 <p className="max-w-xl text-body leading-relaxed text-white/60">
-                                    <TrueTypewriter text={app.desc} speed={8} />
+                           
                                 </p>
                             </div>
                             <div className="flex justify-between items-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
