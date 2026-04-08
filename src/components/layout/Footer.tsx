@@ -58,7 +58,7 @@ export function Footer() {
                 </div>
 
                 <div className="flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-10 md:flex-row md:gap-8">
-                    <p className="text-center text-ui text-white/30">© 2026 Hestia Labs. Local intelligence for the physical world.</p>
+                    <p className="text-center text-ui text-white/30">© 2026 Hestia Labs. Intelligence for the physical world.</p>
                     <div className="flex gap-8 text-ui text-white/30 md:gap-12">
                         <Link href="/privacy" className="hover:text-white transition-colors">Privacy & Data</Link>
                         <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
