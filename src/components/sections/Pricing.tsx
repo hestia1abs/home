@@ -4,6 +4,7 @@ import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { Shield, Cpu, Layers, Code, Activity, Database, Box } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import DecryptedText from '@/components/animations/DecryptedText';
 
 const offerings = [
   {
@@ -113,13 +114,13 @@ export function PricingSection() {
           className="text-center mb-20"
         >
           <span className="text-xs font-bold tracking-[0.25em] uppercase text-red-500 mb-6 block">
-            Launch Inventory
+            <DecryptedText text="Launch Inventory" animateOn="view" speed={60} />
           </span>
           <h2 
             data-testid="offerings-headline"
             className="font-heading text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight text-white mb-6"
           >
-            The Hestia Stack
+            <DecryptedText text="The Hestia Stack" animateOn="view" speed={100} />
           </h2>
           <p className="text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             Hestia Labs provides a unified, local-first platform for AI to execute in the physical world. 
@@ -158,12 +159,12 @@ export function PricingSection() {
                       <Icon className="w-6 h-6" />
                     </div>
                     <span className="text-[9px] font-bold tracking-[0.15em] uppercase text-zinc-500 group-hover:text-zinc-300 transition-colors">
-                      {offering.category}
+                      <DecryptedText text={offering.category} animateOn="inViewHover" speed={40} />
                     </span>
                   </div>
 
                   <h3 className="font-heading text-2xl md:text-3xl lg:text-4xl font-medium text-white mb-4 group-hover:scale-[1.02] transition-transform origin-left leading-tight">
-                    {offering.title}
+                    <DecryptedText text={offering.title} animateOn="inViewHover" speed={50} />
                   </h3>
                   <p className="text-zinc-400 text-sm md:text-base leading-relaxed group-hover:text-zinc-300 transition-colors max-w-sm">
                     {offering.desc}

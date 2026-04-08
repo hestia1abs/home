@@ -2,6 +2,7 @@
 
 
 import { motion } from 'framer-motion'
+import DecryptedText from '@/components/animations/DecryptedText'
 
 const applications = [
     { title: 'Residential Automation', desc: 'Local-first control for lighting, climate, access, and routines without giving up responsiveness or privacy.', tag: 'Residential' },
@@ -17,8 +18,12 @@ export function ApplicationsSection() {
                 <div className="flex flex-col gap-12 mb-24">
                    <div className="grid grid-cols-1 items-end gap-10 lg:grid-cols-2 lg:gap-16">
                        <div className="flex flex-col gap-6">
-                           <span className="text-ui text-accent tracking-[0.6em]">Deployments</span>
-                           <h2 className="text-h2">Built for real environments</h2>
+                           <span className="text-ui text-accent tracking-[0.6em]">
+                               <DecryptedText text="Deployments" animateOn="view" speed={60} />
+                           </span>
+                           <h2 className="text-h2">
+                               <DecryptedText text="Built for real environments" animateOn="view" speed={100} />
+                           </h2>
                        </div>
                        <p className="flex min-h-0 max-w-2xl items-center border-l-4 border-accent/30 pl-6 text-body text-white/65 lg:min-h-[6rem] lg:pl-10">
                            Hestia is designed for spaces where local execution, trust, and observability matter more than novelty.
@@ -41,14 +46,16 @@ export function ApplicationsSection() {
                                      <span className="text-ui text-accent/50 group-hover:text-accent font-black tracking-[0.4em]">{app.tag}</span>
                                 </div>
                                 <h3 className="text-h3 text-white group-hover:text-accent transition-colors">
-                                    {app.title}
+                                    <DecryptedText text={app.title} animateOn="inViewHover" speed={50} />
                                 </h3>
                                 <p className="max-w-xl text-body leading-relaxed text-white/60">
                                     {app.desc}
                                 </p>
                             </div>
                             <div className="flex justify-between items-center opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                                <span className="text-ui text-accent font-black">CASE STUDY AVAILABLE</span>
+                                <span className="text-ui text-accent font-black">
+                                    <DecryptedText text="CASE STUDY AVAILABLE" animateOn="hover" speed={40} />
+                                </span>
                                 <span className="text-accent text-2xl">→</span>
                             </div>
                         </motion.div>

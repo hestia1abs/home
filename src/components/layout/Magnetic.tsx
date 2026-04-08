@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { cn } from '@/lib/utils'
-import Shuffle from '@/components/animations/Shuffle'
+import DecryptedText from '@/components/animations/DecryptedText'
 
 interface MagneticLinkProps {
     children: string
@@ -72,12 +72,11 @@ export function MagneticLink({ children, href, onClick, active, className }: Mag
             )}
             onClick={onClick}
         >
-            <Shuffle 
+            <DecryptedText 
                 text={children}
+                animateOn="hover"
+                speed={40}
                 className="text-xs font-bold uppercase tracking-widest pointer-events-none"
-                triggerOnHover={true}
-                shuffleTimes={1}
-                duration={0.3}
             />
             {/* Active Indicator */}
             <div className={cn(

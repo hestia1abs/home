@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useMemo } from 'react';
 import { ShieldCheck, Lock, Hash } from 'lucide-react';
+import DecryptedText from '@/components/animations/DecryptedText';
 
 function AmbientLedger() {
   const hashes = useMemo(() =>
@@ -58,14 +59,14 @@ export function TechnologySection() {
           <div className="flex items-center gap-4 mb-6">
             <div className="h-px w-12 bg-cyan-500/40" />
             <span className="text-xs font-bold tracking-[0.25em] uppercase text-cyan-400">
-              Security_Validation
+              <DecryptedText text="Security_Validation" animateOn="view" speed={60} />
             </span>
           </div>
           <h2 
             data-testid="security-headline"
             className="font-heading text-3xl md:text-5xl font-medium tracking-tight text-white mb-6"
           >
-            Trust Built Into Execution
+            <DecryptedText text="Trust Built Into Execution" animateOn="view" speed={100} />
           </h2>
           <p className="text-zinc-400 max-w-2xl border-l border-cyan-500/30 pl-6 italic">
             Hestia is designed for environments where intent, control, and device actions must remain verifiable. 
@@ -93,7 +94,7 @@ export function TechnologySection() {
               System_Core
             </div>
             <h3 className="font-heading text-xl md:text-2xl font-medium text-white group-hover:text-cyan-400 transition-colors mb-4">
-              Fail-Closed Validation
+              <DecryptedText text="Fail-Closed Validation" animateOn="inViewHover" speed={50} />
             </h3>
             <p className="text-zinc-400 text-sm leading-relaxed">
               Commands that fail verification do not execute. Device behavior stays bounded by an explicit trust model, 
@@ -119,7 +120,7 @@ export function TechnologySection() {
               Pathway_Enforcement
             </div>
             <h3 className="font-heading text-xl md:text-2xl font-medium text-white group-hover:text-fuchsia-400 transition-colors mb-4">
-              Policy & Allowlist Enforcement
+              <DecryptedText text="Policy & Allowlist Enforcement" animateOn="inViewHover" speed={50} />
             </h3>
             <p className="text-zinc-400 text-sm leading-relaxed mb-8 max-w-2xl">
               Devices, actions, and automation pathways are constrained by cryptographic policy before they reach 
@@ -161,8 +162,7 @@ export function TechnologySection() {
 
             <div className="relative z-10 text-center max-w-3xl">
               <h3 className="font-heading text-4xl md:text-6xl lg:text-7xl font-medium text-white mb-4 leading-tight">
-                Tamper-Proof<br />
-                <span className="text-gradient-cyan italic">Execution Log</span>
+                <DecryptedText text="Tamper-Proof Execution Log" animateOn="view" speed={120} />
               </h3>
               <p className="text-zinc-400 leading-relaxed text-lg mb-10">
                 Every command transmitted via HxTP is part of a cryptographic hashchain. This ensures that 

@@ -28,7 +28,7 @@ export function HeroSection() {
                     className="mb-3 md:mb-4"
                 >
                     <h1 className="text-h1 mb-4 text-glow leading-none md:mb-6">
-                        Sovereign
+                        <DecryptedText text="Sovereign" animateOn="view" speed={100} />
                     </h1>
                 </motion.div>
                 
@@ -64,19 +64,27 @@ export function HeroSection() {
             <div className="relative z-20 w-full border-y-2 border-white/5 bg-gradient-to-t from-background/95 via-background/75 to-background/55 py-8 backdrop-blur-[8px] pointer-events-auto md:py-10">
                 <div className="mx-auto grid max-w-[1800px] grid-cols-1 gap-8 px-6 opacity-75 transition-opacity duration-700 hover:opacity-100 sm:grid-cols-2 xl:grid-cols-4">
                     <div className="flex flex-col items-start gap-3">
-                        <span className="text-ui tracking-[0.4em] text-[#ff003c]">Deployment</span>
+                        <span className="text-ui tracking-[0.4em] text-[#ff003c]">
+                            <DecryptedText text="Deployment" animateOn="view" speed={60} />
+                        </span>
                         <span className="text-lg font-mono font-black uppercase tracking-tight md:text-2xl">Local-first runtime</span>
                     </div>
                     <div className="flex flex-col items-start gap-3">
-                        <span className="text-ui tracking-[0.4em] text-[#0ff]">Latency</span>
+                        <span className="text-ui tracking-[0.4em] text-[#0ff]">
+                            <DecryptedText text="Latency" animateOn="view" speed={60} />
+                        </span>
                         <span className="text-lg font-mono font-black uppercase tracking-tight md:text-2xl">Edge response</span>
                     </div>
                     <div className="flex flex-col items-start gap-3">
-                        <span className="text-ui tracking-[0.4em] text-[#f0f]">Coordination</span>
+                        <span className="text-ui tracking-[0.4em] text-[#f0f]">
+                            <DecryptedText text="Coordination" animateOn="view" speed={60} />
+                        </span>
                         <span className="text-lg font-mono font-black uppercase tracking-tight md:text-2xl">Real-time sync</span>
                     </div>
                     <div className="flex flex-col items-start gap-3">
-                        <span className="text-ui tracking-[0.4em] text-[#ff003c]">Security</span>
+                        <span className="text-ui tracking-[0.4em] text-[#ff003c]">
+                            <DecryptedText text="Security" animateOn="view" speed={60} />
+                        </span>
                         <span className="text-lg font-mono font-black uppercase tracking-tight text-[#ff003c] drop-shadow-[0_0_20px_rgba(255,0,60,0.35)] md:text-2xl">Signed command path</span>
                     </div>
                 </div>

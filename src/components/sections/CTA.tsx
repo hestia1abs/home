@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { ArrowRight, Check, Loader2, MapPin } from 'lucide-react';
 import { toast } from 'sonner';
+import DecryptedText from '@/components/animations/DecryptedText';
 
 function PixelAvatar({ seed, color }: { seed: string; color: string }) {
   // Simple deterministic "pixel" pattern based on seed
@@ -124,13 +125,13 @@ export function CTASection() {
             {/* Content */}
             <div>
               <span className="text-xs font-bold tracking-[0.25em] uppercase text-cyan-400 mb-6 block">
-                Get in touch
+                <DecryptedText text="Get in touch" animateOn="view" speed={60} />
               </span>
               <h2 
                 data-testid="cta-headline"
                 className="font-heading text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-white mb-6 leading-tight"
               >
-                Build the next layer of real-world intelligence.
+                <DecryptedText text="Build the next layer of real-world intelligence." animateOn="view" speed={100} />
               </h2>
               <p className="text-zinc-400 leading-relaxed">
                 If you are working on private infrastructure, residential systems, or hardware-aware AI experiences, 
@@ -177,7 +178,7 @@ export function CTASection() {
                       </>
                     ) : (
                       <>
-                        Request Access
+                        <DecryptedText text="Request Access" animateOn="hover" speed={40} />
                         <ArrowRight className="w-5 h-5" />
                       </>
                     )}
@@ -199,7 +200,9 @@ export function CTASection() {
             <div className="flex flex-col gap-6">
               <div className="flex items-center gap-4">
                 <div className="h-px w-8 bg-white/20" />
-                <span className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500">Team</span>
+                <span className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500">
+                  <DecryptedText text="Team" animateOn="view" speed={40} />
+                </span>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import DecryptedText from '@/components/animations/DecryptedText'
 
 export function Footer() {
     return (
@@ -28,7 +29,9 @@ export function Footer() {
 
                     {/* Column 2: Platform */}
                     <div className="space-y-5">
-                        <h4 className="text-ui font-black uppercase tracking-[0.4em] text-primary">Platform</h4>
+                        <h4 className="text-ui font-black uppercase tracking-[0.4em] text-primary">
+                            <DecryptedText text="Platform" animateOn="view" speed={40} />
+                        </h4>
                         <ul className="space-y-3 text-sm text-white/45 md:text-base">
                             <li><a href="#platform" className="hover:text-primary transition-colors">Overview</a></li>
                             <li><a href="#products" className="hover:text-primary transition-colors">Hardware</a></li>
@@ -38,7 +41,9 @@ export function Footer() {
 
                     {/* Column 3: Resources */}
                     <div className="space-y-5">
-                        <h4 className="text-ui font-black uppercase tracking-[0.4em] text-primary">Resources</h4>
+                        <h4 className="text-ui font-black uppercase tracking-[0.4em] text-primary">
+                            <DecryptedText text="Resources" animateOn="view" speed={40} />
+                        </h4>
                         <ul className="space-y-3 text-sm text-white/45 md:text-base">
                             <li><a href="#security" className="hover:text-primary transition-colors">Security</a></li>
                             <li><a href="#applications" className="hover:text-primary transition-colors">Use Cases</a></li>
@@ -48,7 +53,9 @@ export function Footer() {
 
                     {/* Column 4: Company */}
                     <div className="space-y-5">
-                        <h4 className="text-ui font-black uppercase tracking-[0.4em] text-primary">Company</h4>
+                        <h4 className="text-ui font-black uppercase tracking-[0.4em] text-primary">
+                            <DecryptedText text="Company" animateOn="view" speed={40} />
+                        </h4>
                         <ul className="space-y-3 text-sm text-white/45 md:text-base">
                             <li><a href="#vision" className="hover:text-primary transition-colors">About</a></li>
                             <li><a href="#careers" className="hover:text-primary transition-colors">Careers</a></li>
@@ -58,7 +65,9 @@ export function Footer() {
                 </div>
 
                 <div className="flex flex-col items-center justify-between gap-6 border-t border-white/10 pt-10 md:flex-row md:gap-8">
-                    <p className="text-center text-ui text-white/30">© 2026 Hestia Labs. Intelligence for the physical world.</p>
+                    <p className="text-center text-ui text-white/30">
+                        <DecryptedText text="© 2026 Hestia Labs. Intelligence for the physical world." animateOn="view" speed={100} />
+                    </p>
                     <div className="flex gap-8 text-ui text-white/30 md:gap-12">
                         <Link href="/privacy" className="hover:text-white transition-colors">Privacy & Data</Link>
                         <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>

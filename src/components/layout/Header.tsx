@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { MagneticLink } from '@/components/layout/Magnetic'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronRight } from 'lucide-react'
+import DecryptedText from '@/components/animations/DecryptedText'
 
 const navItems = [
     { name: 'Overview', href: '#vision' },
@@ -145,9 +146,11 @@ export function Header() {
                         priority
                     />
                     <div className="flex flex-col">
-                        <span className="text-ui -mb-1 text-foreground font-black tracking-[0.2em]">Hestia</span>
+                        <span className="text-ui -mb-1 text-foreground font-black tracking-[0.2em]">
+                            <DecryptedText text="Hestia" animateOn="hover" />
+                        </span>
                         <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-[10px] font-black uppercase tracking-[0.35em] text-transparent">
-                            Labs
+                            <DecryptedText text="Labs" animateOn="hover" />
                         </span>
                     </div>
                 </Link>
@@ -155,15 +158,15 @@ export function Header() {
                 <div className="ml-auto flex items-center gap-4">
                     <div className="hidden items-center gap-4 lg:flex">
                         {navItems.map((item) => (
-                            <MagneticLink
-                                key={item.href}
-                                href={item.href}
-                                onClick={() => scrollToSection(item.href)}
-                                active={activeSection === item.href.replace('#', '')}
-                                className="text-ui"
-                            >
-                                {item.name}
-                            </MagneticLink>
+                             <MagneticLink
+                                 key={item.href}
+                                 href={item.href}
+                                 onClick={() => scrollToSection(item.href)}
+                                 active={activeSection === item.href.replace('#', '')}
+                                 className="text-ui"
+                             >
+                                 {item.name}
+                             </MagneticLink>
                         ))}
 
                         <div className="mx-4 h-6 w-px bg-border/50" />
@@ -182,7 +185,7 @@ export function Header() {
                             href="https://auth.hestialabs.in/signin"
                             className="rounded-full bg-white px-6 py-3 text-ui font-black text-black transition-all hover:scale-105 active:scale-95"
                         >
-                            Sign In
+                            <DecryptedText text="Sign In" animateOn="hover" speed={40} />
                         </Link>
                     </div>
 
@@ -233,7 +236,7 @@ export function Header() {
                                     onClick={() => scrollToSection(item.href)}
                                     className="block text-lg font-bold tracking-tight text-zinc-300 hover:text-white transition-colors w-full text-left"
                                 >
-                                    {item.name}
+                                    <DecryptedText text={item.name} animateOn="hover" speed={40} />
                                 </button>
                             ))}
                             <div className="pt-4 border-t border-white/10 space-y-4">
@@ -242,7 +245,7 @@ export function Header() {
                                     onClick={() => setIsOpen(false)}
                                     className="w-full flex items-center justify-center gap-2 px-5 py-3 border border-white/20 text-white text-sm font-bold tracking-wider uppercase rounded transition-all hover:bg-white/5"
                                 >
-                                    Contact
+                                    <DecryptedText text="Contact" animateOn="hover" speed={40} />
                                     <ChevronRight className="w-4 h-4" />
                                 </a>
                                 <Link
@@ -250,7 +253,7 @@ export function Header() {
                                     onClick={() => setIsOpen(false)}
                                     className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-white text-black text-sm font-bold tracking-wider uppercase rounded transition-all"
                                 >
-                                    Sign In
+                                    <DecryptedText text="Sign In" animateOn="hover" speed={40} />
                                     <ChevronRight className="w-4 h-4" />
                                 </Link>
                             </div>

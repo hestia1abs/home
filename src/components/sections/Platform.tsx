@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Shield, Cpu, Layers, ArrowRight } from 'lucide-react';
+import DecryptedText from '@/components/animations/DecryptedText';
 
 export function PlatformSection() {
   const ref = useRef(null);
@@ -24,13 +25,13 @@ export function PlatformSection() {
           className="text-center mb-20"
         >
           <span className="text-xs font-bold tracking-[0.25em] uppercase text-cyan-400 mb-6 block">
-            System Architecture
+            <DecryptedText text="System Architecture" animateOn="view" speed={60} />
           </span>
           <h2 
             data-testid="platform-headline"
             className="font-heading text-3xl md:text-5xl font-medium tracking-tight text-white mb-6"
           >
-            Deterministic execution for the physical world.
+            <DecryptedText text="Deterministic execution for the physical world." animateOn="view" speed={100} />
           </h2>
           <p className="text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             HxTP is a layered runtime that connects intelligence, orchestration, and device control 
@@ -53,7 +54,7 @@ export function PlatformSection() {
                 <Shield className="w-6 h-6 text-cyan-400" />
               </div>
               <h3 className="font-heading text-xl md:text-2xl font-medium text-white mb-4">
-                Signed Control Layer
+                <DecryptedText text="Signed Control Layer" animateOn="inViewHover" speed={50} />
               </h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
                 HxTP signs and verifies every command so execution remains traceable, predictable, 
@@ -79,7 +80,7 @@ export function PlatformSection() {
                 <Cpu className="w-6 h-6 text-fuchsia-400" />
               </div>
               <h3 className="font-heading text-xl md:text-2xl font-medium text-white mb-4">
-                Local Runtime
+                <DecryptedText text="Local Runtime" animateOn="inViewHover" speed={50} />
               </h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
                 Local execution keeps response times low and user experience stable, even when 
@@ -115,7 +116,7 @@ export function PlatformSection() {
                 <Layers className="w-6 h-6 text-cyan-400" />
               </div>
               <h3 className="font-heading text-xl md:text-2xl font-medium text-white mb-4">
-                Real-time Coordination
+                <DecryptedText text="Real-time Coordination" animateOn="inViewHover" speed={50} />
               </h3>
               <p className="text-zinc-400 text-sm leading-relaxed">
                 Orchestration keeps services, devices, and AI agents synchronized so the system 
@@ -158,8 +159,7 @@ export function PlatformSection() {
 
             <div className="relative z-10 text-center max-w-3xl">
               <h3 className="font-heading text-4xl md:text-6xl lg:text-7xl font-medium text-white mb-6 leading-tight">
-                Resilient<br />
-                <span className="text-gradient-cyan">Fabric</span>
+                <DecryptedText text="Resilient Fabric" animateOn="view" speed={120} />
               </h3>
               <p className="text-zinc-400 leading-relaxed text-lg">
                 Core routing, validation, and device coordination are isolated within a single execution fabric. 

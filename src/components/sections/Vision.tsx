@@ -3,7 +3,6 @@
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import DecryptedText from '@/components/animations/DecryptedText';
-import GlitchText from '@/components/animations/GlitchText';
 import { ScrollParallax, DepthLayer } from '@/components/animations/ScrollEffects';
 
 export function VisionSection() {
@@ -39,7 +38,7 @@ export function VisionSection() {
           className="text-center mb-20"
         >
           <span className="text-xs font-bold tracking-[0.25em] uppercase text-cyan-400 mb-6 block">
-            <GlitchText text="System Principles" intensity={0.2} />
+            <DecryptedText text="System Principles" animateOn="view" speed={60} />
           </span>
           <h2 
             data-testid="vision-headline"
@@ -75,7 +74,7 @@ export function VisionSection() {
           >
             <DepthLayer depth={0.2}>
               <span className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400 mb-6 block">
-                <GlitchText text="Execution_Layer" intensity={0.3} />
+                <DecryptedText text="Execution_Layer" animateOn="view" speed={60} />
               </span>
               <h3 className="font-heading text-3xl md:text-4xl font-medium text-white mb-6 leading-tight">
                 Protocol<br />Enforcement
@@ -114,7 +113,7 @@ export function VisionSection() {
                 data-testid="vision-reliability-card"
               >
                 <span className="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 group-hover:text-cyan-400 transition-colors mb-6 block">
-                  Reliability
+                  <DecryptedText text="Reliability" animateOn="inViewHover" speed={50} />
                 </span>
                 <p className="text-zinc-400 text-sm leading-relaxed mb-8">
                   Organic systems permit drift and ambiguity. Hestia eliminates that risk with 
@@ -139,7 +138,7 @@ export function VisionSection() {
                 data-testid="vision-coordination-card"
               >
                 <span className="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500 group-hover:text-cyan-400 transition-colors mb-6 block">
-                  Coordination
+                  <DecryptedText text="Coordination" animateOn="inViewHover" speed={50} />
                 </span>
                 <p className="text-zinc-400 text-sm leading-relaxed mb-8">
                   Intelligence, orchestration, and device control operate through a unified protocol, 
