@@ -3,8 +3,63 @@
 import { useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { ArrowRight, Check, Loader2 } from 'lucide-react';
+import { ArrowRight, Check, Loader2, MapPin } from 'lucide-react';
 import { toast } from 'sonner';
+
+function PixelAvatar({ seed, color }: { seed: string; color: string }) {
+  // Simple deterministic "pixel" pattern based on seed
+  const pattern = seed.split('').map(c => c.charCodeAt(0) % 2 === 0);
+  
+  return (
+    <div className="w-12 h-12 relative bg-zinc-900 rounded-lg overflow-hidden border border-white/10 group-hover:border-white/20 transition-colors shrink-0">
+      <div className="grid grid-cols-4 grid-rows-4 h-full w-full opacity-40">
+        {Array.from({ length: 16 }).map((_, i) => (
+          <div 
+            key={i} 
+            className="transition-colors duration-700"
+            style={{ 
+              backgroundColor: pattern[i % pattern.length] ? color : 'transparent' 
+            }} 
+          />
+        ))}
+      </div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-4 h-4 rounded-full" style={{ backgroundColor: color, filter: `blur(8px)`, opacity: 0.5 }} />
+      </div>
+    </div>
+  );
+}
+
+function FounderCard({ handle, role, desc, location, social, color }: { handle: string; role: string; desc: string; location: string; social: string; color: string }) {
+  return (
+    <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] hover:border-white/10 transition-all duration-300 group">
+      <PixelAvatar seed={handle} color={color} />
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-bold text-white tracking-tight">{handle}</span>
+          <span className="text-[10px] font-black tracking-widest text-zinc-500 uppercase">{role}</span>
+        </div>
+        <p className="text-xs text-zinc-400 leading-relaxed mb-2">
+          {desc}
+        </p>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 text-[9px] font-bold text-zinc-500 uppercase tracking-wider">
+            <MapPin className="w-2.5 h-2.5" />
+            {location}
+          </div>
+          <a 
+            href={`https://instagram.com/${social.replace('@', '')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-[9px] font-bold text-cyan-400/60 hover:text-cyan-400 uppercase tracking-widest transition-colors"
+          >
+            {social}
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -139,22 +194,33 @@ export function CTASection() {
             </div>
           </div>
 
-          {/* Social proof */}
-          <div className="relative z-10 mt-12 pt-10 border-t border-white/10 flex flex-col items-center gap-6">
-            <div className="flex -space-x-3">
-              {['A', 'B', 'C', 'D', 'E', 'F'].map((letter, i) => (
-                <div
-                  key={letter}
-                  className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-zinc-800 border-2 border-[#050505] flex items-center justify-center text-xs font-bold text-zinc-400"
-                  style={{ zIndex: 6 - i }}
-                >
-                  {letter}
-                </div>
-              ))}
+          {/* Founders section */}
+          <div className="relative z-10 mt-12 pt-10 border-t border-white/10">
+            <div className="flex flex-col gap-6">
+              <div className="flex items-center gap-4">
+                <div className="h-px w-8 bg-white/20" />
+                <span className="text-[10px] font-black tracking-[0.4em] uppercase text-zinc-500">Team</span>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FounderCard 
+                  handle="@sddion"
+                  role="CEO & CTO"
+                  desc=" Programmer & Tech Enthusiast "
+                  location="India"
+                  social="@wordswires"
+                  color="#22d3ee"
+                />
+                <FounderCard 
+                  handle="@Xpaceboi"
+                  role="Creative Head "
+                  desc="UI/UX & VFX Artist."
+                  location="India"
+                  social="@bid_yut_24"
+                  color="#f0f"
+                />
+              </div>
             </div>
-            <p className="text-xs font-bold tracking-[0.2em] uppercase text-cyan-400/40 text-center">
-              Active conversations across residential, hardware, and systems design teams.
-            </p>
           </div>
         </motion.div>
       </div>
