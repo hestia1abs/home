@@ -159,6 +159,11 @@ function toast({ ...props }: Toast) {
     },
   })
 
+  const toastTimer = document.querySelector(`[data-toast-id="${id}"]`) as HTMLElement
+  if (toastTimer) {
+    toastTimer.style.setProperty('--toast-duration', '3s')
+  }
+
   setTimeout(() => {
     dismiss()
   }, 3000)
