@@ -1,6 +1,8 @@
 'use client'
 
 import { useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { motion, } from "framer-motion";
 import { Background } from "./components/Background";
 import { MenuOverlay, MenuOverlayRef } from "./components/MenuOverlay";
@@ -31,7 +33,6 @@ export default function Home() {
     navigator.clipboard.writeText(COMMANDS[activeTab]);
     toast({
       title: "Command Copied",
-      description: COMMANDS[activeTab],
     });
   };
 
@@ -43,7 +44,7 @@ export default function Home() {
       <div className={`frame fixed inset-0 z-50 grid p-6 sm:p-12 pointer-events-none transition-opacity duration-700 ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <div className="flex justify-between items-start w-full">
           <div className="pointer-events-auto text-sm font-bold tracking-[0.3em] opacity-70 hover:opacity-100 transition-all duration-300">
-            <a href="/" className="bg-linear-to-r from-sky-400 to-white bg-clip-text text-transparent">HESTIA LABS</a>
+            <Link href="/" className="bg-linear-to-r from-sky-400 to-white bg-clip-text text-transparent">HESTIA LABS</Link>
           </div>
 
           <div className="pointer-events-auto">
@@ -52,7 +53,7 @@ export default function Home() {
               className="group flex flex-col items-center justify-center p-2 hover:bg-white/5 rounded-full transition-all"
               aria-label="Open menu"
             >
-              <img src="/menu.svg" alt="Menu" className="w-8 h-auto invert" />
+              <Image src="/menu.svg" alt="Menu" className="w-8 h-auto invert" width={32} height={32} />
             </button>
           </div>
         </div>
@@ -67,7 +68,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-4xl sm:text-6xl md:text-7xl lg:text-[7vw] leading-[0.9] font-black tracking-tighter mb-4 pointer-events-auto uppercase font-mono bg-linear-to-r from-sky-400 to-white bg-clip-text text-transparent"
           >
-            Hestia Xchange Transfer Protocol
+            Hestia X-change Transfer Protocol
           </motion.h1>
 
           <motion.h2

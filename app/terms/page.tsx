@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
-import {
+import { 
     Shield01Icon,
     InformationCircleIcon,
     Book02Icon,
@@ -14,13 +14,14 @@ import {
     GlobalIcon,
     DatabaseIcon,
     WasteIcon,
-    Mail01Icon
+    Mail01Icon,
+    type IconProps
 } from '@hugeicons/core-free-icons';
 
 interface Section {
     id: string;
     title: string;
-    icon: any;
+    icon: React.ComponentType<IconProps>;
 }
 
 const sections: Section[] = [
@@ -117,7 +118,7 @@ export default function TermsPage() {
 
                         <div className="mt-12 p-6 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-sm">
                             <p className="text-xs text-muted-foreground/60 leading-relaxed italic">
-                                "These terms govern the relationship between Hestia Labs and our global partners. By using the HxTP protocol, you participate in a sovereign future."
+                                &quot;These terms govern the relationship between Hestia Labs and our global partners. By using the HxTP protocol, you participate in a sovereign future.&quot;
                             </p>
                         </div>
                     </aside>
@@ -134,9 +135,9 @@ export default function TermsPage() {
                             </div>
                             <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed space-y-4">
                                 <p>
-                                    These Terms of Service ("Terms") constitute a legally binding agreement made between you,
-                                    whether personally or on behalf of an entity ("you") and <strong className="text-foreground">Hestia Labs LLP</strong>
-                                    ("Company", "we", "us", or "our"), concerning your access to and use of our website, dashboard, APIs, firmware, and hardware interaction services.
+                                    These Terms of Service (&quot;Terms&quot;) constitute a legally binding agreement made between you,
+                                    whether personally or on behalf of an entity (&quot;you&quot;) and <strong className="text-foreground">Hestia Labs LLP</strong>
+                                    (&quot;Company&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;), concerning your access to and use of our website, dashboard, APIs, firmware, and hardware interaction services.
                                 </p>
                                 <p>
                                     By accessing the Site, you acknowledge that you have read, understood, and agree to be bound by all of these Terms of Service.
@@ -208,7 +209,7 @@ export default function TermsPage() {
                                     To access certain features, you must create a secure account. You are solely responsible for maintaining
                                     the confidentiality of your login credentials and for all activities that occur under your account.
                                     Hestia Labs employs encryption and third-party authentication protocols (via Appwrite), but
-                                    <strong className="text-foreground"> final security posture remains the user's responsibility.</strong>
+                                    <strong className="text-foreground"> final security posture remains the user&apos;s responsibility.</strong>
                                 </p>
                                 <div className="flex items-start gap-4 p-4 bg-primary/5 border border-primary/10 rounded-xl">
                                     <HugeiconsIcon icon={AlertCircleIcon} size={24} className="text-primary shrink-0" />
@@ -230,7 +231,7 @@ export default function TermsPage() {
                             <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed space-y-4 text-sm">
                                 <p>
                                     Unless otherwise indicated, the Services and all source code, databases, functionality, software,
-                                    website designs, audio, video, text, photographs, and graphics on the Site (collectively, the "Content")
+                                    website designs, audio, video, text, photographs, and graphics on the Site (collectively, the &quot;Content&quot;)
                                     are owned or controlled by us or licensed to us, and are protected by copyright and trademark laws.
                                 </p>
                                 <p>

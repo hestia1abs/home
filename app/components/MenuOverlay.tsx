@@ -1,6 +1,7 @@
 'use client'
 
 import { useImperativeHandle, useRef, forwardRef, useState } from 'react'
+import Image from 'next/image'
 import { gsap } from 'gsap'
 
 export interface MenuOverlayRef {
@@ -234,10 +235,10 @@ export const MenuOverlay = forwardRef<MenuOverlayRef, MenuOverlayProps>(({ onOpe
           <div className="max-w-4xl space-y-12">
             <div className="space-y-6">
               <h2 className="text-5xl sm:text-7xl lg:text-8xl font-black uppercase font-mono tracking-tighter bg-linear-to-r from-sky-400 to-white bg-clip-text text-transparent">
-                The Vision
+                About Us
               </h2>
               <p className="text-white/70 text-base sm:text-xl font-mono uppercase tracking-widest leading-relaxed max-w-3xl mx-auto">
-                Building the <span className="text-sky-400">Deterministic execution layer</span> for the physical world. Hestia Labs engineers high-integrity infrastructure where code controls reality.
+                Hestia Labs is a technology company focused on building high-integrity infrastructure for the physical world. We engineer deterministic execution layers where code controls reality.
               </p>
             </div>
             
@@ -269,7 +270,7 @@ export const MenuOverlay = forwardRef<MenuOverlayRef, MenuOverlayProps>(({ onOpe
                 <div className="relative mb-4">
                   <div className="w-20 h-20 mx-auto relative">
                     <div className="absolute inset-0 bg-cyan-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <img src="/sddion.svg" alt="@sddion" className="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(0,212,255,0.5)]" />
+                    <Image src="/sddion.svg" alt="@sddion" className="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(0,212,255,0.5)]" width={80} height={80} />
                   </div>
                 </div>
                 <div className="w-16 h-px bg-linear-to-r from-transparent via-cyan-500/50 to-transparent mb-3 mx-auto opacity-50" />
@@ -294,7 +295,7 @@ export const MenuOverlay = forwardRef<MenuOverlayRef, MenuOverlayProps>(({ onOpe
                 <div className="relative mb-4">
                   <div className="w-20 h-20 mx-auto relative">
                     <div className="absolute inset-0 bg-pink-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <img src="/xspaceboi.svg" alt="@XspaceBoi" className="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(255,107,157,0.5)]" />
+                    <Image src="/xspaceboi.svg" alt="@XspaceBoi" className="w-full h-full object-contain drop-shadow-[0_0_10px_rgba(255,107,157,0.5)]" width={80} height={80} />
                   </div>
                 </div>
                 <div className="w-16 h-px bg-linear-to-r from-transparent via-pink-500/50 to-transparent mb-3 mx-auto opacity-50" />
@@ -323,10 +324,12 @@ export const MenuOverlay = forwardRef<MenuOverlayRef, MenuOverlayProps>(({ onOpe
           className="button-close fixed top-0 right-0 m-6 sm:m-12 text-white hover:text-sky-400 p-4 transition-colors z-1100 pointer-events-auto"
           aria-label={viewStack.length > 1 ? "Go Back" : "Close Menu"}
         >
-          <img 
+          <Image 
             src="/menuback.svg" 
             alt="Back" 
             className={`w-8 h-auto transition-transform duration-500 ${viewStack.length === 1 ? 'rotate-0' : '-rotate-90'}`} 
+            width={32}
+            height={32}
           />
         </button>
 

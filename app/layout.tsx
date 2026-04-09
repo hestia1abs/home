@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "./components/toaster";
+import { ScrollPreventer } from "./components/ScrollPreventer";
 
 
 export const metadata: Metadata = {
@@ -107,6 +108,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased dark">
       <body className="bg-black text-white min-h-screen selection:bg-red-900/40">
+        <ScrollPreventer />
         {children}
         <Toaster />
       </body>
