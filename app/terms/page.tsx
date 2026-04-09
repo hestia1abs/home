@@ -14,14 +14,13 @@ import {
     GlobalIcon,
     DatabaseIcon,
     WasteIcon,
-    Mail01Icon,
-    type IconProps
+    Mail01Icon
 } from '@hugeicons/core-free-icons';
 
 interface Section {
     id: string;
     title: string;
-    icon: React.ComponentType<IconProps>;
+    icon: typeof Shield01Icon;
 }
 
 const sections: Section[] = [
