@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "./components/toaster";
 import { ScrollPreventer } from "./components/ScrollPreventer";
-
+import { ChatbotWidget } from "./components/ChatbotWidget";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://hestialabs.in'),
@@ -111,6 +111,7 @@ export default function RootLayout({
         <ScrollPreventer />
         {children}
         <Toaster />
+        <ChatbotWidget />
       </body>
     </html>
   );
