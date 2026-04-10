@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from "./components/toaster";
 import { ScrollPreventer } from "./components/ScrollPreventer";
 import { ChatbotWidget } from "./components/ChatbotWidget";
+import { GoogleAnalytics } from "./components/Analytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://hestialabs.in'),
@@ -112,6 +113,7 @@ export default function RootLayout({
         {children}
         <Toaster />
         <ChatbotWidget />
+        <GoogleAnalytics/>
       </body>
     </html>
   );
