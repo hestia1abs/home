@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "./components/toaster";
 import { ScrollPreventer } from "./components/ScrollPreventer";
-import { ChatbotWidget } from "./components/ChatbotWidget";
 import { GoogleAnalytics } from "./components/Analytics";
 
 export const metadata: Metadata = {
@@ -111,8 +110,7 @@ export default function RootLayout({
       <body className="bg-black text-white min-h-screen selection:bg-red-900/40">
         <ScrollPreventer />
         {children}
-        <Toaster />
-        <ChatbotWidget />
+        <Toaster />    
         <GoogleAnalytics/>
       </body>
     </html>
