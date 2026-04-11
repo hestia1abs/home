@@ -53,7 +53,7 @@ export default function Home() {
               className="group flex flex-col items-center justify-center p-2 hover:bg-white/5 rounded-full transition-all"
               aria-label="Open menu"
             >
-              <Image src="/menu.svg" alt="Menu" className="w-8 h-auto invert" width={32} height={32} unoptimized />
+              <Image src="/menu.svg" alt="Menu" className="w-auto h-auto invert" width={32} height={32} unoptimized />
             </button>
           </div>
         </div>
