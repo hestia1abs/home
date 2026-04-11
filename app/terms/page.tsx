@@ -3,7 +3,6 @@ import type { ReactNode } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   AlertCircleIcon,
-  InformationCircleIcon,
   Mail01Icon,
   Shield01Icon,
 } from '@hugeicons/core-free-icons';
@@ -15,7 +14,6 @@ export const metadata: Metadata = {
     'Terms of Service for Hestia Labs LLP covering access to the Hestia website, accounts, APIs, cloud services, device software, and related offerings in India.',
 };
 
-const lastUpdated = 'April 11, 2026';
 
 const sections: LegalTocSection[] = [
   { id: 'acceptance', number: '01', title: 'Acceptance' },
@@ -101,7 +99,7 @@ export default function TermsPage() {
   return (
     <main className="relative min-h-screen w-full bg-black font-mono text-white selection:bg-sky-500/30">
       <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-        <header className="mb-12 border border-white/10 bg-white/[0.03] p-6 md:p-8">
+        <header className="mb-12 border border-white/10 bg-white/3 p-6 md:p-8">
           <div className="mb-5 flex items-start justify-between gap-4">
             <div>
               <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.4em] text-white/35">
@@ -588,7 +586,7 @@ export default function TermsPage() {
 
             <LegalSection id="grievance" number="20" title="Grievance Redressal and Contact Details">
               <div className="grid gap-4 md:grid-cols-2">
-                <div className="border border-white/10 bg-white/[0.02] p-5">
+                <div className="border border-white/10 bg-white/2 p-5">
                   <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.35em] text-sky-300">
                     General Contact
                   </p>
@@ -602,7 +600,7 @@ export default function TermsPage() {
                     </a>
                   </p>
                 </div>
-                <div className="border border-white/10 bg-white/[0.02] p-5">
+                <div className="border border-white/10 bg-white/2 p-5">
                   <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.35em] text-sky-300">
                     Security Contact
                   </p>
@@ -623,7 +621,7 @@ export default function TermsPage() {
                 reasonable manner and may request additional information necessary to verify identity,
                 authority, or technical context before taking action.
               </p>
-              <div className="flex items-start gap-3 border border-white/10 bg-white/[0.02] p-4 text-xs uppercase tracking-[0.18em] text-white/55">
+              <div className="flex items-start gap-3 border border-white/10 bg-white/2 p-4 text-xs uppercase tracking-[0.18em] text-white/55">
                 <HugeiconsIcon icon={Mail01Icon} size={16} className="mt-0.5 shrink-0 text-sky-400" />
                 <p>
                   Hestia does not claim any special statutory intermediary designation on this page

@@ -4,7 +4,6 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import {
   AlertCircleIcon,
   DatabaseIcon,
-  InformationCircleIcon,
   Shield01Icon,
 } from '@hugeicons/core-free-icons';
 import { LegalToc, type LegalTocSection } from '../components/legal/LegalToc';
@@ -14,8 +13,6 @@ export const metadata: Metadata = {
   description:
     'Privacy Policy for Hestia Labs LLP describing how Hestia processes website, account, device, telemetry, support, analytics, and security data in connection with its services.',
 };
-
-const lastUpdated = 'April 11, 2026';
 
 const sections: LegalTocSection[] = [
   { id: 'overview', number: '01', title: 'Overview' },
@@ -518,7 +515,7 @@ export default function PrivacyPage() {
 
             <LegalSection id="grievance" number="18" title="Grievance Redressal and Contact Information">
               <div className="grid gap-4 md:grid-cols-2">
-                <div className="border border-white/10 bg-white/[0.02] p-5">
+                <div className="border border-white/10 bg-white/2 p-5">
                   <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.35em] text-sky-300">
                     Privacy Contact
                   </p>
@@ -532,7 +529,7 @@ export default function PrivacyPage() {
                     </a>
                   </p>
                 </div>
-                <div className="border border-white/10 bg-white/[0.02] p-5">
+                <div className="border border-white/10 bg-white/2 p-5">
                   <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.35em] text-sky-300">
                     General and Security
                   </p>
@@ -559,7 +556,7 @@ export default function PrivacyPage() {
                 grievances promptly and to provide a reasoned response within a commercially reasonable
                 period.
               </p>
-              <div className="flex items-start gap-3 border border-white/10 bg-white/[0.02] p-4 text-xs uppercase tracking-[0.18em] text-white/55">
+              <div className="flex items-start gap-3 border border-white/10 bg-white/2 p-4 text-xs uppercase tracking-[0.18em] text-white/55">
                 <HugeiconsIcon icon={Shield01Icon} size={16} className="mt-0.5 shrink-0 text-sky-400" />
                 <p>
                   This page describes Hestia&apos;s current public privacy posture. It does not replace a
