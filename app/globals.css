@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
 @import "tailwindcss";
+
+@theme inline {
+  --font-pixel-silkscreen: 'Silkscreen', cursive;
+}
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --font-pinyon: 'Pinyon Script', cursive;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -28,6 +28,11 @@ body {
   .no-scroll {
     overflow: hidden !important;
     touch-action: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid #0ea5e9;
+    outline-offset: 2px;
   }
 }
 
@@ -57,3 +62,31 @@ body {
 .toast-dot:nth-child(3) {
   animation: toast-dot-blink 3s ease-in-out 2s infinite;
 }
+
+
+/* Global Noise Overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/assets/noise.png');
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Global Vignette */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
+    z-index: 9998;
+  }

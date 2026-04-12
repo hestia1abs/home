@@ -234,7 +234,7 @@ export const MenuOverlay = forwardRef<MenuOverlayRef, MenuOverlayProps>(({ onOpe
         >
           <div className="max-w-4xl space-y-12">
             <div className="space-y-6">
-              <h2 className="text-5xl sm:text-7xl lg:text-8xl font-black uppercase font-mono tracking-tighter bg-linear-to-r from-sky-400 to-white bg-clip-text text-transparent">
+              <h2 className="text-5xl sm:text-7xl lg:text-8xl font-black uppercase font-mono tracking-tighter bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent">
                 About Us
               </h2>
               <p className="text-white/70 text-base sm:text-xl font-mono uppercase tracking-widest leading-relaxed max-w-3xl mx-auto">

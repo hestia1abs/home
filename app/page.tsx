@@ -37,14 +37,14 @@ export default function Home() {
   };
 
   return (
-    <main className="relative w-full h-screen overflow-hidden bg-black font-sans text-white selection:bg-sky-500/30">
+    <main id="main-content" className="relative w-full h-screen overflow-hidden bg-black font-sans text-white selection:bg-sky-500/30">
       <Background />
 
       {/* Frame (Header/Nav) */}
       <div className={`frame fixed inset-0 z-50 grid p-6 sm:p-12 pointer-events-none transition-opacity duration-700 ${isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <div className="flex justify-between items-start w-full">
           <div className="pointer-events-auto text-sm font-bold tracking-[0.3em] opacity-70 hover:opacity-100 transition-all duration-300">
-            <Link href="/" className="bg-linear-to-r from-sky-400 to-white bg-clip-text text-transparent">HESTIA LABS</Link>
+            <Link href="/" className="bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent">HESTIA LABS</Link>
           </div>
 
           <div className="pointer-events-auto">
@@ -60,22 +60,22 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <div className={`content relative z-10 flex flex-col items-center justify-start pt-[18vh] sm:pt-[20vh] h-full transition-all duration-1000 ${isMenuOpen ? 'scale-95 blur-2xl' : 'scale-100'}`}>
+      <div className={`content relative z-10 flex flex-col items-center justify-start pt-[20vh] sm:pt-[22vh] h-full transition-all duration-1000 ${isMenuOpen ? 'scale-95 blur-2xl' : 'scale-100'}`}>
         <div className="text-center w-full max-w-6xl px-4 sm:px-6">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-[7vw] leading-[0.9] font-black tracking-tighter mb-4 pointer-events-auto uppercase font-mono bg-linear-to-r from-sky-400 to-white bg-clip-text text-transparent"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-5xl leading-none font-black tracking-tight mb-4 pointer-events-auto uppercase bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent font-pixel-silkscreen"
           >
-            Hestia X-change Transfer Protocol
+            Hestia X-change Transfer <span className="block sm:inline sm:ml-2">Protocol</span>
           </motion.h1>
 
           <motion.h2
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.6 }}
             transition={{ delay: 1, duration: 1.5 }}
-            className="font-mono text-[10px] sm:text-[12px] text-sky-400/80 mt-6 uppercase tracking-[0.5em] font-bold pointer-events-auto"
+            className="text-[10px] sm:text-[12px] text-sky-400/80 mt-6 uppercase tracking-[0.5em] font-bold pointer-events-auto font-pixel-silkscreen"
           >
             The physical world is not a cloud service.
           </motion.h2>

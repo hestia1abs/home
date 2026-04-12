@@ -108,6 +108,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased dark">
       <body className="bg-black text-white min-h-screen selection:bg-red-900/40">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:font-bold"
+        >
+          Skip to main content
+        </a>
         <ScrollPreventer />
         {children}
         <Toaster />    
