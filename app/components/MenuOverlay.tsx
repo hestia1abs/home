@@ -240,6 +240,9 @@ export const MenuOverlay = forwardRef<MenuOverlayRef, MenuOverlayProps>(({ onOpe
               <p className="text-white/70 text-base sm:text-xl font-mono uppercase tracking-widest leading-relaxed max-w-3xl mx-auto">
                 Hestia Labs is a technology company focused on building high-integrity infrastructure for the physical world. We engineer deterministic execution layers where code controls reality.
               </p>
+              <div className="text-white/50 text-sm font-mono tracking-widest mt-4">
+                <span className="text-sky-400">Phone:</span> +91 3666358170
+              </div>
             </div>
             
             <button 
