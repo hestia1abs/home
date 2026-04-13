@@ -13,12 +13,14 @@ interface AnimatedIntroProps {
 
 export function AnimatedIntro({
   phrases,
-  typingSpeed = 60,
-  pauseDuration = 2500,
+  typingSpeed = 50,
+  pauseDuration = 2000,
   onComplete,
 }: AnimatedIntroProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [displayedText, setDisplayedText] = useState('')
+  const [isExiting, setIsExiting] = useState(false)
+  const [glowIntensity, setGlowIntensity] = useState(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const currentPhrase = phrases[currentIndex]
@@ -29,6 +31,7 @@ export function AnimatedIntro({
     const typeInterval = setInterval(() => {
       if (charIndex <= currentPhrase.length) {
         setDisplayedText(currentPhrase.slice(0, charIndex))
+        setGlowIntensity(prev => Math.min(prev + 0.15, 1))
         charIndex++
       } else {
         clearInterval(typeInterval)
@@ -50,7 +53,8 @@ export function AnimatedIntro({
         setCurrentIndex(prev => prev + 1)
         setDisplayedText('')
       } else {
-        setTimeout(() => onComplete?.(), 1500)
+        setIsExiting(true)
+        setTimeout(() => onComplete?.(), 1200)
       }
     }, pauseDuration)
 
@@ -70,7 +74,7 @@ export function AnimatedIntro({
       const mouse = { position: new THREE.Vector2(), ratio: new THREE.Vector2(), target: new THREE.Vector2() }
       
       const renderer = new THREE.WebGLRenderer({ antialias: true, canvas: canvasRef.current!, alpha: true })
-      renderer.setClearColor(0x000000, 1)
+      renderer.setClearColor(0x000000, 0)
       renderer.setSize(window.innerWidth, window.innerHeight)
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
@@ -160,16 +164,25 @@ export function AnimatedIntro({
     })
   }, [])
 
+  const containerStyle = isExiting 
+    ? 'fixed inset-0 z-50 bg-black transition-all duration-1000 ease-out opacity-0 scale-110'
+    : 'fixed inset-0 z-50 bg-black'
+
+  const textStyle = isExiting
+    ? 'text-center text-xl sm:text-3xl md:text-4xl font-bold tracking-wide bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent transition-all duration-700 ease-out scale-150 opacity-0 blur-sm font-pixel-silkscreen'
+    : 'text-center text-xl sm:text-3xl md:text-4xl font-bold tracking-wide bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent transition-all duration-300 font-pixel-silkscreen'
+
   return (
-    <div className="fixed inset-0 z-100 bg-black">
+    <div className={containerStyle}>
       <canvas ref={canvasRef} className="w-full h-full cursor-pointer" />
-      <div className="absolute top-6 left-0 right-0 text-center">
-        <span className="text-xs font-bold tracking-[0.3em] opacity-70 bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent">
-          HESTIA LABS
-        </span>
-      </div>
+      <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/60" />
       <div className="absolute inset-0 flex items-center justify-center">
-        <h1 className="text-center text-xl sm:text-3xl md:text-4xl font-bold tracking-wide bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent">
+        <h1 
+          className={textStyle}
+          style={{
+            textShadow: `0 0 ${20 + glowIntensity * 30}px rgba(56, 189, 248, ${glowIntensity * 0.5}), 0 0 ${40 + glowIntensity * 60}px rgba(248, 113, 113, ${glowIntensity * 0.3})`
+          }}
+        >
           {displayedText}
         </h1>
       </div>
