@@ -12,8 +12,9 @@ import { AnimatedIntro } from "./components/AnimatedIntro";
 const INTRO_PHRASES = [
   "As humanity witnesses the birth of artificial life",
   "A new internet is born",
-  "This is not a chatbot",
-  "This is intelligence becoming real"
+  "Wake up to reality",
+  "This is intelligence becoming real",
+  "Welcome to Hestia Labs"
 ];
 
 
