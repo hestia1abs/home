@@ -1,12 +1,20 @@
 'use client'
 
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, } from "framer-motion";
 import { Background } from "./components/Background";
 import { MenuOverlay, MenuOverlayRef } from "./components/MenuOverlay";
 import { useToast } from "./components/use-toast";
+import { AnimatedIntro } from "./components/AnimatedIntro";
+
+const INTRO_PHRASES = [
+  "As humanity witnesses the birth of artificial life",
+  "A new internet is born",
+  "This is not a chatbot",
+  "This is intelligence becoming real"
+];
 
 
 const COMMANDS = {
@@ -21,8 +29,13 @@ type Tab = keyof typeof COMMANDS;
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>("curl");
+  const [showIntro, setShowIntro] = useState(true);
   const menuOverlayRef = useRef<MenuOverlayRef>(null);
   const { toast } = useToast();
+
+  const handleIntroComplete = useCallback(() => {
+    setShowIntro(false);
+  }, []);
 
   const openMenu = () => {
     menuOverlayRef.current?.open();
@@ -38,6 +51,15 @@ export default function Home() {
 
   return (
     <main id="main-content" className="relative w-full h-screen overflow-hidden bg-black font-sans text-white selection:bg-sky-500/30">
+      {showIntro && (
+        <AnimatedIntro
+          phrases={INTRO_PHRASES}
+          typingSpeed={60}
+          pauseDuration={2500}
+          onComplete={handleIntroComplete}
+        />
+      )}
+
       <Background />
 
       {/* Frame (Header/Nav) */}
