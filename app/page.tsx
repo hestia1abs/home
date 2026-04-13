@@ -10,11 +10,11 @@ import { useToast } from "./components/use-toast";
 import { AnimatedIntro } from "./components/AnimatedIntro";
 
 const INTRO_PHRASES = [
-  "As humanity witnesses the birth of artificial life",
-  "A new internet is born",
+  "As humanity witnesses the birth of artificial intelligence",
+  "A new internet is Born",
   "Wake up to reality",
   "This is intelligence becoming real",
-  "Welcome to Hestia Labs"
+  "This is Hestia Labs"
 ];
 
 

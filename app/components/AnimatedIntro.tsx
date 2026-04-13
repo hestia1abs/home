@@ -21,7 +21,15 @@ export function AnimatedIntro({
   const [displayedText, setDisplayedText] = useState('')
   const [isExiting, setIsExiting] = useState(false)
   const [glowIntensity, setGlowIntensity] = useState(0)
+  const [showCursor, setShowCursor] = useState(true)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const blinkInterval = setInterval(() => {
+      setShowCursor(prev => !prev)
+    }, 530)
+    return () => clearInterval(blinkInterval)
+  }, [])
 
   const currentPhrase = phrases[currentIndex]
 
@@ -164,13 +172,15 @@ export function AnimatedIntro({
     })
   }, [])
 
+  const isFinalPhrase = currentIndex === phrases.length - 1
+
   const containerStyle = isExiting 
-    ? 'fixed inset-0 z-50 bg-black transition-all duration-1000 ease-out opacity-0 scale-110'
+    ? 'fixed inset-0 z-50 bg-black transition-all duration-1000 ease-out opacity-0 scale-150'
     : 'fixed inset-0 z-50 bg-black'
 
   const textStyle = isExiting
-    ? 'text-center text-xl sm:text-3xl md:text-4xl font-bold tracking-wide bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent transition-all duration-700 ease-out scale-150 opacity-0 blur-sm font-pixel-silkscreen'
-    : 'text-center text-xl sm:text-3xl md:text-4xl font-bold tracking-wide bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent transition-all duration-300 font-pixel-silkscreen'
+    ? `text-center text-xl sm:text-3xl md:text-5xl font-bold tracking-wide bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent transition-all duration-700 ease-out scale-200 opacity-0 blur-lg font-pixel-silkscreen ${isFinalPhrase ? 'tracking-[0.3em]' : ''}`
+    : `text-center text-xl sm:text-3xl md:text-5xl font-bold tracking-wide bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent transition-all duration-300 font-pixel-silkscreen ${isFinalPhrase ? 'tracking-[0.3em]' : ''}`
 
   return (
     <div className={containerStyle}>
@@ -184,6 +194,14 @@ export function AnimatedIntro({
           }}
         >
           {displayedText}
+          <span 
+            className="inline-block w-[0.55em] h-[1em] bg-gradient-to-b from-sky-400 to-red-500 align-middle ml-0.5"
+            style={{ 
+              clipPath: 'polygon(0% 0%, 100% 0%, 100% 65%, 70% 65%, 70% 45%, 100% 45%, 100% 100%, 0% 100%)',
+              opacity: showCursor ? 1 : 0,
+              transition: 'opacity 0.08s ease'
+            }}
+          />
         </h1>
       </div>
     </div>
