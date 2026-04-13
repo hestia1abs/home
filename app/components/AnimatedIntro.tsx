@@ -40,7 +40,7 @@ export function AnimatedIntro({
         setGlitchText(
           phrases[2]
             .split('')
-            .map((char, i) => Math.random() > 0.7 ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char)
+            .map((char) => Math.random() > 0.7 ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char)
             .join('')
         )
         count++
@@ -245,7 +245,7 @@ export function AnimatedIntro({
         >
           {glitchText || displayedText}
           <span 
-            className="inline-block w-[0.55em] h-[1em] bg-gradient-to-b from-sky-400 to-red-500 align-middle ml-0.5"
+            className="inline-block w-[0.55em] h-[1em] bg-linear-to-b from-sky-400 to-red-500 align-middle ml-0.5"
             style={{ 
               clipPath: 'polygon(0% 0%, 100% 0%, 100% 65%, 70% 65%, 70% 45%, 100% 45%, 100% 100%, 0% 100%)',
               opacity: showCursor ? 1 : 0,
