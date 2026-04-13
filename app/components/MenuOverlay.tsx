@@ -16,6 +16,14 @@ interface MenuOverlayProps {
 
 type ViewType = 'main' | 'about' | 'team'
 
+interface MenuItem {
+  tiny: string
+  text: string
+  link: string
+  external: boolean
+  useTransition?: boolean
+}
+
 export const MenuOverlay = forwardRef<MenuOverlayRef, MenuOverlayProps>(({ onOpenComplete, onCloseComplete }, ref) => {
   const overlayPathRef = useRef<SVGPathElement>(null)
   const menuWrapRef = useRef<HTMLDivElement>(null)
@@ -190,8 +198,23 @@ export const MenuOverlay = forwardRef<MenuOverlayRef, MenuOverlayProps>(({ onOpe
     { tiny: 'Read the', text: 'DOCUMENTATION', link: 'https://docs.hestialabs.in', external: true },
     { tiny: 'Learn', text: 'ABOUT', link: '', external: false },
     { tiny: 'Get in', text: 'CONTACT', link: 'mailto:contact@hestialabs.in', external: true },
-    { tiny: 'Member', text: 'LOGIN', link: 'https://auth.hestialabs.in', external: true },
+    { tiny: 'Member', text: 'LOGIN', link: 'https://auth.hestialabs.in', external: true, useTransition: true },
   ]
+
+  const handleLinkClick = (e: React.MouseEvent, item: MenuItem) => {
+    if (item.useTransition) {
+      e.preventDefault()
+      localStorage.setItem('cross-domain-transition', 'true')
+      window.location.href = item.link
+    } else if (item.external) {
+      closeOverlay()
+    } else {
+      e.preventDefault()
+      if (item.text === 'ABOUT') {
+        transitionToView('about')
+      }
+    }
+  }
 
   return (
     <>
@@ -207,18 +230,7 @@ export const MenuOverlay = forwardRef<MenuOverlayRef, MenuOverlayProps>(({ onOpe
               target={item.external ? "_blank" : undefined}
               rel={item.external ? "noopener noreferrer" : undefined}
               className="menu__item text-[10vw] sm:text-[8vw] text-white cursor-pointer leading-[0.85] font-black text-right relative group odd:ml-[-5vw] even:ml-[5vw] transition-all hover:tracking-tighter"
-              onClick={(e) => {
-                if (item.text === 'ABOUT') {
-                  e.preventDefault()
-                  transitionToView('about')
-                } else if (item.external) {
-                  // For external links, close the menu and allow default navigation
-                  closeOverlay()
-                } else {
-                  // Default behavior for other items
-                  closeOverlay()
-                }
-              }}
+              onClick={(e) => handleLinkClick(e, item)}
             >
               <span className="menu__item-tiny text-[0.8rem] sm:text-[1.2rem] block group-hover:text-sky-400 transition-colors uppercase tracking-[0.4em] font-mono text-white/40">{item.tiny}</span>
               <span className="menu__item-text text-white group-hover:text-sky-400 transition-colors uppercase">{item.text}</span>

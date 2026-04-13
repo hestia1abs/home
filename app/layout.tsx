@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from "./components/toaster";
 import { ScrollPreventer } from "./components/ScrollPreventer";
 import { GoogleAnalytics } from "./components/Analytics";
+import { CrossDomainSplash } from "./components/CrossDomainSplash";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://hestialabs.in'),
@@ -108,6 +109,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased dark">
       <body className="bg-black text-white min-h-screen selection:bg-red-900/40">
+        <CrossDomainSplash />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:font-bold"
