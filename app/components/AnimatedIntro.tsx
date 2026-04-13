@@ -22,6 +22,7 @@ export function AnimatedIntro({
   const [isExiting, setIsExiting] = useState(false)
   const [glowIntensity, setGlowIntensity] = useState(0)
   const [showCursor, setShowCursor] = useState(true)
+  const [glitchText, setGlitchText] = useState('')
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -30,6 +31,29 @@ export function AnimatedIntro({
     }, 530)
     return () => clearInterval(blinkInterval)
   }, [])
+
+  useEffect(() => {
+    if (currentIndex === 2) {
+      let count = 0
+      const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`'
+      const interval = setInterval(() => {
+        setGlitchText(
+          phrases[2]
+            .split('')
+            .map((char, i) => Math.random() > 0.7 ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : char)
+            .join('')
+        )
+        count++
+        if (count > 8) {
+          clearInterval(interval)
+          setGlitchText(phrases[2])
+        }
+      }, 50)
+      return () => clearInterval(interval)
+    } else {
+      setGlitchText('')
+    }
+  }, [currentIndex, phrases])
 
   const currentPhrase = phrases[currentIndex]
 
@@ -56,15 +80,41 @@ export function AnimatedIntro({
   useEffect(() => {
     if (displayedText.length < currentPhrase.length) return
 
+    const transitionDelay = currentIndex === 1 ? 1500 : pauseDuration
+
     const pauseTimer = setTimeout(() => {
       if (currentIndex < phrases.length - 1) {
-        setCurrentIndex(prev => prev + 1)
-        setDisplayedText('')
+        if (currentIndex === 1) {
+          let count = 0
+          const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`'
+          const interval = setInterval(() => {
+            setGlitchText(
+              phrases[2]
+                .split('')
+                .map((_, i) => Math.random() > 0.6 ? glitchChars[Math.floor(Math.random() * glitchChars.length)] : i < displayedText.length ? displayedText[i] : '')
+                .join('')
+            )
+            count++
+            if (count > 12) {
+              clearInterval(interval)
+              setGlitchText(phrases[2])
+            }
+          }, 40)
+          setTimeout(() => {
+            setCurrentIndex(prev => prev + 1)
+            setDisplayedText('')
+            setGlitchText('')
+          }, 600)
+          return () => clearInterval(interval)
+        } else {
+          setCurrentIndex(prev => prev + 1)
+          setDisplayedText('')
+        }
       } else {
         setIsExiting(true)
         setTimeout(() => onComplete?.(), 1200)
       }
-    }, pauseDuration)
+    }, transitionDelay)
 
     return () => clearTimeout(pauseTimer)
   }, [displayedText, currentIndex, phrases.length, pauseDuration, onComplete, currentPhrase.length])
@@ -193,7 +243,7 @@ export function AnimatedIntro({
             textShadow: `0 0 ${20 + glowIntensity * 30}px rgba(56, 189, 248, ${glowIntensity * 0.5}), 0 0 ${40 + glowIntensity * 60}px rgba(248, 113, 113, ${glowIntensity * 0.3})`
           }}
         >
-          {displayedText}
+          {glitchText || displayedText}
           <span 
             className="inline-block w-[0.55em] h-[1em] bg-gradient-to-b from-sky-400 to-red-500 align-middle ml-0.5"
             style={{ 
