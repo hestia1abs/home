@@ -36,9 +36,12 @@ Key capabilities:
 
 ---
 
-### 2. HxTP — AI-Native Execution Protocol
-
 HxTP (Hestia Execution Protocol) is a secure, deterministic protocol that allows AI systems to execute actions in the real world with strict guarantees.
+
+**HxTP v3 Technical Specifications:**
+*   **Frame Format:** Binary structure: `[HX][VER:3][TYPE:1][LEN:4][JSON]`.
+*   **Security:** HMAC-SHA256 message signing and AES-256-GCM encryption.
+*   **Reliability:** Nonce ring buffer for anti-replay and append-only SHA-256 hash-chained audit logs.
 
 Core properties:
 
@@ -47,20 +50,22 @@ Core properties:
 * Deterministic execution boundaries (no undefined behavior)
 * Tool-based action schema for AI agents
 
+**The 7-Step Intelligence Loop:**
+Every AI action follows a mandatory deterministic path:
+1. **Input** (Sensor/Voice) → 2. **Context Retrieval** → 3. **Manifest Fetch** → 4. **Structured Generation** → 5. **Hard Validation** → 6. **Signed Execution** → 7. **Memory Write** (pgvector).
+
 HxTP acts as a “system call layer for reality,” enabling AI to safely control devices, services, and infrastructure.
 
 ---
-
-### 3. Ambient Computing Systems
 
 Hestia Labs builds intelligent environments where computation moves beyond screens into physical space.
 
 This includes:
 
-* ESP32-S3-based Helix Nodes (deterministic device controllers)
-* Local AI Nodes for on-premise intelligence
-* Sensor-driven automation systems
-* Real-time environment awareness and response
+* **ESP32-S3 Helix Nodes**: Deterministic device controllers running the `hxtp-micro` C++17 SDK.
+* **Local AI Nodes**: On-premise intelligence running **Gemma 4** on Raspberry Pi 5.
+* **BLE Presence Mesh**: Real-time spatial modeling using fused Bluetooth RSSI signals; no cameras required.
+* **Sensor-driven automation systems** with real-time environment awareness and response.
 
 These systems enable homes, offices, and industrial spaces to operate as programmable environments.
 
@@ -105,21 +110,20 @@ From hardware to protocol to cloud to AI, Hestia Labs owns the entire stack. Thi
 
 ---
 
-## Technical Architecture Overview
+Hestia Labs operates on a hybrid distributed architecture across five distinct layers:
 
-Hestia Labs operates on a hybrid distributed architecture:
-
-* **Cloud Layer:** Centralized AI (HX47), orchestration, and remote access
-* **Edge Layer:** Helix Nodes executing deterministic commands via HxTP
-* **Local AI Layer:** On-premise AI Node for low-latency decision-making
-* **Protocol Layer:** HxTP as the unified execution fabric
+* **Layer 5 — Cloud:** Centralized orchestration [Fastify v5 + PostgreSQL + Appwrite].
+* **Layer 4 — AI:** HX47 Multi-Agent system (Gemma 4 locally on Pi 5).
+* **Layer 3 — Sensing:** BLE RSSI Mesh for camera-less presence.
+* **Layer 2 — Protocol:** HxTP v3 Binary Fabric.
+* **Layer 1 — Hardware:** Helix Nodes (ESP32-S3) endpoints.
 
 Security and reliability are enforced through:
 
 * AES-256-GCM encryption
 * Mutual TLS (mTLS)
-* Signed action requests
-* Append-only audit logs
+* Signed action requests (HMAC-SHA256)
+* Append-only SHA-256 hash-chained audit logs
 
 ---
 
