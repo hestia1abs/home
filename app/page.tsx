@@ -38,7 +38,7 @@ export default function Home() {
   };
 
   return (
-    <main id="main-content" className="relative w-full h-screen overflow-hidden bg-black font-sans text-white selection:bg-sky-500/30">
+    <main id="main-content" className="relative w-full min-h-screen bg-black font-sans text-white selection:bg-sky-500/30">
 
       <Background />
 
@@ -62,7 +62,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <div className={`content relative z-10 flex flex-col items-center justify-start pt-[20vh] sm:pt-[22vh] h-full transition-all duration-1000 ${isMenuOpen ? 'scale-95 blur-2xl' : 'scale-100'}`}>
+      <div id="hero-content" className={`content fixed inset-0 z-20 flex flex-col items-center justify-start pt-[20vh] sm:pt-[22vh] pointer-events-none transition-all duration-1000 ${isMenuOpen ? 'scale-95 blur-2xl' : 'scale-100'}`}>
         <div className="text-center w-full max-w-6xl px-4 sm:px-6">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}

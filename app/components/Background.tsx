@@ -1,319 +1,397 @@
-'use client'
+'use client';
 
-import { useEffect, useRef } from 'react'
-import * as THREE from 'three'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
-import { gsap, Power2 } from 'gsap'
+import { useEffect, useRef, useState } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useGLTF, PerspectiveCamera } from '@react-three/drei';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollSmoother } from 'gsap/ScrollSmoother';
+import { SplitText } from 'gsap/SplitText';
 
-// --- Classes ---
+import { getPositionClasses } from '../../lib/cinematic/utils';
+import { scenePerspectives } from '../../lib/cinematic/scene-data';
 
-class Particle {
-  mesh: THREE.Mesh
-  color: THREE.Color
-  percent: number
-  burst: boolean
-  offset: THREE.Vector3
-  speed: number
-  rotate: THREE.Vector3
-  pos: THREE.Vector3
+import * as THREE from 'three';
 
-  constructor(cellGeometry: THREE.BufferGeometry, burst: boolean = false) {
-    const radius = Math.random() * 0.003 + 0.0003
-
-    const range = 10
-    const offsetType = burst ? 200 : 350
-    const saturate = Math.floor(Math.random() * 20 + 65)
-    const light = burst ? 20 : 56
-
-    this.color = new THREE.Color(`hsl(${Math.random() * range + offsetType}, ${saturate}%, ${light}%)`)
-    const mat = new THREE.MeshPhongMaterial({
-      color: this.color
-    })
-
-    this.mesh = new THREE.Mesh(cellGeometry, mat)
-    this.mesh.scale.set(radius, radius, radius)
-    this.mesh.scale.x += (Math.random() - 0.5) * 0.001
-    this.mesh.scale.y += (Math.random() - 0.5) * 0.001
-    this.mesh.scale.z += (Math.random() - 0.5) * 0.001
-    this.mesh.position.set(0, 0, 1.5)
-
-    this.percent = burst ? 0.2 : Math.random()
-    this.burst = burst ? true : false
-    this.offset = new THREE.Vector3((Math.random() - 0.5) * 0.025, (Math.random() - 0.5) * 0.025, 0)
-    this.speed = Math.random() * 0.004 + 0.0002
-
-    if (this.burst) {
-      this.speed += 0.003
-      this.mesh.scale.x *= 1.4
-      this.mesh.scale.y *= 1.4
-      this.mesh.scale.z *= 1.4
-    }
-
-    this.rotate = new THREE.Vector3(-Math.random() * 0.1 + 0.01, 0, Math.random() * 0.01)
-    this.pos = new THREE.Vector3(0, 0, 0)
-  }
-
-  update(tunnel: Tunnel) {
-    this.percent += this.speed * (this.burst ? 1 : tunnel.speed)
-    this.pos = tunnel.curve.getPoint(1 - (this.percent % 1)).add(this.offset)
-    this.mesh.position.copy(this.pos)
-    this.mesh.rotation.x += this.rotate.x
-    this.mesh.rotation.y += this.rotate.y
-    this.mesh.rotation.z += this.rotate.z
-  }
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 }
 
-class Tunnel {
-  renderer: THREE.WebGLRenderer
-  camera: THREE.PerspectiveCamera
-  scene: THREE.Scene
-  particles: Particle[] = []
-  particlesContainer: THREE.Object3D
-  curve!: THREE.CatmullRomCurve3
-  tubeMesh!: THREE.Mesh
-  tubeMaterial!: THREE.MeshBasicMaterial
-  tubeGeometry_o!: THREE.BufferGeometry
-  mouse: {
-    position: THREE.Vector2
-    ratio: THREE.Vector2
-    target: THREE.Vector2
-  }
-  speed: number = 1
-  prevTime: number = 0
-  mousedown: boolean = false
-  cellGeometry: THREE.BufferGeometry
-  isMobile: boolean
-
-  constructor(canvas: HTMLCanvasElement, cellModel: THREE.Object3D) {
-    this.isMobile = window.innerWidth < 500
-    this.cellGeometry = (cellModel.children[0] as THREE.Mesh).geometry as THREE.BufferGeometry
-
-    this.mouse = {
-      position: new THREE.Vector2(window.innerWidth * 0.5, window.innerHeight * 0.7),
-      ratio: new THREE.Vector2(0, 0),
-      target: new THREE.Vector2(window.innerWidth * 0.5, window.innerHeight * 0.7)
-    }
-
-    this.renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      canvas: canvas,
-      alpha: true
-    })
-    this.renderer.setClearColor(0x000000, 1)
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-
-    this.camera = new THREE.PerspectiveCamera(15, window.innerWidth / window.innerHeight, 0.01, 100)
-    this.camera.rotation.y = Math.PI
-    this.camera.position.z = 0.35
-
-    this.scene = new THREE.Scene()
-    this.scene.background = new THREE.Color(0x000000)
-    this.scene.fog = new THREE.Fog(0x000000, 0.05, 1.6)
-
-    const light = new THREE.HemisphereLight(0xe9eff2, 0x01010f, 1)
-    this.scene.add(light)
-
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.5)
-    this.scene.add(ambientLight)
-
-    this.particlesContainer = new THREE.Object3D()
-    this.scene.add(this.particlesContainer)
-
-    this.addParticles()
-    this.createMesh()
-  }
-
-  addParticles() {
-    const count = this.isMobile ? 60 : 120
-    for (let i = 0; i < count; i++) {
-      const particle = new Particle(this.cellGeometry)
-      this.particles.push(particle)
-      this.particlesContainer.add(particle.mesh)
-    }
-  }
-
-  createMesh() {
-    const points: THREE.Vector3[] = []
-    for (let i = 0; i < 5; i++) {
-        points.push(new THREE.Vector3(0, 0, 2.5 * (i / 4)))
-    }
-    points[4].y = -0.06
-
-    this.curve = new THREE.CatmullRomCurve3(points)
-
-    this.tubeMaterial = new THREE.MeshBasicMaterial({
-      side: THREE.BackSide,
-      color: 0x000000
-    })
-
-    const tubeGeo = new THREE.TubeGeometry(this.curve, 70, 0.02, 30, false)
-    this.tubeMesh = new THREE.Mesh(tubeGeo, this.tubeMaterial)
-    this.tubeGeometry_o = tubeGeo.clone()
-    this.scene.add(this.tubeMesh)
-  }
-
-  onMouseDown() {
-    this.mousedown = true
-    gsap.to(this.scene.fog!.color, { duration: 0.6, r: 1, g: 1, b: 1 })
-    gsap.to(this.tubeMaterial.color, { duration: 0.6, r: 0, g: 0, b: 0 })
-    gsap.to(this, { duration: 1.5, speed: 0.1, ease: Power2.easeInOut })
-  }
-
-  onMouseUp() {
-    this.mousedown = false
-    gsap.to(this.scene.fog!.color, { duration: 0.6, r: 0, g: 0, b: 0 })
-    gsap.to(this.tubeMaterial.color, { duration: 0.6, r: 0, g: 0, b: 0 })
-    gsap.to(this, { duration: 0.6, speed: 1, ease: Power2.easeIn })
-  }
-
-  onMouseMove(clientX: number, clientY: number) {
-    this.mouse.target.x = clientX
-    this.mouse.target.y = clientY
-  }
-
-  onResize() {
-    const ww = window.innerWidth
-    const wh = window.innerHeight
-    this.isMobile = ww < 500
-    this.camera.aspect = ww / wh
-    this.camera.updateProjectionMatrix()
-    this.renderer.setSize(ww, wh)
-  }
-
-  updateCamera() {
-    this.mouse.position.x += (this.mouse.target.x - this.mouse.position.x) / 30
-    this.mouse.position.y += (this.mouse.target.y - this.mouse.position.y) / 30
-
-    this.mouse.ratio.x = (this.mouse.position.x / window.innerWidth)
-    this.mouse.ratio.y = (this.mouse.position.y / window.innerHeight)
-
-    this.camera.rotation.z = ((this.mouse.ratio.x) * 1 - 0.05)
-    this.camera.rotation.y = Math.PI - (this.mouse.ratio.x * 0.3 - 0.15)
-    this.camera.position.x = ((this.mouse.ratio.x) * 0.044 - 0.025)
-    this.camera.position.y = ((this.mouse.ratio.y) * 0.044 - 0.025)
-  }
-
-  updateCurve() {
-    const position = this.tubeMesh.geometry.attributes.position
-    const position_o = this.tubeGeometry_o.attributes.position
-    const radialSegments = 30
-
-    this.curve.points[2].x = 0.6 * (1 - this.mouse.ratio.x) - 0.3
-    this.curve.points[3].x = 0
-    this.curve.points[4].x = 0.6 * (1 - this.mouse.ratio.x) - 0.3
-    this.curve.points[2].y = 0.6 * (1 - this.mouse.ratio.y) - 0.3
-    this.curve.points[3].y = 0
-    this.curve.points[4].y = 0.6 * (1 - this.mouse.ratio.y) - 0.3
-
-    const splinePoints = this.curve.getPoints(70)
-
-    for (let i = 0; i < position.count; i++) {
-        const index = Math.floor(i / (radialSegments + 1))
-        const splinePoint = splinePoints[index]
-        const ox = position_o.getX(i)
-        const oy = position_o.getY(i)
-        
-        const targetX = ox + splinePoint.x
-        const targetY = oy + splinePoint.y
-        const currentX = position.getX(i)
-        const currentY = position.getY(i)
-        
-        position.setX(i, currentX + (targetX - currentX) / 15)
-        position.setY(i, currentY + (targetY - currentY) / 15)
-    }
-    position.needsUpdate = true
-  }
-
-  render(time: number) {
-    this.updateCamera()
-    this.updateCurve()
-
-    for (let i = 0; i < this.particles.length; i++) {
-      this.particles[i].update(this)
-      if (this.particles[i].burst && this.particles[i].percent > 1) {
-        this.particlesContainer.remove(this.particles[i].mesh)
-        this.particles.splice(i, 1)
-        i--
-      }
-    }
-
-    if (this.mousedown) {
-      if (time - this.prevTime > 20) {
-        this.prevTime = time
-        let particle = new Particle(this.cellGeometry, true)
-        this.particles.push(particle)
-        this.particlesContainer.add(particle.mesh)
-        if (!this.isMobile) {
-          particle = new Particle(this.cellGeometry, true)
-          this.particles.push(particle)
-          this.particlesContainer.add(particle.mesh)
-
-          particle = new Particle(this.cellGeometry, true)
-          this.particles.push(particle)
-          this.particlesContainer.add(particle.mesh)
-        }
-      }
-    }
-
-    this.renderer.render(this.scene, this.camera)
-  }
-}
-
-// --- Component ---
-
-export function Background() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const tunnelRef = useRef<Tunnel>(null)
+function CyberpunkBuilding() {
+  const { scene } = useGLTF('/assets/models/cyberpunk_skyscraper.glb');
 
   useEffect(() => {
-    if (!canvasRef.current) return
-
-    let tunnel: Tunnel
-    let animationId: number
-
-    const loader = new OBJLoader()
-    loader.load('/assets/models/blood_cell.obj', (obj) => {
-      tunnel = new Tunnel(canvasRef.current!, obj)
-      tunnelRef.current = tunnel
-
-      const animate = (time: number) => {
-        tunnel.render(time)
-        animationId = requestAnimationFrame(animate)
-      }
-      animate(0)
-    })
-
-    const handleResize = () => tunnel?.onResize()
-    const handleMouseMove = (e: MouseEvent) => tunnel?.onMouseMove(e.clientX, e.clientY)
-    const handleTouchMove = (e: TouchEvent) => tunnel?.onMouseMove(e.touches[0].clientX, e.touches[0].clientY)
-    const handleMouseDown = () => tunnel?.onMouseDown()
-    const handleMouseUp = () => tunnel?.onMouseUp()
-
-    window.addEventListener('resize', handleResize)
-    window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('touchmove', handleTouchMove)
-    window.addEventListener('mousedown', handleMouseDown)
-    window.addEventListener('mouseup', handleMouseUp)
-    window.addEventListener('touchstart', handleMouseDown)
-    window.addEventListener('touchend', handleMouseUp)
-
-    return () => {
-      cancelAnimationFrame(animationId)
-      window.removeEventListener('resize', handleResize)
-      window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('touchmove', handleTouchMove)
-      window.removeEventListener('mousedown', handleMouseDown)
-      window.removeEventListener('mouseup', handleMouseUp)
-      window.removeEventListener('touchstart', handleMouseDown)
-      window.removeEventListener('touchend', handleMouseUp)
-      tunnel?.renderer.dispose()
+    if (scene) {
+      scene.scale.set(3, 3, 3);
+      scene.position.set(0, 0, 0);
     }
-  }, [])
+  }, [scene]);
+
+  return <primitive object={scene} />;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function AnimatedCamera({ cameraAnimRef, targetAnimRef }: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const cameraRef = useRef<any>(null);
+  const { set } = useThree();
+
+  useEffect(() => {
+    if (cameraRef.current) {
+      set({ camera: cameraRef.current });
+    }
+  }, [set]);
+
+  useFrame(() => {
+    if (cameraRef.current) {
+      cameraRef.current.position.set(cameraAnimRef.current.x, cameraAnimRef.current.y, cameraAnimRef.current.z);
+      cameraRef.current.lookAt(targetAnimRef.current.x, targetAnimRef.current.y, targetAnimRef.current.z);
+    }
+  });
+
+  return <PerspectiveCamera ref={cameraRef} makeDefault fov={45} near={1} far={1000} position={[0, 5, 10]} />;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function Scene({ cameraAnimRef, targetAnimRef }: any) {
+  const { scene } = useThree();
+
+  useEffect(() => {
+    if (scene) {
+      const fogColor = new THREE.Color('#0a0a0a');
+      scene.fog = new THREE.Fog(fogColor, 10, 30);
+      scene.background = new THREE.Color('#0a0a0a');
+    }
+  }, [scene]);
 
   return (
-    <div className="fixed inset-0 z-0 bg-black">
-      <canvas id="scene" ref={canvasRef} className="w-full h-full cursor-pointer" />
-    </div>
-  )
+    <>
+      <AnimatedCamera cameraAnimRef={cameraAnimRef} targetAnimRef={targetAnimRef} />
+
+      <ambientLight intensity={0.6} />
+      <directionalLight position={[10, 20, 10]} intensity={1.5} castShadow />
+      <directionalLight position={[-10, 10, -10]} intensity={0.8} />
+      <pointLight position={[0, 50, 20]} intensity={1.2} color="#00ffff" />
+      <pointLight position={[10, -10, 5]} intensity={0.5} color="#e8ff47" />
+
+      <CyberpunkBuilding />
+    </>
+  );
 }
+
+export function Background() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const smoothWrapperRef = useRef<HTMLDivElement>(null);
+  const smoothContentRef = useRef<HTMLDivElement>(null);
+  const textRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const cameraAnimRef = useRef({ x: -20, y: 0, z: 0 });
+  const targetAnimRef = useRef({ x: 0, y: 15, z: 0 });
+  const rotationAnimRef = useRef({ useRotation: false });
+  const [isLoading, setIsLoading] = useState(true);
+  const splitInstancesRef = useRef<SplitText[]>([]);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const progressTextRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (!containerRef.current || !smoothWrapperRef.current || !smoothContentRef.current) return;
+
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    document.fonts.ready.then(() => {
+      ScrollSmoother.create({
+        wrapper: smoothWrapperRef.current!,
+        content: smoothContentRef.current!,
+        smooth: 1.5,
+        effects: false,
+        smoothTouch: 0.1,
+      });
+
+      const setProgressWidth = gsap.quickSetter(progressBarRef.current, 'width', '%');
+      const setProgressText = gsap.quickSetter(progressTextRef.current, 'textContent');
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: true,
+          onUpdate: (self) => {
+            const progress = self.progress * 100;
+            setProgressWidth(progress);
+            setProgressText(Math.round(progress).toString().padStart(3, '0') + '%');
+          },
+        },
+      });
+
+      // Hestia Hero Content Fade-Out Logic
+      // We assume the hero content has an id of 'hero-content'
+      tl.to(
+        '#hero-content',
+        {
+          opacity: 0,
+          y: -50,
+          scale: 0.95,
+          duration: 0.05, // Fade out in the first 5% of the scroll
+          ease: 'power2.out',
+        },
+        0
+      );
+
+      // Hide Cinematic HUD on Hero Section
+      tl.fromTo(
+        '#cinematic-hud',
+        { opacity: 0, y: 20 },
+        { 
+          opacity: 0.7, 
+          y: 0, 
+          duration: 0.05, 
+          ease: 'power2.out' 
+        },
+        0.05 // Appear as soon as the Hero starts fading
+      );
+
+      scenePerspectives.forEach((perspective) => {
+        const startProgress = perspective.scrollProgress.start / 100;
+        const endProgress = perspective.scrollProgress.end / 100;
+
+        tl.to(
+          cameraAnimRef.current,
+          {
+            x: perspective.camera.x,
+            y: perspective.camera.y,
+            z: perspective.camera.z,
+            duration: endProgress - startProgress,
+            ease: 'none',
+          },
+          startProgress
+        );
+
+        tl.to(
+          targetAnimRef.current,
+          {
+            x: perspective.target.x,
+            y: perspective.target.y,
+            z: perspective.target.z,
+            duration: endProgress - startProgress,
+            ease: 'none',
+          },
+          startProgress
+        );
+
+        tl.to(
+          rotationAnimRef.current,
+          {
+            useRotation: false,
+            duration: endProgress - startProgress,
+            ease: 'none',
+          },
+          startProgress
+        );
+      });
+
+      scenePerspectives.forEach((perspective, index) => {
+        const textEl = textRefs.current[index];
+        if (textEl) {
+          if (perspective.hideText) {
+            gsap.set(textEl, { opacity: 0, pointerEvents: 'none' });
+            return;
+          }
+
+          const titleEl = textEl.querySelector('h2');
+          const subtitleEl = textEl.querySelector('p');
+
+          if (titleEl && subtitleEl) {
+            const titleSplit = new SplitText(titleEl, { type: 'chars' });
+            const subtitleSplit = new SplitText(subtitleEl, { type: 'chars' });
+            splitInstancesRef.current.push(titleSplit, subtitleSplit);
+
+            // Robust Styling for Gradient Titles
+            gsap.set(titleSplit.chars, {
+              backgroundImage: 'linear-gradient(to right, #38bdf8, #ef4444, #ffffff)',
+              webkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              color: 'transparent',
+              display: 'inline-block',
+            });
+
+            const textTimeline = gsap.timeline({
+              scrollTrigger: {
+                trigger: containerRef.current,
+                start: `${perspective.scrollProgress.start}% top`,
+                end: `${perspective.scrollProgress.end}% top`,
+                scrub: 0.5,
+              },
+            });
+
+            if (index === 0) {
+              // Start hidden to avoid overlay with Hero content
+              gsap.set([titleSplit.chars, subtitleSplit.chars], {
+                x: -20,
+                opacity: 0,
+              });
+
+              textTimeline
+                .to([subtitleSplit.chars, titleSplit.chars], {
+                  x: 0,
+                  opacity: 1,
+                  duration: 0.3,
+                  stagger: -0.02,
+                  ease: 'power2.out',
+                }, 0.1) // Start slightly after scroll begins
+                .to({}, { duration: 0.5 })
+                .to([subtitleSplit.chars, titleSplit.chars], {
+                  x: 100,
+                  opacity: 0,
+                  duration: 0.2,
+                  stagger: -0.02,
+                  ease: 'power2.in',
+                });
+            } else {
+              const isLastPerspective = index === scenePerspectives.length - 1;
+
+              textTimeline
+                .fromTo(
+                  [subtitleSplit.chars, titleSplit.chars],
+                  { x: -100, opacity: 0 },
+                  {
+                    x: 0,
+                    opacity: 1,
+                    duration: isLastPerspective ? 0.2 : 0.25,
+                    stagger: isLastPerspective ? -0.01 : -0.02,
+                    ease: 'power2.out',
+                  }
+                )
+                .to({}, { duration: isLastPerspective ? 1.0 : 0.5 })
+                .to([subtitleSplit.chars, titleSplit.chars], {
+                  x: 100,
+                  opacity: 0,
+                  duration: 0.25,
+                  stagger: -0.02,
+                  ease: 'power2.in',
+                });
+            }
+          }
+        }
+      });
+    });
+
+    return () => {
+      clearTimeout(loadingTimer);
+      splitInstancesRef.current.forEach((split) => split.revert());
+      splitInstancesRef.current = [];
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
+  return (
+    <>
+      <div
+        className={`fixed inset-0 z-10000 bg-black transition-opacity duration-500 ${isLoading ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100px] h-px bg-white/20">
+          <div className="h-full bg-white opacity-80 animate-pulse pointer-events-none" />
+        </div>
+      </div>
+
+      <div className="fixed inset-0 w-full h-svh z-0 pointer-events-none">
+        {/* Grid Noise Overlay */}
+        <div
+          className="absolute inset-0 z-10 opacity-20 pointer-events-none"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(232,255,71,0.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(232,255,71,0.05) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px'
+          }}
+        />
+        <Canvas
+          gl={{
+            antialias: true,
+            alpha: false,
+            powerPreference: 'high-performance',
+          }}
+          dpr={[1, 2]}
+          style={{ background: '#0a0a0a' }}
+        >
+          <Scene cameraAnimRef={cameraAnimRef} targetAnimRef={targetAnimRef} />
+        </Canvas>
+      </div>
+
+      {/* Cinematic HUD elements */}
+      <div className="fixed left-6 top-1/2 -translate-y-1/2 z-40 pointer-events-none opacity-50 hidden md:block">
+        <div className="flex flex-col items-center gap-4">
+          <svg width="24" height="32" viewBox="0 0 24 32" className="relative">
+            <path
+              d="M 12 4 L 12 24 M 12 24 L 8 20 M 12 24 L 16 20"
+              stroke="currentColor"
+              strokeWidth="0.5"
+              fill="none"
+              className="text-white/60"
+              style={{
+                filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))',
+              }}
+            />
+          </svg>
+          <div
+            className="w-1 h-1 rounded-full bg-white/40"
+            style={{
+              boxShadow: '0 0 6px rgba(255,255,255,0.4)',
+            }}
+          />
+        </div>
+      </div>
+
+      <div id="cinematic-hud" className="fixed left-1/2 -translate-x-1/2 bottom-[13svh] z-40 pointer-events-none w-[250px] opacity-0">
+        <div className="absolute -top-3 left-0 w-3 h-3 border-l border-t border-white/20" />
+        <div className="absolute -top-3 right-0 w-3 h-3 border-r border-t border-white/20" />
+
+        <div className="relative h-px bg-white/10">
+          <div
+            ref={progressBarRef}
+            className="absolute left-0 top-0 h-full bg-linear-to-r from-sky-400/60 to-red-500 shadow-[0_0_8px_rgba(56,189,248,0.5)]"
+            style={{ width: '0%' }}
+          />
+        </div>
+
+        <div className="absolute -top-6 left-1/2 -translate-x-1/2">
+          <span ref={progressTextRef} className="text-[10px] font-mono text-white/60 tracking-[0.2em]">
+            000%
+          </span>
+        </div>
+      </div>
+
+      {/* Text Overlays for Cinematic Scroll */}
+      <div className="fixed inset-0 pointer-events-none z-10">
+        {scenePerspectives.map((perspective, index) => (
+          <div
+            key={index}
+            ref={(el) => {
+              textRefs.current[index] = el;
+            }}
+            className={`absolute max-md:w-full ${getPositionClasses(perspective.position)}`}
+          >
+            <h2 className="cinematic-title text-[2.8vw] max-md:text-[5.5vw] font-extrabold leading-[0.9] mb-3 tracking-tighter uppercase font-syne">
+              {perspective.title}
+            </h2>
+            <p className="text-[0.85vw] max-md:text-[3.2vw] leading-relaxed text-white/70 font-dm-mono uppercase tracking-[0.3em] drop-shadow-lg whitespace-nowrap">
+              {perspective.subtitle}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* The massive scroll track */}
+      <div ref={smoothWrapperRef} id="smooth-wrapper" className="relative z-0 pointer-events-none">
+        <div ref={smoothContentRef} id="smooth-content">
+          <div ref={containerRef} style={{ height: '900svh' }} />
+        </div>
+      </div>
+    </>
+  );
+}
+
+useGLTF.preload('/assets/models/cyberpunk_skyscraper.glb');

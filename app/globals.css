@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap');
 @import "tailwindcss";
 
 @theme inline {
   --font-pixel-silkscreen: 'Silkscreen', cursive;
+  --font-syne: 'Syne', sans-serif;
+  --font-dm-mono: 'DM Mono', monospace;
 }
 
 :root {
@@ -61,6 +64,16 @@ body {
 
 .toast-dot:nth-child(3) {
   animation: toast-dot-blink 3s ease-in-out 2s infinite;
+}
+
+/* Cinematic UI Utilities */
+.cinematic-title {
+  white-space: nowrap !important;
+  background: linear-gradient(to right, #38bdf8, #ef4444, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
 }
 
 
