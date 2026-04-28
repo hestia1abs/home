@@ -70,7 +70,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-3xl sm:text-5xl md:text-6xl lg:text-5xl leading-none font-black tracking-tight mb-4 pointer-events-auto uppercase bg-linear-to-r from-sky-400 via-red-500 to-white bg-clip-text text-transparent font-pixel-silkscreen"
           >
-            Hestia X-change Transfer <span className="block sm:inline sm:ml-2">Protocol</span>
+            Helix Transfer <span className="block sm:inline sm:ml-2">Protocol</span>
           </motion.h1>
 
           <motion.h2
