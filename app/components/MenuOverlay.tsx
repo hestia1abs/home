@@ -204,7 +204,7 @@ export const MenuOverlay = forwardRef<MenuOverlayRef, MenuOverlayProps>(({ onOpe
   const handleLinkClick = (e: React.MouseEvent, item: MenuItem) => {
     if (item.useTransition) {
       e.preventDefault()
-      localStorage.setItem('cross-domain-transition', 'true')
+    
       window.location.href = item.link
     } else if (item.external) {
       closeOverlay()
